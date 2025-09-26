@@ -3,18 +3,31 @@ using UnityEngine;
 public class Health : MonoBehaviour
 {
     private int _currentHealth;
-    [SerializeField] private int _maxHealth = 1;
+    private int _maxHealth;
+
+    private Unit _unit;
+    private HealthBar _healthbar;
+
+    private void Start()
+    {
+        _unit = GetComponent<Unit>();
+        _currentHealth = _unit.CurrentHP;
+        _maxHealth = _unit.MaxHP;
+    }
 
     public void TakeDamage(int amount)
     {
         if (amount > 0)
         {
-            _currentHealth =- amount;
+            _currentHealth = -amount;
+
 
             if (_currentHealth <= 0)
             {
                 Die();
             }
+
+            _healthbar.EditHealthBar(_currentHealth, _maxHealth);   // Figure out how to attach Healthbar script. Maybe combine Health script with Unit script.
         }
     }
 
@@ -28,6 +41,8 @@ public class Health : MonoBehaviour
             {
                 _currentHealth = _maxHealth;
             }
+
+            _healthbar.EditHealthBar(_currentHealth, _maxHealth);
         }
     }
 
