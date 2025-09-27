@@ -1,20 +1,29 @@
 using UnityEngine;
 
+public enum Action { Attack, Defend, Item1, Item2, Item3 }
 public class Commands : MonoBehaviour
 {
-    private void AttackButton()
+    private CombatManager _manager;
+
+    private void Start()
+    {
+        _manager = GetComponent<CombatManager>();
+    }
+
+    public void OnAttackButton()
+    {
+        // Deal damage to enemy
+        _manager.Turn(Action.Attack);
+    }
+
+    public void OnDefendButton()
     {
 
     }
 
-    private void DefendButton()
+    public void OnItemButton()
     {
-
-    }
-
-    private void ItemButton()
-    {
-
+        // Open item selection
     }
 
     // Add buttons for Items.

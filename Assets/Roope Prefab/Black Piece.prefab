@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 7660836357498941331}
   - component: {fileID: 4666814090902734735}
   - component: {fileID: 8441917065487875160}
-  - component: {fileID: 6448644785536033563}
   m_Layer: 0
   m_Name: Black Piece
   m_TagString: Untagged
@@ -105,15 +104,3 @@ MonoBehaviour:
   MaxHP: 10
   CurrentHP: 10
   Damage: 1
---- !u!114 &6448644785536033563
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2074747259814563059}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b60664ab92e1a6c40bec5b873940348e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
