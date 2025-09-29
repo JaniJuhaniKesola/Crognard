@@ -1584,6 +1584,8 @@ GameObject:
   - component: {fileID: 949940093}
   - component: {fileID: 949940092}
   - component: {fileID: 949940094}
+  - component: {fileID: 949940096}
+  - component: {fileID: 949940095}
   m_Layer: 0
   m_Name: Game Manager
   m_TagString: Untagged
@@ -1604,7 +1606,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _currentState: 0
-  _action: 0
+  _initiater: 0
   _whitePrefab: {fileID: 655203195942017629, guid: ec9e7b2227b07c4468f6e4bca24190f7, type: 3}
   _blackPrefab: {fileID: 2074747259814563059, guid: 50a4802492bda324ca9ea165a35a99c8, type: 3}
   _whiteSpawnPoint: {fileID: 806549864}
@@ -1638,6 +1640,32 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2cf6aa51ef2b2b041b17c3f617277e57, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &949940095
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 949940091}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bb1af395bc8700b4f94a0d61ee427cc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &949940096
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 949940091}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3d04a92554d688040aac09ad2c8d8309, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _whiteCommands: {fileID: 707019786}
+  _blackCommands: {fileID: 756540720}
 --- !u!1 &1026477321
 GameObject:
   m_ObjectHideFlags: 0

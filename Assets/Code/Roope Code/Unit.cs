@@ -1,46 +1,49 @@
 using UnityEngine;
 
-public class Unit : MonoBehaviour
+namespace Crognard
 {
-    public string Name;
-    public int MaxHP;
-    public int CurrentHP;
-    public int Damage;
-
-    public void TakeDamage(int amount)
+    public class Unit : MonoBehaviour
     {
-        if (amount > 0)
+        public string Name;
+        public int MaxHP;
+        public int CurrentHP;
+        public int Damage;
+        public int Defence;
+        public bool Defending;
+
+        public void TakeDamage(int amount)
         {
-            CurrentHP -= amount;
-
-
-            if (CurrentHP <= 0)
+            if (amount > 0)
             {
-                Die();
+                if (Defending)
+                {
+                    if (amount < Defence) { amount = Defence; }
+                    CurrentHP -= amount - Defence;
+                }
+                else
+                { CurrentHP -= amount; }
+
+                if (CurrentHP <= 0) { Die(); }
             }
-
-            //_healthbar.HealthBar(_currentHealth, maxHP);   // Figure out how to attach Healthbar script. Maybe combine Health script with Unit script.
         }
-    }
 
-    public void Heal(int amount)
-    {
-        if (amount > 0)
+        public void Heal(int amount)
         {
-            CurrentHP += amount;
-
-            if (CurrentHP > MaxHP)
+            if (amount > 0)
             {
-                CurrentHP = MaxHP;
+                CurrentHP += amount;
+
+                if (CurrentHP > MaxHP)
+                {
+                    CurrentHP = MaxHP;
+                }
             }
-
-            //_healthbar.HealthBar(_currentHealth, maxHP);
         }
-    }
 
-    public void Die()
-    {
-        // Piece dies and cannot be used again.
-        Debug.Log("Piece just died.");
+        public void Die()
+        {
+            // Piece dies and cannot be used again.
+            Debug.Log("Piece just died.");
+        }
     }
 }
