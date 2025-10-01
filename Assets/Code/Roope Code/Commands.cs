@@ -6,17 +6,20 @@ namespace Crognard
     public class Commands : MonoBehaviour
     {
         private CombatManager _manager;
+        private UIDisplay _display;
+
+        
 
         private void Start()
         {
             _manager = GetComponent<CombatManager>();
+            _display = GetComponent<UIDisplay>();
         }
 
         public void OnAttackButton()
         {
-            // Deal damage to enemy
-            //_manager.Turn(Action.Attack);   // Temporary solution for testing
-            _manager.ActionChosen(Action.Attack, 0);
+            _display.ActivateMenu(false);
+            _display.ActivateAttacks(true);
         }
 
         public void OnDefendButton()
@@ -27,6 +30,47 @@ namespace Crognard
         public void OnItemButton()
         {
             // Open item selection
+            _display.ActivateMenu(false);
+            _display.ActivateItems(true);
+        }
+
+        public void OnReturn()
+        {
+            // Deactivate current buttons and activate base option buttons.
+            _display.ActivateAttacks(false);
+            _display.ActivateItems(false);
+            _display.ActivateMenu(true);
+        }
+
+        public void OnLightAttack()
+        {
+            _manager.ActionChosen(Action.Attack, 1);
+        }
+
+        public void OnMediumAttack()
+        {
+            _manager.ActionChosen(Action.Attack, 0);
+        }
+
+        public void OnHeavyAttack()
+        {
+            _manager.ActionChosen(Action.Attack, -1);
+            
+        }
+
+        public void OnItem1()
+        {
+
+        }
+
+        public void OnItem2()
+        {
+
+        }
+
+        public void OnItem3()
+        {
+            
         }
 
         // Add buttons for Items.

@@ -6,15 +6,30 @@ namespace Crognard
     public class UIDisplay : MonoBehaviour
     {
         [SerializeField] private GameObject _whiteCommands, _blackCommands;
+        [SerializeField] private GameObject _whiteBase, _whiteAttacks, _whiteItems;
+        [SerializeField] private GameObject _blackBase, _blackAttacks, _blackItems;
+
+        private CombatManager _manager;
+
+        private void Start()
+        {
+            _manager = GetComponent<CombatManager>();
+        }
 
         public void WhiteCommands(bool turnedOn)
         {
             _whiteCommands.SetActive(turnedOn);
+            ActivateAttacks(false);
+            ActivateItems(false);
+            ActivateMenu(true);
         }
 
         public void BlackCommands(bool turnedOn)
         {
             _blackCommands.SetActive(turnedOn);
+            ActivateAttacks(false);
+            ActivateItems(false);
+            ActivateMenu(true);
         }
 
         /// <summary>
@@ -28,6 +43,59 @@ namespace Crognard
         public void EnableButton(Button button, bool enable)
         {
             button.interactable = enable;
+        }
+
+        public void ActivateMenu(bool active)
+        {
+            if (_manager != null)
+            {
+                if (_manager._currentState == CombatState.ChooseW)
+                {
+                    _whiteBase.SetActive(active);
+                }
+                else if (_manager._currentState == CombatState.ChooseB)
+                {
+                    _blackBase.SetActive(active);
+                }
+            }
+            _whiteBase.SetActive(active);
+            _blackBase.SetActive(active);
+        }
+
+        public void ActivateAttacks(bool active)
+        {
+            if (_manager != null)
+            {
+                if (_manager._currentState == CombatState.ChooseW)
+                {
+                    _whiteAttacks.SetActive(active);
+                    return;
+                }
+                else if (_manager._currentState == CombatState.ChooseB)
+                {
+                    _blackAttacks.SetActive(active);
+                    return;
+                }
+            }
+            _whiteAttacks.SetActive(active);
+            _blackAttacks.SetActive(active);
+        }
+
+        public void ActivateItems(bool active)
+        {
+            if (_manager != null)
+            {
+                if (_manager._currentState == CombatState.ChooseW)
+                {
+                    _whiteItems.SetActive(active);
+                }
+                else if (_manager._currentState == CombatState.ChooseB)
+                {
+                    _blackItems.SetActive(active);
+                }
+            }
+            _whiteItems.SetActive(active);
+            _blackItems.SetActive(active);
         }
     }
 }

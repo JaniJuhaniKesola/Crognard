@@ -1,5 +1,4 @@
 using System.Collections;
-using Unity.VisualScripting;
 using UnityEngine;
 
 namespace Crognard
@@ -21,6 +20,7 @@ namespace Crognard
 
         private int _actionsChosen = 0;
 
+        private CombatResults _results;
         private UIDisplay _uiDisplay;
         private Actions _actions;
         public Act[] _acts = new Act[2];
@@ -29,16 +29,19 @@ namespace Crognard
 
         private void Start()
         {
+            _results = GetComponent<CombatResults>();
             _uiDisplay = GetComponent<UIDisplay>();
             _actions = GetComponent<Actions>();
-            _initiater = GameSetter.attacker;
-
-            _currentState = CombatState.Start;
+            
+            
             Setup();
         }
 
+        #region Start
         public void Setup()
         {
+            _currentState = CombatState.Start;
+
             // GameObject whiteGO = Instantiate(GameSetter.whiteCombatant, _whiteSpawnPoint.position, Quaternion.identity);
             GameObject whiteGO = Instantiate(_whitePrefab, _whiteSpawnPoint.position, Quaternion.identity);
             _whiteUnit = whiteGO.GetComponent<Unit>();
@@ -59,16 +62,18 @@ namespace Crognard
 
         private void Initiative()
         {
-            if (_initiater == Faction.White)
+            if (GameSetter.attacker == Faction.White)
             {
                 _currentState = CombatState.ChooseW;  // Testing Damaging
             }
-            else if (_initiater == Faction.Black)
+            else if (GameSetter.attacker == Faction.Black)
             {
                 _currentState = CombatState.ChooseB;
             }
         }
+        #endregion
 
+        #region ChoiseState
         public void OpenCommands()
         {
             if (_currentState == CombatState.ChooseW)
@@ -87,6 +92,14 @@ namespace Crognard
                 _uiDisplay.BlackCommands(false);
             }
         }
+
+        /*public void SelectionNavigate(Action action)
+        {
+            if (action = Action.Item)
+            {
+                _uiDisplay.ActivateOptions
+            }
+        }*/
 
         public void ActionChosen(Action action, int priority)
         {
@@ -137,7 +150,9 @@ namespace Crognard
                 _acts[1] = act;
             }
         }
+        #endregion
 
+        #region Battle
         private IEnumerator Round()
         {
 
@@ -145,9 +160,14 @@ namespace Crognard
             Turn(_acts[0]);
 
             yield return new WaitForSeconds(1);
-            Turn(_acts[1]);
 
-            yield return new WaitForSeconds(1);
+            if (!DidSomeoneDie())
+            {
+                Turn(_acts[1]);
+                yield return new WaitForSeconds(1);
+            }
+
+            Results();
 
             _currentState = CombatState.End;
             StartOver();
@@ -176,51 +196,47 @@ namespace Crognard
                 case Action.Item1:
                     break;
             }
-
-            if (defender.CurrentHP <= 0 && attacker.CurrentHP <= 0)
-            {
-                // DrawKill();
-            }
-            else if (defender.CurrentHP <= 0 && attacker.CurrentHP > 0)
-            {
-                // AttackerVictory();
-            }
-            else if (attacker.CurrentHP <= 0 && defender.CurrentHP > 0)
-            {
-                // DefenderVictory():
-            }
-
         }
 
-        private void AttackerVictory()
+        private bool DidSomeoneDie()
         {
-            switch (_currentState)
-            {
-                case CombatState.White:
-                    break;
-
-                case CombatState.Black:
-                    break;
-            }
-            // Defeated unit shall be erased from combat and board.
+            if (_whiteUnit.CurrentHP <= 0 || _blackUnit.CurrentHP <= 0)
+            { return true; }
+            return false;
         }
+        #endregion
 
-        private void DefenderVictory()
+        private void Results()
         {
-            switch (_currentState)
+            if (_whiteUnit.CurrentHP <= 0 && _blackUnit.CurrentHP > 0)
             {
-                case CombatState.White:
-                    break;
-
-                case CombatState.Black:
-                    break;
+                if (GameSetter.attacker == Faction.White) { _results.DefenderWins(); }
+                else if (GameSetter.attacker == Faction.Black) { _results.AttackerWins(); }
             }
+            else if (_whiteUnit.CurrentHP > 0 && _blackUnit.CurrentHP <= 0)
+            {
+                if (GameSetter.attacker == Faction.White) { }
+                else if (GameSetter.attacker == Faction.Black) { _results.DefenderWins(); }
+            }
+            else if (_whiteUnit.CurrentHP <= 0 && _blackUnit.CurrentHP <= 0)
+            {
+                _results.DoubleKill();
+            }
+            else
+            {
+                _results.NeutralEnd();
+            }
+            // Proceed to the board with following information:
+            // Result: Attacker wins, Defender wins, Double kill, Neutral
+            // Attacker wins: Attacker conquers the defender's space
+            // Defender wins: Defender stays in their space
+            // Double kill: Both paricipants are captured.
+            // Neutral: Attacker occupies adjacent spacefrom the direction it attacked.
         }
 
-        private void DrawKill()
-        {
-            // Both Units will be erased from combat and board.
-        }
+        #region Endings
+        
+        #endregion
 
         private void StartOver()
         {
