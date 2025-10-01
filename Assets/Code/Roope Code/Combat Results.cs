@@ -28,11 +28,11 @@ namespace Crognard
             switch (GameSetter.attacker)
             {
                 case Faction.White:
-                    _whiteConfetti.StartConfetti();
+                    _blackConfetti.StartConfetti();
                     break;
 
                 case Faction.Black:
-                    _blackConfetti.StartConfetti();
+                    _whiteConfetti.StartConfetti();
                     break;
             }
         }
@@ -47,6 +47,14 @@ namespace Crognard
         {
             // Set Active Asset for Double Kill
             _doubleKillScreen.SetActive(true);
+        }
+
+        public void Restart()
+        {
+            _neutralScreen.SetActive(false);
+            _doubleKillScreen.SetActive(false);
+            _whiteConfetti.StopConfetti();
+            _blackConfetti.StopConfetti();
         }
     }
 }

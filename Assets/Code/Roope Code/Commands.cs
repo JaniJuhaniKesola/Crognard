@@ -2,13 +2,12 @@ using UnityEngine;
 
 namespace Crognard
 {
-    public enum Action { Attack, Defend, Item1, Item2, Item3 }
     public class Commands : MonoBehaviour
     {
         private CombatManager _manager;
         private UIDisplay _display;
 
-        
+
 
         private void Start()
         {
@@ -34,6 +33,11 @@ namespace Crognard
             _display.ActivateItems(true);
         }
 
+        public void OnCounter()
+        {
+            _manager.ActionChosen(Action.Counter, -1);
+        }
+
         public void OnReturn()
         {
             // Deactivate current buttons and activate base option buttons.
@@ -44,18 +48,18 @@ namespace Crognard
 
         public void OnLightAttack()
         {
-            _manager.ActionChosen(Action.Attack, 1);
+            _manager.ActionChosen(Action.Light, 1);
         }
 
         public void OnMediumAttack()
         {
-            _manager.ActionChosen(Action.Attack, 0);
+            _manager.ActionChosen(Action.Medium, 0);
         }
 
         public void OnHeavyAttack()
         {
-            _manager.ActionChosen(Action.Attack, -1);
-            
+            _manager.ActionChosen(Action.Heavy, -1);
+
         }
 
         public void OnItem1()
@@ -70,7 +74,12 @@ namespace Crognard
 
         public void OnItem3()
         {
-            
+
+        }
+
+        public void OnContinue()
+        {
+            _manager.StartOver();
         }
 
         // Add buttons for Items.

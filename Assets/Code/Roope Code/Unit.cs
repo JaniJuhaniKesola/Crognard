@@ -7,14 +7,17 @@ namespace Crognard
         public string Name;
         public int MaxHP;
         public int CurrentHP;
-        public int Damage;
+        public int LightDamage, MediumDamage, HeavyDamage;
         public int Defence;
-        public bool Defending;
+        public bool Defending, Damaged;
+        public int DamageTaken;
 
         public void TakeDamage(int amount)
         {
             if (amount > 0)
             {
+                Damaged = true;
+                int oldHP = CurrentHP;
                 if (Defending)
                 {
                     if (amount < Defence) { amount = Defence; }
@@ -24,6 +27,7 @@ namespace Crognard
                 { CurrentHP -= amount; }
 
                 if (CurrentHP <= 0) { Die(); }
+                else { DamageTaken = oldHP - CurrentHP; }
             }
         }
 

@@ -18,6 +18,7 @@ namespace Crognard
 
         public void HealthBar(int amount, int max)
         {
+            if (amount < 0) { amount = 0; }
             _healthFill.localScale = new Vector3(amount / (float)max, 1, 1);
             _healthText.text = amount.ToString();
             StartCoroutine(FillEffect());

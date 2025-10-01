@@ -2,11 +2,25 @@ using UnityEngine;
 
 namespace Crognard
 {
+    
     public class Actions : MonoBehaviour
     {
-        public void Attack(Unit attacker, Unit target, CombatUI hub)
+        public void Attack(Action weight, Unit user, Unit target, CombatUI hub)
         {
-            target.TakeDamage(attacker.Damage);
+            switch (weight)
+            {
+                case Action.Light:
+                    target.TakeDamage(user.LightDamage);
+                    break;
+
+                case Action.Medium:
+                    target.TakeDamage(user.MediumDamage);
+                    break;
+
+                case Action.Heavy:
+                    target.TakeDamage(user.HeavyDamage);
+                    break;
+            }
 
             hub.HealthBar(target.CurrentHP, target.MaxHP);
         }
@@ -14,6 +28,16 @@ namespace Crognard
         public void Defend(Unit defender)
         {
             defender.Defending = true;
+        }
+
+        public void Counter(Unit user, Unit target, CombatUI hub)
+        {
+            if (user.Damaged)
+            {
+                target.TakeDamage(user.DamageTaken * 2);
+            }
+
+            hub.HealthBar(target.CurrentHP, target.MaxHP);
         }
     }
 }

@@ -3,9 +3,6 @@ using UnityEngine;
 
 namespace Crognard
 {
-    public enum CombatState { Start, ChooseW, ChooseB, Commence, White, Black, End }
-    public enum Faction { White, Black }
-
     public class CombatManager : MonoBehaviour
     {
         public CombatState _currentState;
@@ -42,13 +39,23 @@ namespace Crognard
         {
             _currentState = CombatState.Start;
 
-            // GameObject whiteGO = Instantiate(GameSetter.whiteCombatant, _whiteSpawnPoint.position, Quaternion.identity);
-            GameObject whiteGO = Instantiate(_whitePrefab, _whiteSpawnPoint.position, Quaternion.identity);
-            _whiteUnit = whiteGO.GetComponent<Unit>();
+            if (_whiteUnit == null)
+            {
+                // GameObject whiteGO = Instantiate(GameSetter.whiteCombatant, _whiteSpawnPoint.position, Quaternion.identity);
+                GameObject whiteGO = Instantiate(_whitePrefab, _whiteSpawnPoint.position, Quaternion.identity);
+                _whiteUnit = whiteGO.GetComponent<Unit>();
+            }
 
-            // GameObject blackGO = Instantiate(GameSetter.blackCombatant, _blackSpawnPoint.position, Quaternion.identity);
-            GameObject blackGO = Instantiate(_blackPrefab, _blackSpawnPoint.position, Quaternion.identity);
-            _blackUnit = blackGO.GetComponent<Unit>();
+            if (_blackUnit == null)
+            {
+                // GameObject blackGO = Instantiate(GameSetter.blackCombatant, _blackSpawnPoint.position, Quaternion.identity);
+                GameObject blackGO = Instantiate(_blackPrefab, _blackSpawnPoint.position, Quaternion.identity);
+                _blackUnit = blackGO.GetComponent<Unit>();
+            }
+            
+
+            _whiteUnit.Defending = false; _whiteUnit.Damaged = false;
+            _blackUnit.Defending = false; _blackUnit.Damaged = false;
 
             Debug.Log("White HP: " + _whiteUnit.CurrentHP);
             Debug.Log("Black HP: " + _blackUnit.CurrentHP);
@@ -167,10 +174,9 @@ namespace Crognard
                 yield return new WaitForSeconds(1);
             }
 
+            _currentState = CombatState.End;
             Results();
 
-            _currentState = CombatState.End;
-            StartOver();
         }
 
         public void Turn(Act act)
@@ -186,15 +192,35 @@ namespace Crognard
 
             switch (act.action)
             {
-                case Action.Attack:
-                    _actions.Attack(attacker, defender, defenderUI);
+                case Action.Light:
+                    _actions.Attack(Action.Light, attacker, defender, defenderUI);
+                    break;
+
+                case Action.Medium:
+                    _actions.Attack(Action.Medium, attacker, defender, defenderUI);
+                    break;
+
+                case Action.Heavy:
+                    _actions.Attack(Action.Heavy, attacker, defender, defenderUI);
                     break;
 
                 case Action.Defend:
+                    _actions.Defend(attacker);
+                    break;
+
+                case Action.Counter:
+                    _actions.Counter(attacker, defender, defenderUI);
                     break;
 
                 case Action.Item1:
                     break;
+
+                case Action.Item2:
+                    break;
+
+                case Action.Item3:
+                    break;
+                    
             }
         }
 
@@ -215,7 +241,7 @@ namespace Crognard
             }
             else if (_whiteUnit.CurrentHP > 0 && _blackUnit.CurrentHP <= 0)
             {
-                if (GameSetter.attacker == Faction.White) { }
+                if (GameSetter.attacker == Faction.White) { _results.AttackerWins(); }
                 else if (GameSetter.attacker == Faction.Black) { _results.DefenderWins(); }
             }
             else if (_whiteUnit.CurrentHP <= 0 && _blackUnit.CurrentHP <= 0)
@@ -238,10 +264,10 @@ namespace Crognard
         
         #endregion
 
-        private void StartOver()
+        public void StartOver()
         {
-            Initiative();
-            OpenCommands();
+            _results.Restart();
+            Setup();
         }
     }
 
