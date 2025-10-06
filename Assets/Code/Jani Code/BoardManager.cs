@@ -191,16 +191,25 @@ namespace Crognard
 
     // Attempt to move a piece; returns true if moved
     public bool MovePiece(Piece piece, Vector2Int target)
-    {
-        if (!InBounds(target)) return false;
+{
+    if (!InBounds(target))
+        return false;
 
-        if (GetPieceAt(target) != null) return false; // simple rule: can't move into occupied
+    // Only allow legal moves according to the piece’s rules
+    List<Vector2Int> legalMoves = piece.GetValidMoves();
+    if (!legalMoves.Contains(target))
+        return false;
 
-        Vector2Int from = piece.gridPosition;
-        pieces.Remove(from);
-        pieces[target] = piece;
-        piece.UpdateGridPosition(target);
-        return true;
-    }
+    // Check if occupied
+    if (GetPieceAt(target) != null)
+        return false;
+
+    // Move the piece: update internal map, then call piece.MoveTo so subclasses can react
+    Vector2Int from = piece.gridPosition;
+    pieces.Remove(from);
+    pieces[target] = piece;
+    piece.MoveTo(target); // <-- uses virtual MoveTo (Pawn override will run)
+    return true;
+}
 }
 }
