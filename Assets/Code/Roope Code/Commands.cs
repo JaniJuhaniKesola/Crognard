@@ -59,22 +59,21 @@ namespace Crognard
         public void OnHeavyAttack()
         {
             _manager.ActionChosen(Action.Heavy, -1);
-
         }
 
-        public void OnItem1()
+        public void Recover()
         {
-
+            _manager.ActionChosen(Action.Item1, 0);
         }
 
-        public void OnItem2()
+        public void Restrain()
         {
-
+            _manager.ActionChosen(Action.Item2, 0);
         }
 
-        public void OnItem3()
+        public void Escape()
         {
-
+            _manager.ActionChosen(Action.Item3, 2);
         }
 
         public void OnContinue()

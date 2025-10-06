@@ -21,6 +21,7 @@ namespace Crognard
         private UIDisplay _uiDisplay;
         private Actions _actions;
         public Act[] _acts = new Act[2];
+        private bool _escaped;
 
 
 
@@ -29,8 +30,9 @@ namespace Crognard
             _results = GetComponent<CombatResults>();
             _uiDisplay = GetComponent<UIDisplay>();
             _actions = GetComponent<Actions>();
-            
-            
+
+            _escaped = false;   // make sure escape is not happening automatically.
+
             Setup();
         }
 
@@ -54,8 +56,8 @@ namespace Crognard
             }
             
 
-            _whiteUnit.Defending = false; _whiteUnit.Damaged = false;
-            _blackUnit.Defending = false; _blackUnit.Damaged = false;
+            _whiteUnit.Defending = false; _whiteUnit.Damaged = false; _whiteUnit.Restrained = false;
+            _blackUnit.Defending = false; _blackUnit.Damaged = false; _blackUnit.Restrained = false;
 
             Debug.Log("White HP: " + _whiteUnit.CurrentHP);
             Debug.Log("Black HP: " + _blackUnit.CurrentHP);
@@ -168,7 +170,7 @@ namespace Crognard
 
             yield return new WaitForSeconds(1);
 
-            if (!DidSomeoneDie())
+            if (!EarlyFinish())
             {
                 Turn(_acts[1]);
                 yield return new WaitForSeconds(1);
@@ -185,9 +187,21 @@ namespace Crognard
             else if (act.faction == Faction.Black) { _currentState = CombatState.Black; }
 
             Unit attacker, defender;
-            CombatUI defenderUI;
-            if (_currentState == CombatState.White) { attacker = _whiteUnit; defender = _blackUnit; defenderUI = _blackCombatUI; }
-            else if (_currentState == CombatState.Black) { attacker = _blackUnit; defender = _whiteUnit; defenderUI = _whiteCombatUI; }
+            CombatUI attackerUI, defenderUI;
+            if (_currentState == CombatState.White)
+            {
+                attacker = _whiteUnit;
+                defender = _blackUnit;
+                attackerUI = _whiteCombatUI;
+                defenderUI = _blackCombatUI;
+            }
+            else if (_currentState == CombatState.Black)
+            {
+                attacker = _blackUnit;
+                defender = _whiteUnit;
+                attackerUI = _blackCombatUI;
+                defenderUI = _whiteCombatUI;
+            }
             else { return; }
 
             switch (act.action)
@@ -213,20 +227,26 @@ namespace Crognard
                     break;
 
                 case Action.Item1:
+                    _actions.Recover(attacker, attackerUI);
                     break;
 
                 case Action.Item2:
+                    _actions.Restrain(defender);
                     break;
 
                 case Action.Item3:
+                    _actions.Escape();
+                    _escaped = true;
                     break;
                     
             }
         }
 
-        private bool DidSomeoneDie()
+        private bool EarlyFinish()
         {
             if (_whiteUnit.CurrentHP <= 0 || _blackUnit.CurrentHP <= 0)
+            { return true; }
+            if (_escaped)
             { return true; }
             return false;
         }
@@ -236,13 +256,13 @@ namespace Crognard
         {
             if (_whiteUnit.CurrentHP <= 0 && _blackUnit.CurrentHP > 0)
             {
-                if (GameSetter.attacker == Faction.White) { _results.DefenderWins(); }
-                else if (GameSetter.attacker == Faction.Black) { _results.AttackerWins(); }
+                _results.Winner(_blackUnit, _whiteUnit);
+                
             }
             else if (_whiteUnit.CurrentHP > 0 && _blackUnit.CurrentHP <= 0)
             {
-                if (GameSetter.attacker == Faction.White) { _results.AttackerWins(); }
-                else if (GameSetter.attacker == Faction.Black) { _results.DefenderWins(); }
+                _results.Winner(_whiteUnit, _blackUnit);
+                
             }
             else if (_whiteUnit.CurrentHP <= 0 && _blackUnit.CurrentHP <= 0)
             {

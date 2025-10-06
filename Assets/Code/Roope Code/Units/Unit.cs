@@ -5,11 +5,12 @@ namespace Crognard
     public class Unit : MonoBehaviour
     {
         public string Name;
+        public Faction Faction;
         public int MaxHP;
         public int CurrentHP;
         public int LightDamage, MediumDamage, HeavyDamage;
         public int Defence;
-        public bool Defending, Damaged;
+        public bool Damaged, Defending, Restrained;
         public int DamageTaken;
 
         public void TakeDamage(int amount)
