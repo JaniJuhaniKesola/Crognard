@@ -1,3 +1,5 @@
+using System.Collections;
+using TMPro;
 using UnityEngine;
 
 namespace Crognard
@@ -5,7 +7,8 @@ namespace Crognard
     public class CombatResults : MonoBehaviour
     {
         [SerializeField] private VictoryConfetti _whiteConfetti, _blackConfetti;
-        [SerializeField] private GameObject _neutralScreen, _doubleKillScreen;
+        [SerializeField] private GameObject _resultScreen, _neutralScreen, _doubleKillScreen;
+        [SerializeField] private TextMeshProUGUI _winnerText;
 
         public void AttackerWins()
         {
@@ -35,6 +38,37 @@ namespace Crognard
                     _whiteConfetti.StartConfetti();
                     break;
             }
+        }
+
+        public void Winner(Unit winner, Unit loser)
+        {
+            if (GameSetter.attacker == winner.Faction)
+            {
+                AttackerWins();
+                // Attacker takes loser's place on the board.
+            }
+            else
+            {
+                DefenderWins();
+            }
+            StartCoroutine(VictoryCycle(winner, loser));
+        }
+
+        private IEnumerator VictoryCycle(Unit winner, Unit loser)
+        {
+            yield return new WaitForSeconds(1);
+            Results(winner);
+            yield return new WaitForSeconds(1);
+            // Load Scene to the board
+            /*
+            GameSetter.defeated = loser
+            */
+        }
+
+        public void Results(Unit unit)
+        {
+            _resultScreen.SetActive(true);
+            _winnerText.text = unit.Name;
         }
 
         public void NeutralEnd()

@@ -101,6 +101,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Name: Black Tester
+  Faction: 1
   MaxHP: 10
   CurrentHP: 10
   LightDamage: 1
@@ -108,3 +109,5 @@ MonoBehaviour:
   HeavyDamage: 3
   Defence: 1
   Defending: 0
+  Damaged: 0
+  DamageTaken: 0
