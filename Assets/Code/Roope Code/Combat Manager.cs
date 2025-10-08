@@ -43,7 +43,7 @@ namespace Crognard
 
             if (_whiteUnit == null)
             {
-                // GameObject whiteGO = Instantiate(GameSetter.whiteCombatant, _whiteSpawnPoint.position, Quaternion.identity);
+                //GameObject whiteGO = Instantiate(GameSetter.whiteCombatant.CombatPrefab, _whiteSpawnPoint.position, Quaternion.identity);
                 GameObject whiteGO = Instantiate(_whitePrefab, _whiteSpawnPoint.position, Quaternion.identity);
                 _whiteUnit = whiteGO.GetComponent<Unit>();
             }
@@ -291,17 +291,5 @@ namespace Crognard
         }
     }
 
-    public class Act
-    {
-        public Faction faction;
-        public Action action;
-        public int priority;
-
-        public Act(Faction faction, Action action, int priority)
-        {
-            this.faction = faction;
-            this.action = action;
-            this.priority = priority;
-        }
-    }
+    
 }

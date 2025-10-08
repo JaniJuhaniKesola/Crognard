@@ -5,6 +5,7 @@ namespace Crognard
 {
     public class Unit : MonoBehaviour
     {
+        public int ID; 
         public string Name;
         public Faction Faction;
         public int MaxHP, CurrentHP;
@@ -69,4 +70,6 @@ namespace Crognard
             }
         }
     }
+
+    
 }

@@ -1862,6 +1862,60 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 455563911}
   m_CullTransparentMesh: 1
+--- !u!1 &504380330
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 504380332}
+  - component: {fileID: 504380331}
+  m_Layer: 0
+  m_Name: Piece Holder
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &504380331
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 504380330}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 60a9e87d4963fbc4489f874c32e868d8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _pieces:
+  - Name: Soldier
+    Faction: 0
+    PieceType: 0
+    Alive: 1
+    HP: 10
+    Stamina: 10
+    Position: {x: 0, y: 0}
+    BoardPrefab: {fileID: 0}
+    CombatPrefab: {fileID: 655203195942017629, guid: ec9e7b2227b07c4468f6e4bca24190f7, type: 3}
+--- !u!4 &504380332
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 504380330}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &512267197
 GameObject:
   m_ObjectHideFlags: 0
@@ -20560,3 +20614,4 @@ SceneRoots:
   - {fileID: 594887193}
   - {fileID: 2102844907}
   - {fileID: 1957084385}
+  - {fileID: 504380332}

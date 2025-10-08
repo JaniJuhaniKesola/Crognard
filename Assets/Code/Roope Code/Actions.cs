@@ -68,11 +68,5 @@ namespace Crognard
         }
     }
 
-    [Serializable]
-    public class Action1
-    {
-        public int priority;
-        public int stamina;
-        public int damage;
-    }
+    
 }

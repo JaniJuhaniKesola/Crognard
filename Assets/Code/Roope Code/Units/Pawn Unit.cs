@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace Crognard
 {
-    public class PawnR : Unit
+    public class PawnUnit : Unit
     {
         /*
         Pawn's damage depends on how many allies are adjacent to target in board.
