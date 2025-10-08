@@ -14,7 +14,6 @@ namespace Crognard
         public int Defence;
         public bool Damaged, Defending, Restrained;
         public int DamageTaken;
-        public List<Action1> _actions;
 
         public void TakeDamage(int amount)
         {

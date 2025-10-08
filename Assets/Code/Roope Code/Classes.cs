@@ -20,10 +20,10 @@ namespace Crognard
     public class Act
     {
         public Faction faction;
-        public Action action;
+        public ActionType action;
         public int priority;
 
-        public Act(Faction faction, Action action, int priority)
+        public Act(Faction faction, ActionType action, int priority)
         {
             this.faction = faction;
             this.action = action;
@@ -32,10 +32,14 @@ namespace Crognard
     }
 
     [Serializable]
-    public class Action1
+    public class Action
     {
         public int priority;
-        public int stamina;
-        public int damage;
+        public int staminaCost;
+        public Action(int priority, int staminaCost)
+        {
+            this.priority = priority;
+            this.staminaCost = staminaCost;
+        }
     }
 }

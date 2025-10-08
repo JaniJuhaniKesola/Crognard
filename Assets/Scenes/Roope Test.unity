@@ -1201,9 +1201,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'ITEM
-
-'
+  m_text: STICKY
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -1475,7 +1473,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: DEFEND
+  m_text: SMOKE
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -1886,7 +1884,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 504380330}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 60a9e87d4963fbc4489f874c32e868d8, type: 3}
   m_Name: 
@@ -9230,6 +9228,30 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bb1af395bc8700b4f94a0d61ee427cc5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _lightAttack:
+    priority: 1
+    staminaCost: 1
+  _mediumAttack:
+    priority: 0
+    staminaCost: 0
+  _heavyAttack:
+    priority: -1
+    staminaCost: 2
+  _defend:
+    priority: 1
+    staminaCost: 1
+  _counter:
+    priority: -1
+    staminaCost: 1
+  _potion:
+    priority: 0
+    staminaCost: 1
+  _restrain:
+    priority: 0
+    staminaCost: 2
+  _escape:
+    priority: 2
+    staminaCost: 2
 --- !u!114 &949940096
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -13163,7 +13185,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: ATTACK
+  m_text: POTION
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -18949,7 +18971,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: CUSTOM
+  m_text: RETURN
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
