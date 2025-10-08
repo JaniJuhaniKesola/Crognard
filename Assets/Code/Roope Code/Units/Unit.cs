@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace Crognard
@@ -6,12 +7,13 @@ namespace Crognard
     {
         public string Name;
         public Faction Faction;
-        public int MaxHP;
-        public int CurrentHP;
+        public int MaxHP, CurrentHP;
+        public int MaxStamina, Stamina;
         public int LightDamage, MediumDamage, HeavyDamage;
         public int Defence;
         public bool Damaged, Defending, Restrained;
         public int DamageTaken;
+        public List<Action1> _actions;
 
         public void TakeDamage(int amount)
         {
@@ -38,10 +40,7 @@ namespace Crognard
             {
                 CurrentHP += amount;
 
-                if (CurrentHP > MaxHP)
-                {
-                    CurrentHP = MaxHP;
-                }
+                if (CurrentHP > MaxHP) { CurrentHP = MaxHP; }
             }
         }
 
@@ -49,6 +48,25 @@ namespace Crognard
         {
             // Piece dies and cannot be used again.
             Debug.Log("Piece just died.");
+        }
+
+        public void TakeStamina(int amount)
+        {
+            if (amount > 0)
+            {
+                Stamina -= amount;
+                if (Stamina < 0) { Stamina = 0; }
+            }
+        }
+
+        public void RegainStamina(int amount)
+        {
+            if (amount > 0)
+            {
+                CurrentHP += amount;
+
+                if (Stamina > MaxStamina) { Stamina = MaxStamina; }
+            }
         }
     }
 }

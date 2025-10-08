@@ -1,32 +1,37 @@
+using System;
 using UnityEngine;
 
 namespace Crognard
 {
     public class Actions : MonoBehaviour
     {
-        public void Attack(Action weight, Unit user, Unit target, CombatUI hub)
+        public void Attack(Action weight, Unit user, Unit target, CombatUI userHub, CombatUI targethub)
         {
             switch (weight)
             {
                 case Action.Light:
+                    user.TakeStamina(1);
                     target.TakeDamage(user.LightDamage);
                     break;
 
                 case Action.Medium:
+                    user.TakeStamina(0);
                     target.TakeDamage(user.MediumDamage);
                     break;
 
                 case Action.Heavy:
+                    user.TakeStamina(2);
                     target.TakeDamage(user.HeavyDamage);
                     break;
             }
 
-            hub.HealthBar(target.CurrentHP, target.MaxHP);
+            userHub.StaminaBar(user.Stamina, user.MaxStamina);
+            targethub.HealthBar(target.CurrentHP, target.MaxHP);
         }
 
-        public void Defend(Unit defender)
+        public void Defend(Unit user)
         {
-            defender.Defending = true;
+            user.Defending = true;
         }
 
         public void Counter(Unit user, Unit target, CombatUI hub)
@@ -61,5 +66,13 @@ namespace Crognard
         {
 
         }
+    }
+
+    [Serializable]
+    public class Action1
+    {
+        public int priority;
+        public int stamina;
+        public int damage;
     }
 }

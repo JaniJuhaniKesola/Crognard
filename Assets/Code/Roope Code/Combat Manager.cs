@@ -142,7 +142,7 @@ namespace Crognard
 
             if (_currentState == CombatState.ChooseW)
             { act = new Act(Faction.White, action, priority); }
-            else
+            else if (_currentState == CombatState.ChooseB)
             { act = new Act(Faction.Black, action, priority); }
 
             _acts[index] = act;
@@ -207,15 +207,15 @@ namespace Crognard
             switch (act.action)
             {
                 case Action.Light:
-                    _actions.Attack(Action.Light, attacker, defender, defenderUI);
+                    _actions.Attack(Action.Light, attacker, defender, attackerUI, defenderUI);
                     break;
 
                 case Action.Medium:
-                    _actions.Attack(Action.Medium, attacker, defender, defenderUI);
+                    _actions.Attack(Action.Medium, attacker, defender, attackerUI, defenderUI);
                     break;
 
                 case Action.Heavy:
-                    _actions.Attack(Action.Heavy, attacker, defender, defenderUI);
+                    _actions.Attack(Action.Heavy, attacker, defender, attackerUI, defenderUI);
                     break;
 
                 case Action.Defend:

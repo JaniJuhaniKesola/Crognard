@@ -1141,6 +1141,9 @@ MonoBehaviour:
   _healthFill: {fileID: 1618270156}
   _fillPrint: {fileID: 124540887}
   _healthText: {fileID: 811082039}
+  _staminaFill: {fileID: 947958147}
+  _staminafillPrint: {fileID: 1594107826}
+  _staminaText: {fileID: 1403770508}
 --- !u!1 &208960585
 GameObject:
   m_ObjectHideFlags: 0
@@ -8453,7 +8456,7 @@ GameObject:
   - component: {fileID: 851960063}
   - component: {fileID: 851960062}
   m_Layer: 5
-  m_Name: Text (TMP)
+  m_Name: Name
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -9050,11 +9053,11 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 1840365428}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0.5}
-  m_AnchorMax: {x: 0, y: 0.5}
+  m_AnchorMin: {x: 1, y: 0.5}
+  m_AnchorMax: {x: 1, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 490, y: 40}
-  m_Pivot: {x: 0, y: 0.5}
+  m_Pivot: {x: 1, y: 0.5}
 --- !u!114 &947958148
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12373,7 +12376,7 @@ GameObject:
   - component: {fileID: 1569889009}
   - component: {fileID: 1569889008}
   m_Layer: 5
-  m_Name: Health Value
+  m_Name: Energy Value
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -12737,11 +12740,11 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 1840365428}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0.5}
-  m_AnchorMax: {x: 0, y: 0.5}
+  m_AnchorMin: {x: 1, y: 0.5}
+  m_AnchorMax: {x: 1, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 490, y: 40}
-  m_Pivot: {x: 0, y: 0.5}
+  m_Pivot: {x: 1, y: 0.5}
 --- !u!114 &1594107827
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12836,6 +12839,9 @@ MonoBehaviour:
   _healthFill: {fileID: 1571495080}
   _fillPrint: {fileID: 681032679}
   _healthText: {fileID: 455563913}
+  _staminaFill: {fileID: 592774979}
+  _staminafillPrint: {fileID: 1140817533}
+  _staminaText: {fileID: 1569889008}
 --- !u!1 &1609911843
 GameObject:
   m_ObjectHideFlags: 0
@@ -12981,7 +12987,7 @@ GameObject:
   - component: {fileID: 1612917708}
   - component: {fileID: 1612917707}
   m_Layer: 5
-  m_Name: White EnergyBar
+  m_Name: Black EnergyBar
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

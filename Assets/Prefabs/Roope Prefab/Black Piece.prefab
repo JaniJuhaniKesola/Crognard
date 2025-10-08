@@ -104,10 +104,14 @@ MonoBehaviour:
   Faction: 1
   MaxHP: 10
   CurrentHP: 10
+  MaxStamina: 10
+  Stamina: 10
   LightDamage: 1
   MediumDamage: 2
   HeavyDamage: 3
   Defence: 1
-  Defending: 0
   Damaged: 0
+  Defending: 0
+  Restrained: 0
   DamageTaken: 0
+  _actions: []
