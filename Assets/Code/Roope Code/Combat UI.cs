@@ -21,6 +21,7 @@ namespace Crognard
 
         public void HealthBar(int amount, int max)
         {
+            Debug.Log("Updated Amount: " + amount);
             if (amount < 0) { amount = 0; }
             _healthFill.localScale = new Vector3(amount / (float)max, 1, 1);
             _healthText.text = amount.ToString();
@@ -29,7 +30,7 @@ namespace Crognard
 
         public void StaminaBar(int amount, int max)
         {
-            Debug.Log("Stamina = " + amount + ", MaxStamina = " + max);
+            // Debug.Log("Stamina = " + amount + ", MaxStamina = " + max);
             if (amount < 0) { amount = 0; }
             _staminaFill.localScale = new Vector3(amount / (float)max, 1, 1);
             _staminaText.text = amount.ToString();

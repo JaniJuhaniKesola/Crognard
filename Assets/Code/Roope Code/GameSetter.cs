@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace Crognard
@@ -10,9 +11,9 @@ namespace Crognard
         public static Faction attacker; // Attacker unit's Faction -> Can be found from Unit Script.
 
         // When the game moves to combat, while in board state, game has to save attacker's and defender's prefabs.
-        public static GameObject blackCombatant, whiteCombatant;
+        public static ChessPiece blackCombatant, whiteCombatant;
 
-        public static GameObject defeated, doubleKill;  // Most of the times there is only one defeated character.
+        public static ChessPiece defeated, doubleKill;  // Most of the times there is only one defeated character.
         #endregion
 
         #region Board Phase
@@ -26,13 +27,22 @@ namespace Crognard
         #region Pieces
         // Save each individual stat changes here. Like HP that is left.
         /*
-        public static int wP1HP, wP2HP, wP3HP, wP4HP, wP5HP, wP6HP, wP7HP, wP8HP;
-        public static int wR1HP, wR2HP, wH1HP, wH2HP, wB1HP, wB2HP, wQHP, wKHP;
-
-        public static int bP1HP, bP2HP, bP3HP, bP4HP, bP5HP, bP6HP, bP7HP, bP8HP;
-        public static int bR1HP, bR2HP, bH1HP, bH2HP, bB1HP, bB2HP, bQHP, bKHP;
+        Class ChessPiece
+        -   public string Name;                 // ID or name for the piece
+        -   public Faction Faction;             // Black or White
+        -   public Character PieceType;         // Type of piece: pawn, knight so on...
+        -   public bool Alive;                  // Alive = true & Dead = false;
+        -   public int HP;                      // Remaining Health
+        -   public int Stamina;                 // Remaining Stamina
+        -   public Vector2Int Position;         // Position in chess board
+        -   public GameObject PiecePrefab;      // Prefab during board phase
+        -   public GameObject CombatPrefab;     // Prefab during combat phase
         */
+        public static List<ChessPiece>pieces;
 
         #endregion
+
+        // At the start of the game each piece is saved here
+
     }
 }

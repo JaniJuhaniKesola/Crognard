@@ -43,9 +43,11 @@ namespace Crognard
 
             if (_whiteUnit == null)
             {
-                // GameObject whiteGO = Instantiate(GameSetter.whiteCombatant, _whiteSpawnPoint.position, Quaternion.identity);
+                //GameObject whiteGO = Instantiate(GameSetter.whiteCombatant.CombatPrefab, _whiteSpawnPoint.position, Quaternion.identity);
                 GameObject whiteGO = Instantiate(_whitePrefab, _whiteSpawnPoint.position, Quaternion.identity);
                 _whiteUnit = whiteGO.GetComponent<Unit>();
+
+                //SetUnitData(_whiteUnit, GameSetter.whiteCombatant);
             }
 
             if (_blackUnit == null)
@@ -53,10 +55,12 @@ namespace Crognard
                 // GameObject blackGO = Instantiate(GameSetter.blackCombatant, _blackSpawnPoint.position, Quaternion.identity);
                 GameObject blackGO = Instantiate(_blackPrefab, _blackSpawnPoint.position, Quaternion.identity);
                 _blackUnit = blackGO.GetComponent<Unit>();
+
+                //SetUnitData(_whiteUnit, GameSetter.whiteCombatant);
             }
             
-
             _whiteUnit.Defending = false; _whiteUnit.Damaged = false; _whiteUnit.Restrained = false;
+
             _blackUnit.Defending = false; _blackUnit.Damaged = false; _blackUnit.Restrained = false;
 
             Debug.Log("White HP: " + _whiteUnit.CurrentHP);
@@ -67,6 +71,11 @@ namespace Crognard
             Initiative();
 
             OpenCommands();
+        }
+
+        private void SetUnitData(Unit unit, ChessPiece piece)
+        {
+            unit.Name = piece.Name; unit.CurrentHP = piece.HP; unit.Stamina = piece.Stamina;
         }
 
         private void Initiative()
@@ -102,16 +111,18 @@ namespace Crognard
             }
         }
 
-        /*public void SelectionNavigate(Action action)
+        public void ActionChosen(ActionType action)
         {
-            if (action = Action.Item)
+            if (_currentState == CombatState.ChooseW)
             {
-                _uiDisplay.ActivateOptions
+                if (_actions.GetCost(action) > _whiteUnit.Stamina) { return; }
             }
-        }*/
+            else if (_currentState == CombatState.ChooseB)
+            {
+                if (_actions.GetCost(action) > _blackUnit.Stamina) { return; }
+            }
 
-        public void ActionChosen(Action action, int priority)
-        {
+            int priority = _actions.GetPriority(action);
             SaveAction(_actionsChosen, action, priority);
 
             if (_actionsChosen >= 1)
@@ -136,7 +147,7 @@ namespace Crognard
 
         }
 
-        private void SaveAction(int index, Action action, int priority)
+        private void SaveAction(int index, ActionType action, int priority)
         {
             Act act = null;
 
@@ -176,6 +187,7 @@ namespace Crognard
                 yield return new WaitForSeconds(1);
             }
 
+            Debug.Log("White HP: " + _whiteUnit.CurrentHP + ", Black HP: " + _blackUnit.CurrentHP);
             _currentState = CombatState.End;
             Results();
 
@@ -204,42 +216,43 @@ namespace Crognard
             }
             else { return; }
 
-            switch (act.action)
+            /*switch (act.action)
             {
-                case Action.Light:
-                    _actions.Attack(Action.Light, attacker, defender, attackerUI, defenderUI);
+                case ActionType.Light:
+                    _actions.Attack(ActionType.Light, attacker, defender, attackerUI, defenderUI);
                     break;
 
-                case Action.Medium:
-                    _actions.Attack(Action.Medium, attacker, defender, attackerUI, defenderUI);
+                case ActionType.Medium:
+                    _actions.Attack(ActionType.Medium, attacker, defender, attackerUI, defenderUI);
                     break;
 
-                case Action.Heavy:
-                    _actions.Attack(Action.Heavy, attacker, defender, attackerUI, defenderUI);
+                case ActionType.Heavy:
+                    _actions.Attack(ActionType.Heavy, attacker, defender, attackerUI, defenderUI);
                     break;
 
-                case Action.Defend:
+                case ActionType.Defend:
                     _actions.Defend(attacker);
                     break;
 
-                case Action.Counter:
+                case ActionType.Counter:
                     _actions.Counter(attacker, defender, defenderUI);
                     break;
 
-                case Action.Item1:
+                case ActionType.Item1:
                     _actions.Recover(attacker, attackerUI);
                     break;
 
-                case Action.Item2:
+                case ActionType.Item2:
                     _actions.Restrain(defender);
                     break;
 
-                case Action.Item3:
+                case ActionType.Item3:
                     _actions.Escape();
                     _escaped = true;
                     break;
-                    
-            }
+
+            }*/
+            _actions.GetAction(act.action, attacker, defender, attackerUI, defenderUI);
         }
 
         private bool EarlyFinish()
@@ -291,17 +304,5 @@ namespace Crognard
         }
     }
 
-    public class Act
-    {
-        public Faction faction;
-        public Action action;
-        public int priority;
-
-        public Act(Faction faction, Action action, int priority)
-        {
-            this.faction = faction;
-            this.action = action;
-            this.priority = priority;
-        }
-    }
+    
 }

@@ -5,6 +5,7 @@ namespace Crognard
 {
     public class Unit : MonoBehaviour
     {
+        public int ID; 
         public string Name;
         public Faction Faction;
         public int MaxHP, CurrentHP;
@@ -13,7 +14,6 @@ namespace Crognard
         public int Defence;
         public bool Damaged, Defending, Restrained;
         public int DamageTaken;
-        public List<Action1> _actions;
 
         public void TakeDamage(int amount)
         {
@@ -69,4 +69,6 @@ namespace Crognard
             }
         }
     }
+
+    
 }

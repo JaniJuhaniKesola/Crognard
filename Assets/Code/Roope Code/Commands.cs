@@ -23,7 +23,7 @@ namespace Crognard
 
         public void OnDefendButton()
         {
-            _manager.ActionChosen(Action.Defend, 1);
+            _manager.ActionChosen(ActionType.Defend);
         }
 
         public void OnItemButton()
@@ -35,7 +35,7 @@ namespace Crognard
 
         public void OnCounter()
         {
-            _manager.ActionChosen(Action.Counter, -1);
+            _manager.ActionChosen(ActionType.Counter);
         }
 
         public void OnReturn()
@@ -48,32 +48,32 @@ namespace Crognard
 
         public void OnLightAttack()
         {
-            _manager.ActionChosen(Action.Light, 1);
+            _manager.ActionChosen(ActionType.Light);
         }
 
         public void OnMediumAttack()
         {
-            _manager.ActionChosen(Action.Medium, 0);
+            _manager.ActionChosen(ActionType.Medium);
         }
 
         public void OnHeavyAttack()
         {
-            _manager.ActionChosen(Action.Heavy, -1);
+            _manager.ActionChosen(ActionType.Heavy);
         }
 
         public void Recover()
         {
-            _manager.ActionChosen(Action.Item1, 0);
+            _manager.ActionChosen(ActionType.Item1);
         }
 
         public void Restrain()
         {
-            _manager.ActionChosen(Action.Item2, 0);
+            _manager.ActionChosen(ActionType.Item2);
         }
 
         public void Escape()
         {
-            _manager.ActionChosen(Action.Item3, 2);
+            _manager.ActionChosen(ActionType.Item3);
         }
 
         public void OnContinue()
