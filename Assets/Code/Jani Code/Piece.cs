@@ -4,6 +4,9 @@ using UnityEngine;
 
 namespace Crognard
 {
+
+    public enum PieceTeam { White, Black }
+
 [RequireComponent(typeof(SpriteRenderer))]
 public class Piece : MonoBehaviour
 {
@@ -15,6 +18,9 @@ public class Piece : MonoBehaviour
 
     [Tooltip("Seconds to move between tiles")]
     public float moveDuration = 0.12f;
+
+    [Header("Team Settings")]
+    public PieceTeam team = PieceTeam.White;   // 👈 Set from Inspector or prefab
 
     public virtual void Initialize(Vector2Int startGrid, BoardManager manager)
     {
@@ -28,6 +34,9 @@ public class Piece : MonoBehaviour
 
         transform.position = board.GridToWorld(startGrid);
         transform.localScale = Vector3.one * (board.tileSize * board.pieceScale);
+
+        // Optional: tint color by team
+        sr.color = (team == PieceTeam.White) ? Color.white : Color.black;
     }
 
     void OnMouseDown()
@@ -43,7 +52,11 @@ public class Piece : MonoBehaviour
         transform.localScale = sel ? Vector3.one * baseScale * 1.12f : Vector3.one * baseScale;
     }
 
-    // Keep the existing UpdateGridPosition API (keeps smooth movement)
+    public virtual void MoveTo(Vector2Int newGrid)
+    {
+        UpdateGridPosition(newGrid);
+    }
+
     public void UpdateGridPosition(Vector2Int newGrid)
     {
         gridPosition = newGrid;
@@ -52,7 +65,7 @@ public class Piece : MonoBehaviour
         moveCoroutine = StartCoroutine(SmoothMove(board.GridToWorld(newGrid)));
     }
 
-    IEnumerator SmoothMove(Vector3 targetWorld)
+    private System.Collections.IEnumerator SmoothMove(Vector3 targetWorld)
     {
         Vector3 start = transform.position;
         float elapsed = 0f;
@@ -68,23 +81,6 @@ public class Piece : MonoBehaviour
         moveCoroutine = null;
     }
 
-    /// <summary>
-    /// New: virtual MoveTo that BoardManager should call when moving a piece.
-    /// Subclasses (Pawn) can override this to run extra logic on move.
-    /// Default behaviour simply updates the grid position & smooth-moves the piece.
-    /// </summary>
-    public virtual void MoveTo(Vector2Int newGrid)
-    {
-        // Default behavior: just update and animate
-        UpdateGridPosition(newGrid);
-    }
-
-    /// <summary>
-    /// Override to provide legal move logic for each piece type
-    /// </summary>
-    public virtual List<Vector2Int> GetValidMoves()
-    {
-        return new List<Vector2Int>();
-    }
+    public virtual List<Vector2Int> GetValidMoves() => new List<Vector2Int>();
 }
 }
