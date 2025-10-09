@@ -4,43 +4,43 @@ using System.Collections.Generic;
 namespace Crognard
 {
     public class QueenPiece : Piece
-{
-    public override List<Vector2Int> GetValidMoves()
     {
-        List<Vector2Int> moves = new List<Vector2Int>();
-
-        // All 8 possible movement directions (horizontal, vertical, diagonal)
-        Vector2Int[] directions = new Vector2Int[]
+        public override List<Vector2Int> GetValidMoves()
         {
-            Vector2Int.up,
-            Vector2Int.down,
-            Vector2Int.left,
-            Vector2Int.right,
-            new Vector2Int(1, 1),
-            new Vector2Int(-1, 1),
-            new Vector2Int(1, -1),
-            new Vector2Int(-1, -1)
-        };
+            List<Vector2Int> moves = new List<Vector2Int>();
 
-        foreach (var dir in directions)
-        {
-            Vector2Int current = gridPosition + dir;
-
-            // Keep moving until out of bounds or blocked
-            while (board.InBounds(current))
+            // All 8 possible movement directions (horizontal, vertical, diagonal)
+            Vector2Int[] directions = new Vector2Int[]
             {
-                if (board.IsOccupied(current))
+                Vector2Int.up,
+                Vector2Int.down,
+                Vector2Int.left,
+                Vector2Int.right,
+                new Vector2Int(1, 1),    // up-right
+                new Vector2Int(-1, 1),   // up-left
+                new Vector2Int(1, -1),   // down-right
+                new Vector2Int(-1, -1)   // down-left
+            };
+
+            foreach (var dir in directions)
+            {
+                Vector2Int current = gridPosition + dir;
+
+                // Keep moving until out of bounds or blocked
+                while (board.InBounds(current))
                 {
-                    // Stop when blocked by another piece
-                    break;
+                    if (board.IsOccupied(current))
+                    {
+                        // Stop when blocked by another piece
+                        break;
+                    }
+
+                    moves.Add(current);
+                    current += dir;
                 }
-
-                moves.Add(current);
-                current += dir;
             }
-        }
 
-        return moves;
+            return moves;
+        }
     }
-}
 }

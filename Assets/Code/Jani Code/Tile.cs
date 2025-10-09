@@ -3,30 +3,35 @@ using UnityEngine;
 namespace Crognard
 {
     [RequireComponent(typeof(SpriteRenderer))]
-public class Tile : MonoBehaviour
-{
-    [HideInInspector] public Vector2Int gridPosition;
-    private BoardManager board;
-
-    public void Setup(Vector2Int pos, BoardManager manager)
+    public class Tile : MonoBehaviour
     {
-        gridPosition = pos;
-        board = manager;
+        [HideInInspector] public Vector2Int gridPosition;
 
-        // Ensure a BoxCollider2D exists and is sized to 1x1 in local space.
-        // We rely on transform.localScale (set by BoardManager) to scale the collider to tileSize.
-        BoxCollider2D bc = GetComponent<BoxCollider2D>();
-        if (bc == null) bc = gameObject.AddComponent<BoxCollider2D>();
-        bc.size = Vector2.one;
-        bc.offset = Vector2.zero;
-        // Make sure it's a trigger only if you want clicks to pass through to raycasts:
-        // bc.isTrigger = true; // optional
-    }
+        private BoardManager board;
 
-    void OnMouseDown()
-    {
-        // Delegate to board manager
-        if (board != null) board.OnTileClicked(this);
+        public void Setup(Vector2Int pos, BoardManager manager)
+        {
+            gridPosition = pos;
+            board = manager;
+
+            // Ensure a BoxCollider2D exists and is sized to 1x1 in local space.
+            // Transform scaling (set by BoardManager) adjusts the collider to tileSize.
+            BoxCollider2D bc = GetComponent<BoxCollider2D>();
+            if (bc == null)
+                bc = gameObject.AddComponent<BoxCollider2D>();
+
+            bc.size = Vector2.one;
+            bc.offset = Vector2.zero;
+
+            // Optional: make collider a trigger if clicks should pass through to raycasts.
+            // bc.isTrigger = true;
+        }
+
+        private void OnMouseDown()
+        {
+            // Delegate tile click to the board manager
+            if (board != null)
+                board.OnTileClicked(this);
+        }
     }
-}
 }

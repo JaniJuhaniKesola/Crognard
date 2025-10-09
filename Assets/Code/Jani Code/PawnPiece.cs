@@ -4,34 +4,38 @@ using System.Collections.Generic;
 namespace Crognard
 {
     public class PawnPiece : Piece
-{
-    private bool hasMoved = false;
-
-    public override List<Vector2Int> GetValidMoves()
     {
-        List<Vector2Int> moves = new List<Vector2Int>();
+        private bool hasMoved = false;
 
-        // White pawns move up, black pawns move down
-        Vector2Int forward = (team == PieceTeam.White) ? Vector2Int.up : Vector2Int.down;
-
-        Vector2Int oneStep = gridPosition + forward;
-
-        if (board.InBounds(oneStep) && !board.IsOccupied(oneStep))
+        public override List<Vector2Int> GetValidMoves()
         {
-            moves.Add(oneStep);
+            List<Vector2Int> moves = new List<Vector2Int>();
 
-            Vector2Int twoStep = gridPosition + forward * 2;
-            if (!hasMoved && board.InBounds(twoStep) && !board.IsOccupied(twoStep))
-                moves.Add(twoStep);
+            // White pawns move up, black pawns move down
+            Vector2Int forward = (team == PieceTeam.White) ? Vector2Int.up : Vector2Int.down;
+
+            Vector2Int oneStep = gridPosition + forward;
+
+            // Move one step forward if not blocked
+            if (board.InBounds(oneStep) && !board.IsOccupied(oneStep))
+            {
+                moves.Add(oneStep);
+
+                // Move two steps forward if first move and both spaces are clear
+                Vector2Int twoStep = gridPosition + forward * 2;
+                if (!hasMoved && board.InBounds(twoStep) && !board.IsOccupied(twoStep))
+                {
+                    moves.Add(twoStep);
+                }
+            }
+
+            return moves;
         }
 
-        return moves;
+        public override void MoveTo(Vector2Int newPos)
+        {
+            base.MoveTo(newPos);
+            hasMoved = true;
+        }
     }
-
-    public override void MoveTo(Vector2Int newPos)
-    {
-        base.MoveTo(newPos);
-        hasMoved = true;
-    }
-}
 }
