@@ -112,23 +112,13 @@ namespace Crognard
 
         public void GetAction(ActionType type, Unit user, Unit target, CombatUI userHub, CombatUI targetHub)
         {
+            if (type == ActionType.Light || type == ActionType.Medium || type == ActionType.Heavy)
+            {
+                Attack(type, user, target);
+            }
+            
             switch (type)
             {
-                case ActionType.Light:
-                    user.TakeStamina(_lightAttack.staminaCost);
-                    target.TakeDamage(user.LightDamage);
-                    break;
-
-                case ActionType.Medium:
-                    user.TakeStamina(_mediumAttack.staminaCost);
-                    target.TakeDamage(user.MediumDamage);
-                    break;
-
-                case ActionType.Heavy:
-                    user.TakeStamina(_heavyAttack.staminaCost);
-                    target.TakeDamage(user.HeavyDamage);
-                    break;
-
                 case ActionType.Defend:
                     user.TakeStamina(_defend.staminaCost);
                     user.Defending = true;
@@ -139,6 +129,10 @@ namespace Crognard
                     if (user.Damaged)
                     {
                         target.TakeDamage(user.DamageTaken * 2);
+                    }
+                    if (target.Defending)
+                    {
+                        user.TakeStamina(3);
                     }
                     break;
 
@@ -160,17 +154,51 @@ namespace Crognard
 
             Debug.Log("User's HP after it's turn: " + user.CurrentHP + ", target's HP after it's turn: " + target.CurrentHP);
 
+            userHub.HealthBar(user.CurrentHP, user.MaxHP);
             userHub.StaminaBar(user.Stamina, user.MaxStamina);
+
             targetHub.HealthBar(target.CurrentHP, target.MaxHP);
+            targetHub.StaminaBar(target.Stamina, target.MaxStamina);
 
             Debug.Log("HUBs updated");
             //StartCoroutine(UIUpdate(user, target, userHub, targetHub));
         }
 
+        private void Attack(ActionType weight, Unit user, Unit target)
+        {
+            switch (weight)
+            {
+                case ActionType.Light:
+                    user.TakeStamina(_lightAttack.staminaCost);
+                    target.TakeDamage(user.LightDamage);
+                    Blocked(user, target);
+                    break;
+
+                case ActionType.Medium:
+                    user.TakeStamina(_mediumAttack.staminaCost);
+                    target.TakeDamage(user.MediumDamage);
+                    Blocked(user, target);
+                    break;
+
+                case ActionType.Heavy:
+                    user.TakeStamina(_heavyAttack.staminaCost);
+                    target.TakeDamage(user.HeavyDamage);
+                    Blocked(user, target);
+                    break;
+            }
+        }
+
+        private void Blocked(Unit user, Unit target)
+        {
+            if (target.Defending)
+            {
+                user.TakeStamina(3);
+            }
+        }
+
         private IEnumerator UIUpdate(Unit user, Unit target, CombatUI userHub, CombatUI targetHub)
         {
             yield return null;
-            
         }
     }
 }
