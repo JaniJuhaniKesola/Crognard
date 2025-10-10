@@ -252,6 +252,15 @@ namespace Crognard
                     break;
 
             }*/
+            if (_currentState == CombatState.White)
+            {
+                if (_actions.GetCost(act.action) > _whiteUnit.Stamina) { return; }
+            }
+            else if (_currentState == CombatState.Black)
+            {
+                if (_actions.GetCost(act.action) > _blackUnit.Stamina) { return; }
+            }
+
             _actions.GetAction(act.action, attacker, defender, attackerUI, defenderUI);
         }
 
@@ -269,12 +278,12 @@ namespace Crognard
         {
             if (_whiteUnit.CurrentHP <= 0 && _blackUnit.CurrentHP > 0)
             {
-                _results.Winner(_blackUnit, _whiteUnit);
+                _results.Winner(_blackUnit);
                 
             }
             else if (_whiteUnit.CurrentHP > 0 && _blackUnit.CurrentHP <= 0)
             {
-                _results.Winner(_whiteUnit, _blackUnit);
+                _results.Winner(_whiteUnit);
                 
             }
             else if (_whiteUnit.CurrentHP <= 0 && _blackUnit.CurrentHP <= 0)
@@ -283,7 +292,7 @@ namespace Crognard
             }
             else
             {
-                _results.NeutralEnd();
+                _results.NeutralEnd(_whiteUnit, _blackUnit);
             }
             // Proceed to the board with following information:
             // Result: Attacker wins, Defender wins, Double kill, Neutral

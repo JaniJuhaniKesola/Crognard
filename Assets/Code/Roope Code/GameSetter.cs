@@ -12,6 +12,7 @@ namespace Crognard
 
         // When the game moves to combat, while in board state, game has to save attacker's and defender's prefabs.
         public static ChessPiece blackCombatant, whiteCombatant;
+        public static int blackCombatID, whiteCombatID; // When you take pieces to combat from list, save these when entering Combat so after the fight we can update the right item in the list.
 
         public static ChessPiece defeated, doubleKill;  // Most of the times there is only one defeated character.
         #endregion

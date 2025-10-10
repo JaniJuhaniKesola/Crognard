@@ -10,51 +10,67 @@ namespace Crognard
         [SerializeField] private GameObject _resultScreen, _neutralScreen, _doubleKillScreen;
         [SerializeField] private TextMeshProUGUI _winnerText;
 
-        public void AttackerWins()
+        public void AttackerWins(Unit winner)
         {
             // Play Confetti
             switch (GameSetter.attacker)
             {
                 case Faction.White:
                     _whiteConfetti.StartConfetti();
+                    GameSetter.whiteCombatant.HP = winner.CurrentHP;
+                    GameSetter.whiteCombatant.Stamina = winner.Stamina;
+                    GameSetter.whiteCombatant.Position = GameSetter.blackCombatant.Position;
+                    GameSetter.blackCombatant.Alive = false;
                     break;
 
                 case Faction.Black:
                     _blackConfetti.StartConfetti();
+                    GameSetter.blackCombatant.HP = winner.CurrentHP;
+                    GameSetter.blackCombatant.Stamina = winner.Stamina;
+                    GameSetter.blackCombatant.Position = GameSetter.whiteCombatant.Position;
+                    GameSetter.blackCombatant.Alive = false;
                     break;
             }
+            UpdatePieces();
         }
 
-        public void DefenderWins()
+        public void DefenderWins(Unit winner)
         {
             // Play Confetti
             switch (GameSetter.attacker)
             {
                 case Faction.White:
                     _blackConfetti.StartConfetti();
+                    GameSetter.blackCombatant.HP = winner.CurrentHP;
+                    GameSetter.blackCombatant.Stamina = winner.Stamina;
+                    GameSetter.whiteCombatant.Alive = false;
                     break;
 
                 case Faction.Black:
                     _whiteConfetti.StartConfetti();
+                    GameSetter.whiteCombatant.HP = winner.CurrentHP;
+                    GameSetter.whiteCombatant.Stamina = winner.Stamina;
+                    GameSetter.blackCombatant.Alive = false;
                     break;
             }
+            UpdatePieces();
         }
 
-        public void Winner(Unit winner, Unit loser)
+        public void Winner(Unit winner)
         {
             if (GameSetter.attacker == winner.Faction)
             {
-                AttackerWins();
+                AttackerWins(winner);
                 // Attacker takes loser's place on the board.
             }
             else
             {
-                DefenderWins();
+                DefenderWins(winner);
             }
-            StartCoroutine(VictoryCycle(winner, loser));
+            StartCoroutine(VictoryCycle(winner));
         }
 
-        private IEnumerator VictoryCycle(Unit winner, Unit loser)
+        private IEnumerator VictoryCycle(Unit winner)
         {
             yield return new WaitForSeconds(1);
             Results(winner);
@@ -65,22 +81,34 @@ namespace Crognard
             */
         }
 
-        public void Results(Unit unit)
+        public void Results(Unit winner)
         {
             _resultScreen.SetActive(true);
-            _winnerText.text = unit.Name;
+            _winnerText.text = winner.Name;
         }
 
-        public void NeutralEnd()
+        public void NeutralEnd(Unit white, Unit black)
         {
             // Exit Combat
             _neutralScreen.SetActive(true);
+
+            GameSetter.whiteCombatant.HP = white.CurrentHP;
+            GameSetter.whiteCombatant.Stamina = white.Stamina;
+
+            GameSetter.blackCombatant.HP = black.CurrentHP;
+            GameSetter.blackCombatant.Stamina = black.Stamina;
+
+            UpdatePieces();
         }
 
         public void DoubleKill()
         {
             // Set Active Asset for Double Kill
             _doubleKillScreen.SetActive(true);
+            GameSetter.whiteCombatant.Alive = false;
+            GameSetter.blackCombatant.Alive = false;
+
+            UpdatePieces();
         }
 
         public void Restart()
@@ -89,6 +117,12 @@ namespace Crognard
             _doubleKillScreen.SetActive(false);
             _whiteConfetti.StopConfetti();
             _blackConfetti.StopConfetti();
+        }
+
+        private void UpdatePieces()
+        {
+            GameSetter.pieces[GameSetter.whiteCombatID] = GameSetter.whiteCombatant;
+            GameSetter.pieces[GameSetter.blackCombatID] = GameSetter.blackCombatant;
         }
     }
 }
