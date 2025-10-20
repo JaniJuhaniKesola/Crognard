@@ -92,11 +92,17 @@ namespace Crognard
             // Exit Combat
             _neutralScreen.SetActive(true);
 
-            GameSetter.whiteCombatant.HP = white.CurrentHP;
-            GameSetter.whiteCombatant.Stamina = white.Stamina;
+            if (GameSetter.whiteCombatant != null)
+            {
+                GameSetter.whiteCombatant.HP = white.CurrentHP;
+                GameSetter.whiteCombatant.Stamina = white.Stamina;
+            }
 
-            GameSetter.blackCombatant.HP = black.CurrentHP;
-            GameSetter.blackCombatant.Stamina = black.Stamina;
+            if (GameSetter.blackCombatant != null)
+            {
+                GameSetter.blackCombatant.HP = black.CurrentHP;
+                GameSetter.blackCombatant.Stamina = black.Stamina;
+            }
 
             UpdatePieces();
         }
@@ -121,8 +127,11 @@ namespace Crognard
 
         private void UpdatePieces()
         {
-            GameSetter.pieces[GameSetter.whiteCombatID] = GameSetter.whiteCombatant;
-            GameSetter.pieces[GameSetter.blackCombatID] = GameSetter.blackCombatant;
+            if (GameSetter.whiteCombatant != null && GameSetter.blackCombatant != null)
+            {
+                GameSetter.pieces[GameSetter.whiteCombatID] = GameSetter.whiteCombatant;
+                GameSetter.pieces[GameSetter.blackCombatID] = GameSetter.blackCombatant;
+            }
         }
     }
 }
