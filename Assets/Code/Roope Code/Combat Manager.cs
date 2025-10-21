@@ -21,7 +21,8 @@ namespace Crognard
         private UIDisplay _uiDisplay;
         private Actions _actions;
         public Act[] _acts = new Act[2];
-        private bool _escaped;
+        [HideInInspector]
+        public bool _escaped;
 
 
 
@@ -252,15 +253,9 @@ namespace Crognard
                     break;
 
             }*/
-            if (_currentState == CombatState.White)
-            {
-                if (_actions.GetCost(act.action) > _whiteUnit.Stamina) { return; }
-            }
-            else if (_currentState == CombatState.Black)
-            {
-                if (_actions.GetCost(act.action) > _blackUnit.Stamina) { return; }
-            }
-
+            
+            if (_actions.GetCost(act.action) > attacker.Stamina) { return; }
+            
             _actions.GetAction(act.action, attacker, defender, attackerUI, defenderUI);
         }
 

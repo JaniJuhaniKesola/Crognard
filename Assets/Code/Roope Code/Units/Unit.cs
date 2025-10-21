@@ -10,8 +10,10 @@ namespace Crognard
         public int MaxHP, CurrentHP;
         public int MaxStamina, Stamina;
         public int LightDamage, MediumDamage, HeavyDamage;
-        public int Defence;
+        public int Defence, CritRange = 1;
+        [HideInInspector]
         public bool Damaged, Defending, Restrained;
+        [HideInInspector]
         public int DamageTaken;
 
         public void TakeDamage(int amount)

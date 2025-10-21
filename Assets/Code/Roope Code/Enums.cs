@@ -8,4 +8,6 @@ namespace Crognard
     public enum ActionType { Light, Medium, Heavy, Defend, Counter, Item1, Item2, Item3 }
 
     public enum Character { Pawn, Rook, Knight, Bishop, Queen, King }
+
+    public enum Hit { Miss, Hit, Crit }
 }

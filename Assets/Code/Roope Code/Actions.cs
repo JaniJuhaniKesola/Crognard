@@ -26,12 +26,20 @@ namespace Crognard
 
                 case ActionType.Medium:
                     user.TakeStamina(0);
-                    target.TakeDamage(user.MediumDamage);
+                    Hit hit = AccuracyCheck(1, user.CritRange);
+                    if (hit == Hit.Hit)
+                    { target.TakeDamage(user.MediumDamage); }
+                    else if (hit == Hit.Crit)
+                    { target.TakeDamage(user.MediumDamage * 2); }
                     break;
 
                 case ActionType.Heavy:
                     user.TakeStamina(2);
-                    target.TakeDamage(user.HeavyDamage);
+                    Hit hit1 = AccuracyCheck(5, user.CritRange);
+                    if (hit1 == Hit.Hit)
+                    { target.TakeDamage(user.HeavyDamage); }
+                    else if (hit1 == Hit.Crit)
+                    { target.TakeDamage(user.HeavyDamage * 2); }
                     break;
             }
 
@@ -48,7 +56,15 @@ namespace Crognard
         {
             if (user.Damaged)
             {
-                target.TakeDamage(user.DamageTaken * 2);
+                Hit hit = AccuracyCheck(1, user.CritRange);
+                if (hit == Hit.Hit)
+                {
+                    target.TakeDamage(user.DamageTaken * 2);
+                }
+                else if (hit == Hit.Crit)
+                {
+                    target.TakeDamage(user.DamageTaken * 4);
+                }
             }
 
             hub.HealthBar(target.CurrentHP, target.MaxHP);
@@ -74,7 +90,7 @@ namespace Crognard
 
         public void Escape()
         {
-
+            GetComponent<CombatManager>()._escaped = true;
         }
         #endregion
 
@@ -196,9 +212,21 @@ namespace Crognard
             }
         }
 
-        private IEnumerator UIUpdate(Unit user, Unit target, CombatUI userHub, CombatUI targetHub)
+        private Hit AccuracyCheck(int missValue, int critRange)
         {
-            yield return null;
+            int number = Random.Range(1, 21);
+            if (number <= missValue)
+            {
+                return Hit.Miss;
+            }
+            else if (number == 21 - critRange)
+            {
+                return Hit.Crit;
+            }
+            else
+            {
+                return Hit.Hit;
+            }
         }
     }
 }
