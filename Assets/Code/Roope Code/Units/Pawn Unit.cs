@@ -58,7 +58,7 @@ namespace Crognard
         private bool CheckSpace(Vector2Int space, Faction faction)
         {
             // There should be static statement for every occupied space.
-            for (int i = 0; i < GameSetter.pieces.Count; i++)
+            /*for (int i = 0; i < GameSetter.pieces.Count; i++)
             {
                 if (GameSetter.pieces[i].Position == space)
                 {
@@ -71,6 +71,17 @@ namespace Crognard
                         return false;
                     }
                     return false;
+                }
+            }
+            return false;*/
+
+            // Implement Dictionary<Vector2Int, GameObject>
+
+            if (GameSetter.boardOccupiers[space].Faction == faction)
+            {
+                if (!GameSetter.boardOccupiers[space].Alive)
+                {
+                    return true;
                 }
             }
             return false;

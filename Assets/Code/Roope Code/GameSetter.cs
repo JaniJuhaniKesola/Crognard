@@ -23,6 +23,9 @@ namespace Crognard
         // Maybe which tiles has which pieces
 
         // Number of allies adjacent to enemy target. Pawns like their friends.
+
+        public static Dictionary<Vector2Int, ChessPiece> boardOccupiers;
+
         #endregion
 
         #region Pieces
