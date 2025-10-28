@@ -21,7 +21,7 @@ namespace Crognard
             {
                 moves.Add(oneStep);
 
-                // Move two steps forward if first move and both spaces are clear
+                // Two-step if first move and both tiles clear
                 Vector2Int twoStep = gridPosition + forward * 2;
                 if (!hasMoved && board.InBounds(twoStep) && !board.IsOccupied(twoStep))
                 {
@@ -33,9 +33,16 @@ namespace Crognard
         }
 
         public override void MoveTo(Vector2Int newPos)
-        {
-            base.MoveTo(newPos);
-            hasMoved = true;
-        }
+{
+    base.MoveTo(newPos);
+    hasMoved = true;
+
+    if ((team == PieceTeam.White && newPos.y == board.boardSize - 1) ||
+        (team == PieceTeam.Black && newPos.y == 0))
+    {
+        Debug.Log("Pawn promotion triggered!");
+        PromotionUI.Instance.Show(this);
+    }
+}
     }
 }

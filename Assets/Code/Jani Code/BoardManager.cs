@@ -41,12 +41,6 @@ namespace Crognard
             GenerateBoard();
             SpawnStartingPieces();
 
-            if (startingPieces.Count == 0 && piecePrefab != null)
-            {
-                if (!IsOccupied(new Vector2Int(0, 0)) && InBounds(new Vector2Int(0, 0)))
-                    SpawnPiece(new Vector2Int(0, 0), piecePrefab);
-            }
-
             Debug.Log($"Game Start — {currentTurn} goes first.");
         }
 
@@ -67,7 +61,6 @@ namespace Crognard
                     go.transform.localScale = Vector3.one * tileSize;
 
                     SpriteRenderer sr = go.GetComponent<SpriteRenderer>();
-                    if (sr == null) sr = go.AddComponent<SpriteRenderer>();
                     sr.color = ((x + y) % 2 == 0) ? lightColor : darkColor;
                     sr.sortingLayerName = "Board";
 
@@ -86,14 +79,14 @@ namespace Crognard
             {
                 if (!InBounds(spawn.position))
                 {
-                    Debug.LogWarning($"BoardManager: spawn position {spawn.position} out of bounds, skipping.");
+                    Debug.LogWarning($"Spawn: {spawn.position} out of bounds, skipping.");
                     continue;
                 }
 
                 GameObject prefabToUse = spawn.prefab != null ? spawn.prefab : piecePrefab;
                 if (prefabToUse == null)
                 {
-                    Debug.LogWarning("BoardManager: no prefab provided for starting piece and no default piecePrefab assigned.");
+                    Debug.LogWarning("Spawn: No prefab assigned.");
                     continue;
                 }
 
@@ -107,11 +100,7 @@ namespace Crognard
             if (IsOccupied(gridPos)) return;
 
             GameObject prefabToUse = prefabOverride != null ? prefabOverride : piecePrefab;
-            if (prefabToUse == null)
-            {
-                Debug.LogWarning("SpawnPiece: no prefab assigned.");
-                return;
-            }
+            if (prefabToUse == null) return;
 
             GameObject go = Instantiate(prefabToUse, transform);
             go.transform.position = GridToWorld(gridPos);
@@ -125,7 +114,7 @@ namespace Crognard
         }
 
         public bool InBounds(Vector2Int p) => p.x >= 0 && p.x < boardSize && p.y >= 0 && p.y < boardSize;
-        public Tile GetTile(Vector2Int gridPos) => InBounds(gridPos) ? tiles[gridPos.x, gridPos.y] : null;
+        public Tile GetTile(Vector2Int grid) => InBounds(grid) ? tiles[grid.x, grid.y] : null;
         public Vector3 GridToWorld(Vector2Int grid)
         {
             Vector2 origin = new Vector2(-boardSize / 2f + 0.5f, -boardSize / 2f + 0.5f);
@@ -134,11 +123,10 @@ namespace Crognard
         public bool IsOccupied(Vector2Int pos) => pieces.ContainsKey(pos);
         public Piece GetPieceAt(Vector2Int pos) => pieces.TryGetValue(pos, out Piece p) ? p : null;
 
-        // TURN SYSTEM
         private void SwitchTurn()
         {
             currentTurn = (currentTurn == PieceTeam.White) ? PieceTeam.Black : PieceTeam.White;
-            Debug.Log($"Turn switched: It is now {currentTurn}'s turn.");
+            Debug.Log($"Turn: {currentTurn}");
         }
 
         private bool CanSelect(Piece piece)
@@ -146,86 +134,62 @@ namespace Crognard
             return piece != null && piece.team == currentTurn;
         }
 
-        // -------------------------
-        // Selection helpers (RESTORED)
-        // -------------------------
         public void SelectPiece(Piece p)
         {
             if (p == null) return;
             if (!CanSelect(p))
             {
-                Debug.Log($"It's {currentTurn}'s turn — cannot select {p.team} piece.");
+                Debug.Log($"Wrong turn: Cannot select {p.team}");
                 return;
             }
 
             if (selectedPiece != null) selectedPiece.SetSelected(false);
             selectedPiece = p;
-            if (selectedPiece != null) selectedPiece.SetSelected(true);
-            Debug.Log($"Selected {p.name} at {p.gridPosition}");
+            p.SetSelected(true);
+
+            Debug.Log($"Selected: {p.name} at {p.gridPosition}");
         }
 
         public void DeselectPiece()
         {
-            if (selectedPiece != null) selectedPiece.SetSelected(false);
+            if (selectedPiece != null)
+                selectedPiece.SetSelected(false);
             selectedPiece = null;
         }
 
-        // -------------------------------------------
-        // MAIN INPUT LOGIC (attacks checked first)
-        // -------------------------------------------
         public void OnTileClicked(Tile tile)
         {
             Vector2Int grid = tile.gridPosition;
             Piece clickedPiece = GetPieceAt(grid);
 
-            // If there is a selected piece, try attack first (if enemy)
             if (selectedPiece != null)
             {
-                // CASE 1: clicked on enemy piece -> attempt attack
                 if (clickedPiece != null && clickedPiece.team != selectedPiece.team)
                 {
-                    List<Vector2Int> legalMoves = selectedPiece.GetValidMoves();
-                    if (legalMoves.Contains(grid))
-                    {
-                        if (MovePiece(selectedPiece, grid))
-                        {
-                            selectedPiece.SetSelected(false);
-                            selectedPiece = null;
-                            SwitchTurn();
-                        }
-                        return;
-                    }
-                }
-
-                // CASE 2: clicked on empty tile -> attempt normal move
-                if (clickedPiece == null)
-                {
                     if (MovePiece(selectedPiece, grid))
-                    {
-                        selectedPiece.SetSelected(false);
                         selectedPiece = null;
-                        SwitchTurn();
-                    }
                     return;
                 }
 
-                // CASE 3: clicked on ally piece -> select it (only if same team)
+                if (clickedPiece == null)
+                {
+                    if (MovePiece(selectedPiece, grid))
+                        selectedPiece = null;
+                    return;
+                }
+
                 if (clickedPiece != null && CanSelect(clickedPiece))
                 {
                     SelectPiece(clickedPiece);
                 }
             }
-            else
+            else if (clickedPiece != null)
             {
-                // No piece selected yet: select the clicked piece if it's your turn
-                if (clickedPiece != null && CanSelect(clickedPiece))
-                {
-                    SelectPiece(clickedPiece);
-                }
+                SelectPiece(clickedPiece);
             }
         }
 
-        // Attempt to move a piece; returns true if moved
+        // Updated combat-enabled MovePiece
         public bool MovePiece(Piece piece, Vector2Int target)
         {
             if (!InBounds(target))
@@ -237,47 +201,88 @@ namespace Crognard
 
             Piece targetPiece = GetPieceAt(target);
 
-            // ---- Combat check ----
-            if (targetPiece != null)
+            // Combat handling BEFORE turn switching
+            if (targetPiece != null && targetPiece.team != piece.team)
             {
-                if (targetPiece.team != piece.team)
-                {
-                    Debug.Log($"Combat triggered! {piece.name} ({piece.team}) attacks {targetPiece.name} ({targetPiece.team})");
+                Debug.Log($"⚔ Battle will commence: {piece.name} vs {targetPiece.name}");
 
-                    // Knight exception: it jumps directly onto the target
-                    if (piece is KnightPiece)
+                if (piece is KnightPiece)
+                {
+                    pieces.Remove(piece.gridPosition);
+                    pieces[target] = piece;
+                    piece.MoveTo(target);
+                }
+                else
+                {
+                    Vector2Int dir = target - piece.gridPosition;
+                    if (dir.x != 0) dir.x = Math.Sign(dir.x);
+                    if (dir.y != 0) dir.y = Math.Sign(dir.y);
+
+                    Vector2Int stopBefore = target - dir;
+
+                    if (InBounds(stopBefore) && !IsOccupied(stopBefore))
                     {
                         pieces.Remove(piece.gridPosition);
-                        pieces[target] = piece;
-                        piece.MoveTo(target);
+                        pieces[stopBefore] = piece;
+                        piece.MoveTo(stopBefore);
                     }
-                    else
-                    {
-                        // Stop one tile before target in same direction
-                        Vector2Int dir = (target - piece.gridPosition);
-                        if (dir.x != 0) dir.x = System.Math.Sign(dir.x);
-                        if (dir.y != 0) dir.y = System.Math.Sign(dir.y);
-                        Vector2Int stopBefore = target - dir;
-
-                        if (InBounds(stopBefore) && !IsOccupied(stopBefore))
-                        {
-                            pieces.Remove(piece.gridPosition);
-                            pieces[stopBefore] = piece;
-                            piece.MoveTo(stopBefore);
-                        }
-                    }
-
-                    Debug.Log($"--> Scene transition placeholder: battle between {piece.name} and {targetPiece.name}");
-                    return true;
                 }
-                return false;
+
+                SwitchTurn();
+                return true;
             }
 
-            // ---- Normal movement (no combat) ----
-            pieces.Remove(piece.gridPosition);
-            pieces[target] = piece;
-            piece.MoveTo(target);
-            return true;
+            // Normal move
+            if (targetPiece == null)
+            {
+                pieces.Remove(piece.gridPosition);
+                pieces[target] = piece;
+                piece.MoveTo(target);
+                SwitchTurn();
+                return true;
+            }
+
+            return false;
+        }
+
+        // Promotion System
+        public void ProcessPawnPromotion(PawnPiece pawn, string type)
+        {
+            Vector2Int pos = pawn.gridPosition;
+            pieces.Remove(pos);
+            Destroy(pawn.gameObject);
+
+            GameObject promotedGO = null;
+
+            switch (type)
+            {
+                case "Knight":
+                    promotedGO = Instantiate(GetPrefabFor<KnightPiece>(), transform);
+                    break;
+                case "Rook":
+                    promotedGO = Instantiate(GetPrefabFor<RookPiece>(), transform);
+                    break;
+                case "Bishop":
+                    promotedGO = Instantiate(GetPrefabFor<BishopPiece>(), transform);
+                    break;
+                case "Queen":
+                default:
+                    promotedGO = Instantiate(GetPrefabFor<QueenPiece>(), transform);
+                    break;
+            }
+
+            Piece newPiece = promotedGO.GetComponent<Piece>();
+            newPiece.team = pawn.team;
+            newPiece.Initialize(pos, this);
+
+            pieces[pos] = newPiece;
+            Debug.Log($"Pawn promoted to {type}!");
+        }
+
+        private GameObject GetPrefabFor<T>() where T : Piece
+        {
+            T example = FindObjectOfType<T>();
+            return example != null ? example.gameObject : piecePrefab;
         }
     }
 }

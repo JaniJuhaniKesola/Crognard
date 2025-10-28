@@ -12,6 +12,7 @@ namespace Crognard
         [HideInInspector] public Vector2Int gridPosition;
 
         protected BoardManager board;
+        public BoardManager Board => board;
         private Coroutine moveCoroutine;
         private SpriteRenderer sr;
         private bool selected;
