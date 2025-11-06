@@ -19,7 +19,15 @@ namespace Crognard
                     _whiteConfetti.StartConfetti();
                     GameSetter.whiteCombatant.HP = winner.CurrentHP;
                     GameSetter.whiteCombatant.Stamina = winner.Stamina;
+
+                    UpdatePositions(GameSetter.whiteCombatant, GameSetter.blackCombatant.Position);
+
+                    /*GameSetter.boardOccupiers[GameSetter.whiteCombatant.Position] = null;
+
                     GameSetter.whiteCombatant.Position = GameSetter.blackCombatant.Position;
+
+                    GameSetter.boardOccupiers[GameSetter.whiteCombatant.Position] = GameSetter.whiteCombatant;*/
+
                     GameSetter.blackCombatant.Alive = false;
                     break;
 
@@ -27,11 +35,26 @@ namespace Crognard
                     _blackConfetti.StartConfetti();
                     GameSetter.blackCombatant.HP = winner.CurrentHP;
                     GameSetter.blackCombatant.Stamina = winner.Stamina;
+
+                    UpdatePositions(GameSetter.blackCombatant, GameSetter.whiteCombatant.Position);
+
+                    /*GameSetter.boardOccupiers[GameSetter.blackCombatant.Position] = null;
+
                     GameSetter.blackCombatant.Position = GameSetter.whiteCombatant.Position;
+
+                    GameSetter.boardOccupiers[GameSetter.blackCombatant.Position] = GameSetter.blackCombatant;*/
+
                     GameSetter.blackCombatant.Alive = false;
                     break;
             }
             UpdatePieces();
+        }
+
+        private void UpdatePositions(ChessPiece combatant, Vector2Int newPlace)
+        {
+            GameSetter.boardOccupiers[combatant.Position] = null;
+            combatant.Position = newPlace;
+            GameSetter.boardOccupiers[combatant.Position] = combatant;
         }
 
         public void DefenderWins(Unit winner)
