@@ -168,7 +168,7 @@ namespace Crognard
                     break;
             }
 
-            Debug.Log("User's HP after it's turn: " + user.CurrentHP + ", target's HP after it's turn: " + target.CurrentHP);
+            //Debug.Log("User's HP after it's turn: " + user.CurrentHP + ", target's HP after it's turn: " + target.CurrentHP);
 
             userHub.HealthBar(user.CurrentHP, user.MaxHP);
             userHub.StaminaBar(user.Stamina, user.MaxStamina);
@@ -176,12 +176,13 @@ namespace Crognard
             targetHub.HealthBar(target.CurrentHP, target.MaxHP);
             targetHub.StaminaBar(target.Stamina, target.MaxStamina);
 
-            Debug.Log("HUBs updated");
+            //Debug.Log("HUBs updated");
             //StartCoroutine(UIUpdate(user, target, userHub, targetHub));
         }
 
         private void Attack(ActionType weight, Unit user, Unit target)
         {
+            Debug.Log("Using this method");
             switch (weight)
             {
                 case ActionType.Light:
@@ -192,13 +193,21 @@ namespace Crognard
 
                 case ActionType.Medium:
                     user.TakeStamina(_mediumAttack.staminaCost);
-                    target.TakeDamage(user.MediumDamage);
+                    Hit hit = AccuracyCheck(1, user.CritRange);
+                    if (hit == Hit.Hit)
+                    { target.TakeDamage(user.MediumDamage); }
+                    else if (hit == Hit.Crit)
+                    { target.TakeDamage(user.MediumDamage * 2); }
                     Blocked(user, target);
                     break;
 
                 case ActionType.Heavy:
                     user.TakeStamina(_heavyAttack.staminaCost);
-                    target.TakeDamage(user.HeavyDamage);
+                    Hit hit1 = AccuracyCheck(5, user.CritRange);
+                    if (hit1 == Hit.Hit)
+                    { target.TakeDamage(user.HeavyDamage); }
+                    else if (hit1 == Hit.Crit)
+                    { target.TakeDamage(user.HeavyDamage * 2); }
                     Blocked(user, target);
                     break;
             }
@@ -215,6 +224,7 @@ namespace Crognard
         private Hit AccuracyCheck(int missValue, int critRange)
         {
             int number = Random.Range(1, 21);
+            Debug.Log("Random number = " + number + ", missfire value = " + missValue);
             if (number <= missValue)
             {
                 return Hit.Miss;
