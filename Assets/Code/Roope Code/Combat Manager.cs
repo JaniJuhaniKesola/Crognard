@@ -64,8 +64,8 @@ namespace Crognard
 
             _blackUnit.Defending = false; _blackUnit.Damaged = false; _blackUnit.Restrained = false;
 
-            Debug.Log("White HP: " + _whiteUnit.CurrentHP);
-            Debug.Log("Black HP: " + _blackUnit.CurrentHP);
+            //Debug.Log("White HP: " + _whiteUnit.CurrentHP);
+            //Debug.Log("Black HP: " + _blackUnit.CurrentHP);
             _whiteCombatUI.SetupInfo(_whiteUnit);
             _blackCombatUI.SetupInfo(_blackUnit);
 
@@ -298,13 +298,20 @@ namespace Crognard
         }
 
         #region Endings
-        
+
         #endregion
 
         public void StartOver()
         {
             _results.Restart();
             Setup();
+        }
+        
+        private void TryDictionary()
+        {
+            ChessPiece guy = null;
+            GameSetter.boardOccupiers.Add(new Vector2Int(0, 0), guy);
+            GameSetter.boardOccupiers.Remove(new Vector2Int(0, 0));
         }
     }
 
