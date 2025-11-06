@@ -16,7 +16,7 @@ namespace Crognard
                     Unit unit = _pieces[i].CombatPrefab.GetComponent<Unit>();
                     if (unit == null)
                     {
-                        unit = _pieces[i].BoardPrefab.GetComponent<Unit>();
+                        unit = _pieces[i].PiecePrefab.GetComponent<Unit>();
                     }
                     if (unit != null)
                     {
