@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace Crognard
 {
-    public class PieceStats : MonoBehaviour
+    public class PieceGenerater : MonoBehaviour
     {
         [Tooltip("Here is listed all the pieces. At the start of the game they are uploaded to static GameSetter script. Here you developer should assign following data: Name, PieceType, PiecePrefab, CombatPrefab")]
         [SerializeField] private ChessPiece[] _pieces;

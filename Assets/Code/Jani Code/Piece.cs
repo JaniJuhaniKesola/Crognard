@@ -12,6 +12,7 @@ namespace Crognard
         [HideInInspector] public Vector2Int gridPosition;
 
         protected BoardManager board;
+        public string Name;     // Will be added at the start of the game.
         public BoardManager Board => board;
         private Coroutine moveCoroutine;
         private SpriteRenderer sr;

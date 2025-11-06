@@ -317,5 +317,7 @@ namespace Crognard
             combatant.Position = newPlace;
             GameSetter.boardOccupiers[combatant.Position] = combatant;
         }
+
+        // UpdatePosition(GameSetter.participants(Piece.Name, newTile)
     }
 }
