@@ -30,8 +30,10 @@ namespace Crognard
                 if (!board.InBounds(target))
                     continue;
 
-                // Knight can jump over pieces, but skip if target is occupied (no captures yet)
-                if (!board.IsOccupied(target))
+                Piece occupier = board.GetPieceAt(target);
+
+                // Knight can jump over pieces; square is valid if empty or contains an enemy
+                if (occupier == null || occupier.team != team)
                     moves.Add(target);
             }
 

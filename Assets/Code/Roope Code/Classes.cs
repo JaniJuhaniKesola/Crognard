@@ -13,7 +13,7 @@ namespace Crognard
         public int HP;                      // Remaining Health
         public int Stamina;                 // Remaining Stamina
         public Vector2Int Position;         // Position in chess board
-        public GameObject BoardPrefab;      // Prefab during board phase
+        public GameObject PiecePrefab;      // Prefab during board phase
         public GameObject CombatPrefab;     // Prefab during combat phase
     }
 

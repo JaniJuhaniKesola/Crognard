@@ -164,23 +164,32 @@ namespace Crognard
 
             if (selectedPiece != null)
             {
+                // Attack check FIRST — ignore turn restrictions
                 if (clickedPiece != null && clickedPiece.team != selectedPiece.team)
                 {
+                    Debug.Log($"Attempting attack on {clickedPiece.name}");
                     if (MovePiece(selectedPiece, grid))
-                        selectedPiece = null;
+                    {
+                        DeselectPiece();
+                    }
                     return;
                 }
 
+                // Normal movement
                 if (clickedPiece == null)
                 {
                     if (MovePiece(selectedPiece, grid))
-                        selectedPiece = null;
+                    {
+                        DeselectPiece();
+                    }
                     return;
                 }
 
+                // Switch selected piece (if same team)
                 if (clickedPiece != null && CanSelect(clickedPiece))
                 {
                     SelectPiece(clickedPiece);
+                    return;
                 }
             }
             else if (clickedPiece != null)
@@ -190,6 +199,7 @@ namespace Crognard
         }
 
         // Updated combat-enabled MovePiece
+        // Attempt to move a piece; returns true if action succeeded (move or staged attack)
         public bool MovePiece(Piece piece, Vector2Int target)
         {
             if (!InBounds(target))
@@ -201,47 +211,63 @@ namespace Crognard
 
             Piece targetPiece = GetPieceAt(target);
 
-            // Combat handling BEFORE turn switching
+            // --- Battle / staging handling ---
             if (targetPiece != null && targetPiece.team != piece.team)
             {
-                Debug.Log($"⚔ Battle will commence: {piece.name} vs {targetPiece.name}");
+                Debug.Log($"Battle will commence between {piece.name} ({piece.team}) and {targetPiece.name} ({targetPiece.team})");
 
+                // KNIGHT: knights do NOT change position when initiating battle
                 if (piece is KnightPiece)
                 {
-                    pieces.Remove(piece.gridPosition);
-                    pieces[target] = piece;
-                    piece.MoveTo(target);
+                    // Knight remains in place; we stage battle and switch turn
+                    SwitchTurn();
+                    return true;
                 }
-                else
+
+                // For non-knight pieces: calculate approach tile (one step before defender along direction)
+                Vector2Int dir = target - piece.gridPosition;
+                // normalize to -1, 0 or 1
+                dir.x = (dir.x > 0) ? 1 : (dir.x < 0) ? -1 : 0;
+                dir.y = (dir.y > 0) ? 1 : (dir.y < 0) ? -1 : 0;
+
+                Vector2Int stopBefore = target - dir;
+
+                // If attacker is already adjacent (stopBefore == current pos) -> allow battle without moving
+                if (stopBefore == piece.gridPosition)
                 {
-                    Vector2Int dir = target - piece.gridPosition;
-                    if (dir.x != 0) dir.x = Math.Sign(dir.x);
-                    if (dir.y != 0) dir.y = Math.Sign(dir.y);
-
-                    Vector2Int stopBefore = target - dir;
-
-                    if (InBounds(stopBefore) && !IsOccupied(stopBefore))
-                    {
-                        pieces.Remove(piece.gridPosition);
-                        pieces[stopBefore] = piece;
-                        piece.MoveTo(stopBefore);
-                    }
+                    // Already in approach position; do not move, just trigger battle
+                    SwitchTurn();
+                    return true;
                 }
 
-                SwitchTurn();
-                return true;
+                // Otherwise, move to the approach tile if it's valid and free
+                if (InBounds(stopBefore) && !IsOccupied(stopBefore))
+                {
+                    pieces.Remove(piece.gridPosition);
+                    pieces[stopBefore] = piece;
+                    piece.MoveTo(stopBefore);
+
+                    SwitchTurn();
+                    return true;
+                }
+
+                // Approach tile blocked -> cannot stage the attack
+                Debug.Log("Cannot approach — path blocked or out of bounds.");
+                return false;
             }
 
-            // Normal move
+            // --- Normal move (no attack) ---
             if (targetPiece == null)
             {
                 pieces.Remove(piece.gridPosition);
                 pieces[target] = piece;
                 piece.MoveTo(target);
+
                 SwitchTurn();
                 return true;
             }
 
+            // Otherwise, move failed
             return false;
         }
 
@@ -284,5 +310,14 @@ namespace Crognard
             T example = FindObjectOfType<T>();
             return example != null ? example.gameObject : piecePrefab;
         }
+
+        private void UpdatePositions(ChessPiece combatant, Vector2Int newPlace)
+        {
+            GameSetter.boardOccupiers[combatant.Position] = null;
+            combatant.Position = newPlace;
+            GameSetter.boardOccupiers[combatant.Position] = combatant;
+        }
+
+        // UpdatePosition(GameSetter.participants(Piece.Name, newTile)
     }
 }

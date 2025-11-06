@@ -25,13 +25,21 @@ namespace Crognard
                 // Keep moving in this direction until blocked
                 while (board.InBounds(current))
                 {
-                    if (board.IsOccupied(current))
+                    Piece occupier = board.GetPieceAt(current);
+
+                    if (occupier == null)
                     {
-                        // Stop moving further if something blocks the path
+                        // empty -> can move here
+                        moves.Add(current);
+                    }
+                    else
+                    {
+                        // occupied -> if enemy, allow attacking that square; stop scanning afterwards
+                        if (occupier.team != team)
+                            moves.Add(current);
                         break;
                     }
 
-                    moves.Add(current);
                     current += dir;
                 }
             }

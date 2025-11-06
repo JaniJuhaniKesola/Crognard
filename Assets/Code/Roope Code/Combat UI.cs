@@ -21,10 +21,10 @@ namespace Crognard
 
         public void HealthBar(int amount, int max)
         {
-            Debug.Log("Updated Amount: " + amount);
+            //Debug.Log("Updated Amount: " + amount);
             if (amount < 0) { amount = 0; }
             _healthFill.localScale = new Vector3(amount / (float)max, 1, 1);
-            Debug.Log("Healthbar's scale = " + _healthFill.localScale.x);
+            //Debug.Log("Healthbar's scale = " + _healthFill.localScale.x);
             _healthText.text = amount.ToString();
             StartCoroutine(FillEffect(_fillPrint, _healthFill));
         }

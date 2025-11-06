@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace Crognard
 {
-    public class PieceStats : MonoBehaviour
+    public class PieceGenerater : MonoBehaviour
     {
         [Tooltip("Here is listed all the pieces. At the start of the game they are uploaded to static GameSetter script. Here you developer should assign following data: Name, PieceType, PiecePrefab, CombatPrefab")]
         [SerializeField] private ChessPiece[] _pieces;
@@ -16,12 +16,17 @@ namespace Crognard
                     Unit unit = _pieces[i].CombatPrefab.GetComponent<Unit>();
                     if (unit == null)
                     {
-                        unit = _pieces[i].BoardPrefab.GetComponent<Unit>();
+                        unit = _pieces[i].PiecePrefab.GetComponent<Unit>();
                     }
                     if (unit != null)
                     {
                         GameSetter.pieces[i].HP = unit.MaxHP;
                         GameSetter.pieces[i].Stamina = unit.Stamina;
+                    }
+
+                    if (!GameSetter.participants.ContainsKey(_pieces[i].Name))
+                    {
+                        GameSetter.participants.Add(_pieces[i].Name, _pieces[i]);
                     }
                 }
             }

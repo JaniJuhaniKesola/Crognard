@@ -12,6 +12,7 @@ namespace Crognard
         [HideInInspector] public Vector2Int gridPosition;
 
         protected BoardManager board;
+        public string Name;     // Will be added at the start of the game.
         public BoardManager Board => board;
         private Coroutine moveCoroutine;
         private SpriteRenderer sr;
@@ -40,12 +41,6 @@ namespace Crognard
 
             // Optional: tint color by team
             sr.color = (team == PieceTeam.White) ? Color.white : Color.black;
-        }
-
-        private void OnMouseDown()
-        {
-            if (board != null)
-                board.SelectPiece(this);
         }
 
         public void SetSelected(bool sel)
