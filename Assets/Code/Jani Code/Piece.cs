@@ -42,12 +42,6 @@ namespace Crognard
             sr.color = (team == PieceTeam.White) ? Color.white : Color.black;
         }
 
-        private void OnMouseDown()
-        {
-            if (board != null)
-                board.SelectPiece(this);
-        }
-
         public void SetSelected(bool sel)
         {
             selected = sel;

@@ -25,13 +25,21 @@ namespace Crognard
                 // Move until we hit the board edge or another piece
                 while (board.InBounds(current))
                 {
-                    if (board.IsOccupied(current))
+                    Piece occupier = board.GetPieceAt(current);
+
+                    if (occupier == null)
                     {
-                        // Stop when encountering another piece
+                        // empty square -> valid move
+                        moves.Add(current);
+                    }
+                    else
+                    {
+                        // occupied -> if enemy, we can attack that tile; either way we stop scanning
+                        if (occupier.team != team)
+                            moves.Add(current);
                         break;
                     }
 
-                    moves.Add(current);
                     current += dir;
                 }
             }
