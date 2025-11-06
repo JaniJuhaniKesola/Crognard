@@ -23,6 +23,11 @@ namespace Crognard
                         GameSetter.pieces[i].HP = unit.MaxHP;
                         GameSetter.pieces[i].Stamina = unit.Stamina;
                     }
+
+                    if (!GameSetter.participants.ContainsKey(_pieces[i].Name))
+                    {
+                        GameSetter.participants.Add(_pieces[i].Name, _pieces[i]);
+                    }
                 }
             }
             

@@ -310,5 +310,12 @@ namespace Crognard
             T example = FindObjectOfType<T>();
             return example != null ? example.gameObject : piecePrefab;
         }
+
+        private void UpdatePositions(ChessPiece combatant, Vector2Int newPlace)
+        {
+            GameSetter.boardOccupiers[combatant.Position] = null;
+            combatant.Position = newPlace;
+            GameSetter.boardOccupiers[combatant.Position] = combatant;
+        }
     }
 }

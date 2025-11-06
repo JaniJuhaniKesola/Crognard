@@ -26,6 +26,8 @@ namespace Crognard
 
         public static Dictionary<Vector2Int, ChessPiece> boardOccupiers;
 
+        public static Dictionary<string, ChessPiece> participants;
+
         #endregion
 
         #region Pieces
