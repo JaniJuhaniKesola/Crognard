@@ -116,7 +116,7 @@ TextureImporter:
       name: BlackPawn360_0
       rect:
         serializedVersion: 2
-        x: 81
+        x: 60
         y: 0
         width: 240
         height: 360
@@ -147,7 +147,8 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      BlackPawn360_0: -8483392151333266086
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

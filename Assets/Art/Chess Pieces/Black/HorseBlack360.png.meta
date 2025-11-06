@@ -116,7 +116,7 @@ TextureImporter:
       name: HorseBlack360_0
       rect:
         serializedVersion: 2
-        x: 116
+        x: 93
         y: 0
         width: 178
         height: 360
@@ -147,7 +147,8 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      HorseBlack360_0: 7288558952256779768
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

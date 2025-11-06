@@ -116,9 +116,9 @@ TextureImporter:
       name: WhiteKing360_0
       rect:
         serializedVersion: 2
-        x: 78
+        x: 60
         y: 0
-        width: 239
+        width: 240
         height: 360
       alignment: 0
       pivot: {x: 0, y: 0}
@@ -147,7 +147,8 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      WhiteKing360_0: -4937451814511305912
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
