@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 namespace Crognard
 {
@@ -31,15 +32,25 @@ namespace Crognard
 
         private Tile[,] tiles;
         private Dictionary<Vector2Int, Piece> pieces = new Dictionary<Vector2Int, Piece>();
+
+        public Dictionary<Vector2Int, Piece> GetAllPieces() => pieces;
+        public PieceTeam GetCurrentTurn() => currentTurn;
         private Piece selectedPiece;
 
-        // Turn system
         private PieceTeam currentTurn = PieceTeam.White;
 
         void Start()
         {
             GenerateBoard();
-            SpawnStartingPieces();
+
+            if (GameStateManager.Instance != null && GameStateManager.Instance.savedPieces.Count > 0)
+            {
+                GameStateManager.Instance.LoadBoardState(this);
+            }
+            else
+            {
+                SpawnStartingPieces();
+            }
 
             Debug.Log($"Game Start — {currentTurn} goes first.");
         }
@@ -198,8 +209,6 @@ namespace Crognard
             }
         }
 
-        // Updated combat-enabled MovePiece
-        // Attempt to move a piece; returns true if action succeeded (move or staged attack)
         public bool MovePiece(Piece piece, Vector2Int target)
         {
             if (!InBounds(target))
@@ -211,7 +220,7 @@ namespace Crognard
 
             Piece targetPiece = GetPieceAt(target);
 
-            // --- Battle / staging handling ---
+            // --- Attack handling ---
             if (targetPiece != null && targetPiece.team != piece.team)
             {
                 Debug.Log($"Battle will commence between {piece.name} ({piece.team}) and {targetPiece.name} ({targetPiece.team})");
@@ -220,6 +229,7 @@ namespace Crognard
                 if (piece is KnightPiece)
                 {
                     // Knight remains in place; we stage battle and switch turn
+                    StartCombatScene(piece, targetPiece);
                     SwitchTurn();
                     return true;
                 }
@@ -236,6 +246,7 @@ namespace Crognard
                 if (stopBefore == piece.gridPosition)
                 {
                     // Already in approach position; do not move, just trigger battle
+                    StartCombatScene(piece, targetPiece);
                     SwitchTurn();
                     return true;
                 }
@@ -247,6 +258,7 @@ namespace Crognard
                     pieces[stopBefore] = piece;
                     piece.MoveTo(stopBefore);
 
+                    StartCombatScene(piece, targetPiece);
                     SwitchTurn();
                     return true;
                 }
@@ -256,22 +268,44 @@ namespace Crognard
                 return false;
             }
 
-            // --- Normal move (no attack) ---
+            // --- Normal move ---
             if (targetPiece == null)
             {
                 pieces.Remove(piece.gridPosition);
                 pieces[target] = piece;
                 piece.MoveTo(target);
-
                 SwitchTurn();
                 return true;
             }
 
-            // Otherwise, move failed
             return false;
         }
 
-        // Promotion System
+        private void StartCombatScene(Piece attacker, Piece defender)
+        {
+            if (attacker == null || defender == null)
+            {
+                Debug.LogError("StartCombatScene called with missing attacker or defender!");
+                return;
+            }
+
+            // Save battle info
+            BattleData.AttackerType = attacker.name.Replace("(Clone)", "").Trim();
+            BattleData.DefenderType = defender.name.Replace("(Clone)", "").Trim();
+
+            BattleData.AttackerTeam = attacker.team;
+            BattleData.DefenderTeam = defender.team;
+
+            Debug.Log($"Battle Data Set — {BattleData.AttackerType} ({BattleData.AttackerTeam}) vs {BattleData.DefenderType} ({BattleData.DefenderTeam})");
+
+            // Save board state before leaving
+            GameStateManager.Instance?.SaveBoardState(this);
+
+            // Load the combat scene
+            SceneManager.LoadScene("CombatScene");
+        }
+
+        // Promotion system and helpers (unchanged)
         public void ProcessPawnPromotion(PawnPiece pawn, string type)
         {
             Vector2Int pos = pawn.gridPosition;
@@ -318,6 +352,23 @@ namespace Crognard
             GameSetter.boardOccupiers[combatant.Position] = combatant;
         }
 
-        // UpdatePosition(GameSetter.participants(Piece.Name, newTile)
+        public void SetTurn(PieceTeam team)
+        {
+            currentTurn = team;
+        }
+
+        public void RegisterPiece(Vector2Int pos, Piece piece)
+        {
+            pieces[pos] = piece;
+        }
+        public void ClearBoard()
+        {
+            foreach (var p in pieces.Values)
+            {
+                if (p != null)
+                    Destroy(p.gameObject);
+            }
+            pieces.Clear();
+        }
     }
 }
