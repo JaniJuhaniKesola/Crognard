@@ -102,7 +102,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gridPosition: {x: 0, y: 0}
+  Name: 
   moveDuration: 0.12
+  team: 0
+  hp: 0
+  stamina: 0
+  combatPrefab: {fileID: 655203195942017629, guid: 11cad9209388dca4d93d787aaf8b5311, type: 3}
 --- !u!65 &1447867692814418226
 BoxCollider:
   m_ObjectHideFlags: 0

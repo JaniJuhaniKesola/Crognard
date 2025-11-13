@@ -9,6 +9,11 @@ namespace Crognard
         public string prefabName;
         public Vector2Int position;
         public PieceTeam team;
+        // Roope thought of something
+        public GameObject combatPrefab;
+        public int hp;
+        public int stamina;
+        // Roope stopped thinking
     }
 
     public class GameStateManager : MonoBehaviour
@@ -40,7 +45,12 @@ namespace Crognard
                 {
                     prefabName = piece.name.Replace("(Clone)", "").Trim(),
                     position = piece.gridPosition,
-                    team = piece.team
+                    team = piece.team,
+                    // Roope is doing something
+                    hp = piece.hp,
+                    stamina = piece.stamina,
+                    combatPrefab = piece.combatPrefab
+                    // Roope stopped messing around right here
                 };
                 savedPieces.Add(data);
             }

@@ -302,7 +302,8 @@ namespace Crognard
             GameStateManager.Instance?.SaveBoardState(this);
 
             // Load the combat scene
-            SceneManager.LoadScene("CombatScene");
+            // SceneManager.LoadScene("CombatScene");
+            SceneManager.LoadScene("Roope Test");
         }
 
         // Promotion system and helpers (unchanged)

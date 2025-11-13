@@ -1862,6 +1862,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: WhiteQueen360_0
       objectReference: {fileID: 0}
+    - target: {fileID: 2360471283934968033, guid: 16459956852caf749a5fd92d6cb77c82, type: 3}
+      propertyPath: combatPrefab
+      value: 
+      objectReference: {fileID: 655203195942017629, guid: 08fb9093d08cda1488b1bb6547944b07, type: 3}
     - target: {fileID: 5834317798466528170, guid: 16459956852caf749a5fd92d6cb77c82, type: 3}
       propertyPath: m_LocalScale.x
       value: 0.098764144
@@ -2058,6 +2062,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 36885945997835521, guid: 5db84db250026dc4bb94bde603c43d9b, type: 3}
+      propertyPath: combatPrefab
+      value: 
+      objectReference: {fileID: 655203195942017629, guid: ec9e7b2227b07c4468f6e4bca24190f7, type: 3}
     - target: {fileID: 5253077850052765389, guid: 5db84db250026dc4bb94bde603c43d9b, type: 3}
       propertyPath: m_LocalScale.x
       value: 0.12467049
@@ -2188,6 +2196,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4256401073244228629, guid: a93680942321ea441871995127cf1590, type: 3}
+      propertyPath: combatPrefab
+      value: 
+      objectReference: {fileID: 655203195942017629, guid: 11cad9209388dca4d93d787aaf8b5311, type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -2983,6 +2995,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: WhiteKing360_0
       objectReference: {fileID: 0}
+    - target: {fileID: 7582814564030930780, guid: 4fa1cf9bfd418d742b5d4a15c61d26ef, type: 3}
+      propertyPath: combatPrefab
+      value: 
+      objectReference: {fileID: 655203195942017629, guid: c32a30335936044459b70e8dfe14f850, type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

@@ -104,3 +104,6 @@ MonoBehaviour:
   Name: 
   moveDuration: 0.12
   team: 0
+  hp: 0
+  stamina: 0
+  combatPrefab: {fileID: 655203195942017629, guid: c32a30335936044459b70e8dfe14f850, type: 3}

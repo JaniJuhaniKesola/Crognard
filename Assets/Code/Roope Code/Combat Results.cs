@@ -1,6 +1,7 @@
 using System.Collections;
 using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 namespace Crognard
 {
@@ -12,8 +13,18 @@ namespace Crognard
 
         public void AttackerWins(Unit winner)
         {
+            HandleUnit(winner);
             // Play Confetti
-            switch (GameSetter.attacker)
+            switch (BattleData.AttackerTeam)
+            {
+                case PieceTeam.White:
+                    _whiteConfetti.StartConfetti();
+                    break;
+                case PieceTeam.Black:
+                    _blackConfetti.StartConfetti();
+                    break;
+            }
+            /*switch (GameSetter.attacker)
             {
                 case Faction.White:
                     _whiteConfetti.StartConfetti();
@@ -21,12 +32,6 @@ namespace Crognard
                     GameSetter.whiteCombatant.Stamina = winner.Stamina;
 
                     UpdatePositions(GameSetter.whiteCombatant, GameSetter.blackCombatant.Position);
-
-                    /*GameSetter.boardOccupiers[GameSetter.whiteCombatant.Position] = null;
-
-                    GameSetter.whiteCombatant.Position = GameSetter.blackCombatant.Position;
-
-                    GameSetter.boardOccupiers[GameSetter.whiteCombatant.Position] = GameSetter.whiteCombatant;*/
 
                     GameSetter.blackCombatant.Alive = false;
                     break;
@@ -38,16 +43,10 @@ namespace Crognard
 
                     UpdatePositions(GameSetter.blackCombatant, GameSetter.whiteCombatant.Position);
 
-                    /*GameSetter.boardOccupiers[GameSetter.blackCombatant.Position] = null;
-
-                    GameSetter.blackCombatant.Position = GameSetter.whiteCombatant.Position;
-
-                    GameSetter.boardOccupiers[GameSetter.blackCombatant.Position] = GameSetter.blackCombatant;*/
-
                     GameSetter.blackCombatant.Alive = false;
                     break;
-            }
-            UpdatePieces();
+            }*/
+            //UpdatePieces();
         }
 
         private void UpdatePositions(ChessPiece combatant, Vector2Int newPlace)
@@ -59,8 +58,20 @@ namespace Crognard
 
         public void DefenderWins(Unit winner)
         {
+            HandleUnit(winner);
             // Play Confetti
-            switch (GameSetter.attacker)
+            switch (BattleData.DefenderTeam)
+            {
+                case PieceTeam.White:
+                    _whiteConfetti.StartConfetti();
+                    break;
+                case PieceTeam.Black:
+                    _blackConfetti.StartConfetti();
+                    break;
+            }
+
+            // Play Confetti
+            /*switch (GameSetter.attacker)
             {
                 case Faction.White:
                     _blackConfetti.StartConfetti();
@@ -76,20 +87,21 @@ namespace Crognard
                     GameSetter.blackCombatant.Alive = false;
                     break;
             }
-            UpdatePieces();
+            UpdatePieces();*/
         }
 
         public void Winner(Unit winner)
         {
-            if (GameSetter.attacker == winner.Faction)
-            {
-                AttackerWins(winner);
-                // Attacker takes loser's place on the board.
-            }
+            /*if (GameSetter.attacker == winner.Faction)
+            { AttackerWins(winner); }   // Attacker takes loser's place on the board.
             else
-            {
-                DefenderWins(winner);
-            }
+            { DefenderWins(winner); }*/
+            //
+            if ((int)BattleData.AttackerTeam == (int)winner.Faction)
+            { AttackerWins(winner); }
+            else
+            { DefenderWins(winner); }
+            //
             StartCoroutine(VictoryCycle(winner));
         }
 
@@ -102,6 +114,7 @@ namespace Crognard
             /*
             GameSetter.defeated = loser
             */
+            SceneManager.LoadScene("JaniTest");
         }
 
         public void Results(Unit winner)
@@ -115,7 +128,10 @@ namespace Crognard
             // Exit Combat
             _neutralScreen.SetActive(true);
 
-            if (GameSetter.whiteCombatant != null)
+            HandleUnit(white);
+            HandleUnit(black);
+
+            /*if (GameSetter.whiteCombatant != null)
             {
                 GameSetter.whiteCombatant.HP = white.CurrentHP;
                 GameSetter.whiteCombatant.Stamina = white.Stamina;
@@ -127,7 +143,7 @@ namespace Crognard
                 GameSetter.blackCombatant.Stamina = black.Stamina;
             }
 
-            UpdatePieces();
+            UpdatePieces();*/
         }
 
         public void DoubleKill()
@@ -154,6 +170,19 @@ namespace Crognard
             {
                 GameSetter.pieces[GameSetter.whiteCombatID] = GameSetter.whiteCombatant;
                 GameSetter.pieces[GameSetter.blackCombatID] = GameSetter.blackCombatant;
+            }
+        }
+
+        private void HandleUnit(Unit unit)
+        {
+            for (int i = 0; i < GameStateManager.Instance.savedPieces.Count; i++)
+            {
+                if (GameStateManager.Instance.savedPieces[i].prefabName == unit.Name)
+                {
+                    GameStateManager.Instance.savedPieces[i].hp = unit.CurrentHP;
+                    GameStateManager.Instance.savedPieces[i].stamina = unit.Stamina;
+                    break;
+                }
             }
         }
     }

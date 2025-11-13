@@ -24,6 +24,12 @@ namespace Crognard
         [Header("Team Settings")]
         public PieceTeam team = PieceTeam.White;   // Set from Inspector or prefab
 
+        //
+        public int hp, stamina;
+        public GameObject combatPrefab;
+        // hp = combatPrefab.GetComponent<Unit>().MaxHP;
+        // stamina = combatPrefab.GetComponent<Unit>().MaxStamina;
+
         public virtual void Initialize(Vector2Int startGrid, BoardManager manager)
         {
             board = manager;

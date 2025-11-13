@@ -44,8 +44,23 @@ namespace Crognard
 
             if (_whiteUnit == null)
             {
+                GameObject whiteGO;
+
+                if (BattleData.AttackerTeam == PieceTeam.White)
+                {
+                    whiteGO = InitializeCombatant(BattleData.AttackerType, _whiteSpawnPoint);
+                }
+                else
+                {
+                    whiteGO = InitializeCombatant(BattleData.DefenderType, _whiteSpawnPoint);
+                }
+
+                // GameObject prefab = Resources.Load<GameObject>(data.prefabName);
                 //GameObject whiteGO = Instantiate(GameSetter.whiteCombatant.CombatPrefab, _whiteSpawnPoint.position, Quaternion.identity);
-                GameObject whiteGO = Instantiate(_whitePrefab, _whiteSpawnPoint.position, Quaternion.identity);
+                if (whiteGO == null)
+                {
+                    whiteGO = Instantiate(_whitePrefab, _whiteSpawnPoint.position, Quaternion.identity);
+                }
                 _whiteUnit = whiteGO.GetComponent<Unit>();
 
                 //SetUnitData(_whiteUnit, GameSetter.whiteCombatant);
@@ -53,8 +68,21 @@ namespace Crognard
 
             if (_blackUnit == null)
             {
+                GameObject blackGO;
+
+                if (BattleData.AttackerTeam == PieceTeam.Black)
+                {
+                    blackGO = InitializeCombatant(BattleData.AttackerType, _blackSpawnPoint);
+                }
+                else
+                {
+                    blackGO = InitializeCombatant(BattleData.DefenderType, _blackSpawnPoint);
+                }
                 // GameObject blackGO = Instantiate(GameSetter.blackCombatant, _blackSpawnPoint.position, Quaternion.identity);
-                GameObject blackGO = Instantiate(_blackPrefab, _blackSpawnPoint.position, Quaternion.identity);
+                if (blackGO == null)
+                {
+                    blackGO = Instantiate(_blackPrefab, _blackSpawnPoint.position, Quaternion.identity);
+                }
                 _blackUnit = blackGO.GetComponent<Unit>();
 
                 //SetUnitData(_whiteUnit, GameSetter.whiteCombatant);
@@ -72,6 +100,25 @@ namespace Crognard
             Initiative();
 
             OpenCommands();
+        }
+
+        private GameObject InitializeCombatant(string name, Transform spawnPoint)
+        {
+            Debug.Log(GameStateManager.Instance.savedPieces.Count);
+            for (int i = 0; i < GameStateManager.Instance.savedPieces.Count; i++)
+            {
+                if (GameStateManager.Instance.savedPieces[i].prefabName == name)
+                {
+                    Debug.Log("Found Right Item");
+                    Debug.Log(GameStateManager.Instance.savedPieces[i].combatPrefab);
+                    if (GameStateManager.Instance.savedPieces[i].combatPrefab != null)
+                    {
+                        return Instantiate(GameStateManager.Instance.savedPieces[i].combatPrefab, spawnPoint.position, Quaternion.identity);
+                    }
+                }
+            }
+            Debug.Log("Combatant is Null");
+            return null;
         }
 
         private void SetUnitData(Unit unit, ChessPiece piece)
