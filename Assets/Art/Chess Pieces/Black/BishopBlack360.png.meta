@@ -147,7 +147,8 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      BishopBlack360_0: -782079644841109806
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

@@ -258,8 +258,8 @@ namespace Crognard
                     pieces[stopBefore] = piece;
                     piece.MoveTo(stopBefore);
 
-                    StartCombatScene(piece, targetPiece);
                     SwitchTurn();
+                    StartCombatScene(piece, targetPiece);
                     return true;
                 }
 
@@ -289,7 +289,7 @@ namespace Crognard
                 return;
             }
 
-            // Save battle info
+            // SAVING BATTLE INFORMATION
             BattleData.AttackerType = attacker.name.Replace("(Clone)", "").Trim();
             BattleData.DefenderType = defender.name.Replace("(Clone)", "").Trim();
 

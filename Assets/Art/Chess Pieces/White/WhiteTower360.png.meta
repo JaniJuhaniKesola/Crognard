@@ -147,7 +147,8 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      WhiteTower360_0: -1796470909228071018
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
