@@ -165,6 +165,7 @@ namespace Crognard
 
                 case ActionType.Item3:
                     user.TakeStamina(_escape.staminaCost);
+                    // End Combat
                     break;
             }
 
