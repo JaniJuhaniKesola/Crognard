@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace Crognard
@@ -17,9 +18,13 @@ namespace Crognard
 
         private int _actionsChosen = 0;
 
+        private PieceSaveData _whiteData, _blackData;
+
         private CombatResults _results;
         private UIDisplay _uiDisplay;
         private Actions _actions;
+        private Announcement _announcement;
+
         public Act[] _acts = new Act[2];
         [HideInInspector]
         public bool _escaped;
@@ -31,6 +36,7 @@ namespace Crognard
             _results = GetComponent<CombatResults>();
             _uiDisplay = GetComponent<UIDisplay>();
             _actions = GetComponent<Actions>();
+            _announcement = GetComponent<Announcement>();
 
             _escaped = false;   // make sure escape is not happening automatically.
 
@@ -41,6 +47,18 @@ namespace Crognard
         public void Setup()
         {
             _currentState = CombatState.Start;
+
+            if (BattleData.AttackerTeam == PieceTeam.White)
+            {
+                _whiteData = FindData(BattleData.AttackerType);
+                _blackData = FindData(BattleData.DefenderType);
+            }
+            else
+            {
+                _blackData = FindData(BattleData.AttackerType);
+                _whiteData = FindData(BattleData.DefenderType);
+            }
+            
 
             if (_whiteUnit == null)
             {
@@ -55,15 +73,13 @@ namespace Crognard
                     whiteGO = InitializeCombatant(BattleData.DefenderType, _whiteSpawnPoint);
                 }
 
-                // GameObject prefab = Resources.Load<GameObject>(data.prefabName);
-                //GameObject whiteGO = Instantiate(GameSetter.whiteCombatant.CombatPrefab, _whiteSpawnPoint.position, Quaternion.identity);
                 if (whiteGO == null)
                 {
                     whiteGO = Instantiate(_whitePrefab, _whiteSpawnPoint.position, Quaternion.identity);
                 }
                 _whiteUnit = whiteGO.GetComponent<Unit>();
 
-                //SetUnitData(_whiteUnit, GameSetter.whiteCombatant);
+                SetUnitData(_whiteUnit, _whiteData);
             }
 
             if (_blackUnit == null)
@@ -78,28 +94,47 @@ namespace Crognard
                 {
                     blackGO = InitializeCombatant(BattleData.DefenderType, _blackSpawnPoint);
                 }
-                // GameObject blackGO = Instantiate(GameSetter.blackCombatant, _blackSpawnPoint.position, Quaternion.identity);
                 if (blackGO == null)
                 {
                     blackGO = Instantiate(_blackPrefab, _blackSpawnPoint.position, Quaternion.identity);
                 }
                 _blackUnit = blackGO.GetComponent<Unit>();
 
-                //SetUnitData(_whiteUnit, GameSetter.whiteCombatant);
+                SetUnitData(_blackUnit, _blackData);
             }
             
             _whiteUnit.Defending = false; _whiteUnit.Damaged = false; _whiteUnit.Restrained = false;
 
             _blackUnit.Defending = false; _blackUnit.Damaged = false; _blackUnit.Restrained = false;
 
-            //Debug.Log("White HP: " + _whiteUnit.CurrentHP);
-            //Debug.Log("Black HP: " + _blackUnit.CurrentHP);
             _whiteCombatUI.SetupInfo(_whiteUnit);
             _blackCombatUI.SetupInfo(_blackUnit);
 
-            Initiative();
+            if (BattleData.AttackerTeam == PieceTeam.White)
+            { _announcement.Challenge(_whiteUnit.name, _blackUnit.name); }
+            else
+            { _announcement.Challenge(_blackUnit.name, _whiteUnit.name); }
 
+            StartCoroutine(BattleStarts());
+        }
+
+        private IEnumerator BattleStarts()
+        {
+            yield return new WaitForSeconds(1);
+            Initiative();
             OpenCommands();
+        }
+
+        private PieceSaveData FindData(string name)
+        {
+            for (int i = 0; i < GameStateManager.Instance.savedPieces.Count; i++)
+            {
+                if (GameStateManager.Instance.savedPieces[i].prefabName == name)
+                {
+                    return GameStateManager.Instance.savedPieces[i];
+                }
+            }
+            return null;
         }
 
         private GameObject InitializeCombatant(string name, Transform spawnPoint)
@@ -121,9 +156,9 @@ namespace Crognard
             return null;
         }
 
-        private void SetUnitData(Unit unit, ChessPiece piece)
+        private void SetUnitData(Unit unit, PieceSaveData piece)
         {
-            unit.Name = piece.Name; unit.CurrentHP = piece.HP; unit.Stamina = piece.Stamina;
+            unit.Name = piece.prefabName; unit.CurrentHP = piece.hp; unit.Stamina = piece.stamina;
         }
 
         private void Initiative()
@@ -142,6 +177,7 @@ namespace Crognard
         #region ChoiseState
         public void OpenCommands()
         {
+            _announcement.Select();
             if (_currentState == CombatState.ChooseW)
             {
                 _uiDisplay.WhiteCommands(true);
@@ -164,10 +200,12 @@ namespace Crognard
             if (_currentState == CombatState.ChooseW)
             {
                 if (_actions.GetCost(action) > _whiteUnit.Stamina) { return; }
+                _announcement.Stamina();
             }
             else if (_currentState == CombatState.ChooseB)
             {
                 if (_actions.GetCost(action) > _blackUnit.Stamina) { return; }
+                _announcement.Stamina();
             }
 
             int priority = _actions.GetPriority(action);
@@ -223,7 +261,7 @@ namespace Crognard
         #region Battle
         private IEnumerator Round()
         {
-
+            // Announce which action is gonna happen.
             yield return new WaitForSeconds(1);
             Turn(_acts[0]);
 
@@ -359,6 +397,20 @@ namespace Crognard
             ChessPiece guy = null;
             GameSetter.boardOccupiers.Add(new Vector2Int(0, 0), guy);
             GameSetter.boardOccupiers.Remove(new Vector2Int(0, 0));
+        }
+
+        private void Announce(Act act)
+        {
+            string user, target;
+            if (act.faction == Faction.White) { user = _whiteUnit.Name; target = _blackUnit.Name; }
+            else { user = _blackUnit.Name; target = _whiteUnit.Name; }
+
+            switch (act.action)
+            {
+                case ActionType.Light:
+                    _announcement.Attacks(user, target);
+                    break;
+            }
         }
     }
 
