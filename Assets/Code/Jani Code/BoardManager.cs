@@ -296,6 +296,8 @@ namespace Crognard
             BattleData.AttackerTeam = attacker.team;
             BattleData.DefenderTeam = defender.team;
 
+            BattleData.DefenderPosition = defender.gridPosition;
+
             Debug.Log($"Battle Data Set — {BattleData.AttackerType} ({BattleData.AttackerTeam}) vs {BattleData.DefenderType} ({BattleData.DefenderTeam})");
 
             // Save board state before leaving

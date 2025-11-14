@@ -17,6 +17,8 @@ namespace Crognard
         public static int AttackerStamina;
         public static int DefenderStamina;
         // Roope's stupid plan ends now*/
+
+        public static Vector2Int DefenderPosition;
     }
 }
 

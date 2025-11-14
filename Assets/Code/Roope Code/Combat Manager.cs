@@ -128,11 +128,11 @@ namespace Crognard
 
         private void Initiative()
         {
-            if (GameSetter.attacker == Faction.White)
+            if (BattleData.AttackerTeam == PieceTeam.White)
             {
                 _currentState = CombatState.ChooseW;  // Testing Damaging
             }
-            else if (GameSetter.attacker == Faction.Black)
+            else if (BattleData.AttackerTeam == PieceTeam.Black)
             {
                 _currentState = CombatState.ChooseB;
             }
@@ -330,7 +330,7 @@ namespace Crognard
             }
             else if (_whiteUnit.CurrentHP <= 0 && _blackUnit.CurrentHP <= 0)
             {
-                _results.DoubleKill();
+                _results.DoubleKill(_whiteUnit, _blackUnit);
             }
             else
             {
