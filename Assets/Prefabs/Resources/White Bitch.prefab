@@ -107,7 +107,7 @@ MonoBehaviour:
   team: 0
   hp: 10
   stamina: 10
-  combatPrefab: {fileID: 541361040692709630}
+  combatPrefab: {fileID: 655203195942017629, guid: 17733a4ec434c9f4d80414fe31ca0f25, type: 3}
 --- !u!114 &2785085396745202972
 MonoBehaviour:
   m_ObjectHideFlags: 0
