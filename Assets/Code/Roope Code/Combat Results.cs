@@ -11,11 +11,21 @@ namespace Crognard
         [SerializeField] private GameObject _resultScreen, _neutralScreen, _doubleKillScreen;
         [SerializeField] private TextMeshProUGUI _winnerText;
 
-        public void AttackerWins(Unit winner)
+        private Announcement _announcement;
+
+        private void Start()
+        {
+            _announcement = GetComponent<Announcement>();
+        }
+
+        public void AttackerWins(Unit winner, Unit loser)
         {
             HandleUnit(winner);
             OnVictory(winner);
+            Loser(loser);
             // Play Confetti
+            _announcement.Attacker(winner.Name, loser.Name);
+
             switch (BattleData.AttackerTeam)
             {
                 case PieceTeam.White:
@@ -34,10 +44,13 @@ namespace Crognard
             GameSetter.boardOccupiers[combatant.Position] = combatant;
         }
 
-        public void DefenderWins(Unit winner)
+        public void DefenderWins(Unit winner, Unit loser)
         {
             HandleUnit(winner);
             // Play Confetti
+            Loser(loser);
+            _announcement.Defender(winner.Name, loser.Name);
+
             switch (BattleData.DefenderTeam)
             {
                 case PieceTeam.White:
@@ -49,12 +62,12 @@ namespace Crognard
             }
         }
 
-        public void Winner(Unit winner)
+        public void Winner(Unit winner, Unit loser)
         {
             if ((int)BattleData.AttackerTeam == (int)winner.Faction)
-            { AttackerWins(winner); }
+            { AttackerWins(winner, loser); }
             else
-            { DefenderWins(winner); }
+            { DefenderWins(winner, loser); }
             //
             StartCoroutine(VictoryCycle(winner));
         }

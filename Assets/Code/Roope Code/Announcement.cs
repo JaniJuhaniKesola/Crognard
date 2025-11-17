@@ -102,7 +102,7 @@ namespace Crognard
         #region End
         public void Neutral()
         {
-            _box.text = "The battle is a stalemate. No Victory within sight.";
+            _box.text = "The battle is at stalemate. No Victory within sight.";
         }
 
         public void Attacker(string attacker, string target)

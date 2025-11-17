@@ -262,6 +262,7 @@ namespace Crognard
         private IEnumerator Round()
         {
             // Announce which action is gonna happen.
+            AnnounceAction(_acts[0]);
             yield return new WaitForSeconds(1);
             Turn(_acts[0]);
 
@@ -272,6 +273,20 @@ namespace Crognard
                 Turn(_acts[1]);
                 yield return new WaitForSeconds(1);
             }
+            
+            if (_escaped)
+            {
+                if (_acts[0].faction == Faction.White)
+                {
+                    _announcement.Escape(_whiteUnit.Name);
+                }
+                else
+                {
+                    _announcement.Escape(_blackUnit.Name);
+                }
+                
+            }
+            yield return new WaitForSeconds(1);
 
             Debug.Log("White HP: " + _whiteUnit.CurrentHP + ", Black HP: " + _blackUnit.CurrentHP);
             _currentState = CombatState.End;
@@ -358,12 +373,12 @@ namespace Crognard
         {
             if (_whiteUnit.CurrentHP <= 0 && _blackUnit.CurrentHP > 0)
             {
-                _results.Winner(_blackUnit);
+                _results.Winner(_blackUnit, _whiteUnit);
                 
             }
             else if (_whiteUnit.CurrentHP > 0 && _blackUnit.CurrentHP <= 0)
             {
-                _results.Winner(_whiteUnit);
+                _results.Winner(_whiteUnit, _blackUnit);
                 
             }
             else if (_whiteUnit.CurrentHP <= 0 && _blackUnit.CurrentHP <= 0)
@@ -399,7 +414,7 @@ namespace Crognard
             GameSetter.boardOccupiers.Remove(new Vector2Int(0, 0));
         }
 
-        private void Announce(Act act)
+        private void AnnounceAction(Act act)
         {
             string user, target;
             if (act.faction == Faction.White) { user = _whiteUnit.Name; target = _blackUnit.Name; }
@@ -409,6 +424,34 @@ namespace Crognard
             {
                 case ActionType.Light:
                     _announcement.Attacks(user, target);
+                    break;
+
+                case ActionType.Medium:
+                    _announcement.Attacks(user, target);
+                    break;
+
+                case ActionType.Heavy:
+                    _announcement.Attacks(user, target);
+                    break;
+
+                case ActionType.Defend:
+                    _announcement.Defending(user);
+                    break;
+
+                case ActionType.Counter:
+                    _announcement.Counter(user);
+                    break;
+
+                case ActionType.Item1:
+                    _announcement.Healed(user);
+                    break;
+
+                case ActionType.Item2:
+                    _announcement.Sticky(user, target);
+                    break;
+
+                case ActionType.Item3:
+                    _announcement.Smoke(user);
                     break;
             }
         }
