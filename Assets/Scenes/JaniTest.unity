@@ -877,29 +877,29 @@ MonoBehaviour:
   startingPieces:
   - position: {x: 0, y: 0}
     prefab: {fileID: 945566924}
-  - position: {x: 1, y: 0}
-    prefab: {fileID: 1239652626}
   - position: {x: 2, y: 0}
-    prefab: {fileID: 1392982359}
+    prefab: {fileID: 1239652626}
   - position: {x: 3, y: 0}
+    prefab: {fileID: 1392982359}
+  - position: {x: 1, y: 0}
     prefab: {fileID: 591708588}
   - position: {x: 4, y: 0}
     prefab: {fileID: 2061987944}
-  - position: {x: 5, y: 0}
+  - position: {x: 5, y: 1}
     prefab: {fileID: 1900415630}
   - position: {x: 0, y: 7}
     prefab: {fileID: 7794271949703402585}
-  - position: {x: 1, y: 7}
-    prefab: {fileID: 8919557992046775717}
   - position: {x: 2, y: 7}
-    prefab: {fileID: 6339166576219808744}
+    prefab: {fileID: 8919557992046775717}
   - position: {x: 3, y: 7}
+    prefab: {fileID: 6339166576219808744}
+  - position: {x: 1, y: 7}
     prefab: {fileID: 1031319849953436424}
   - position: {x: 4, y: 7}
     prefab: {fileID: 1776870210043138459}
-  - position: {x: 5, y: 7}
+  - position: {x: 5, y: 6}
     prefab: {fileID: 6627054971357315164}
-  - position: {x: 7, y: 6}
+  - position: {x: 7, y: 1}
     prefab: {fileID: 1900415630}
 --- !u!4 &335540971
 Transform:
@@ -1850,7 +1850,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 397506826521567630, guid: 16459956852caf749a5fd92d6cb77c82, type: 3}
       propertyPath: m_Name
-      value: WhiteQueen360_0
+      value: White Karen
       objectReference: {fileID: 0}
     - target: {fileID: 2360471283934968033, guid: 16459956852caf749a5fd92d6cb77c82, type: 3}
       propertyPath: combatPrefab
@@ -1985,7 +1985,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 865432651009994740, guid: 29cf648d9b4e42e48b4e8414fe2c0a10, type: 3}
       propertyPath: m_Name
-      value: HorseBlack360_0
+      value: Nightmare
       objectReference: {fileID: 0}
     - target: {fileID: 6708184147815797199, guid: 29cf648d9b4e42e48b4e8414fe2c0a10, type: 3}
       propertyPath: m_LocalPosition.x
@@ -2047,7 +2047,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 3465382039142267583, guid: 390794f1322ab2b4a9dae62404d00e1f, type: 3}
       propertyPath: m_Name
-      value: HorseWhite360x360_0
+      value: White MLP
       objectReference: {fileID: 0}
     - target: {fileID: 3838758890466618444, guid: 390794f1322ab2b4a9dae62404d00e1f, type: 3}
       propertyPath: m_LocalScale.x
@@ -2172,7 +2172,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7241587626244888266, guid: 5db84db250026dc4bb94bde603c43d9b, type: 3}
       propertyPath: m_Name
-      value: WhitePawn360_0
+      value: White Man
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -2190,7 +2190,7 @@ PrefabInstance:
     - target: {fileID: 2489033417040471565, guid: 6770d1687cf67f24988e56a2a1d93a42, type: 3}
       propertyPath: combatPrefab
       value: 
-      objectReference: {fileID: 1776870210043138459}
+      objectReference: {fileID: 2074747259814563059, guid: 670ff7929aad1b247b2a7a6207085624, type: 3}
     - target: {fileID: 2912349430102175350, guid: 6770d1687cf67f24988e56a2a1d93a42, type: 3}
       propertyPath: m_LocalPosition.x
       value: 20.72926
@@ -2233,7 +2233,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6934822732604329513, guid: 6770d1687cf67f24988e56a2a1d93a42, type: 3}
       propertyPath: m_Name
-      value: BlackKing360_0
+      value: Blackie
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -2255,7 +2255,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 787376804004562880, guid: a93680942321ea441871995127cf1590, type: 3}
       propertyPath: m_Name
-      value: WhiteTower360_0
+      value: White House
       objectReference: {fileID: 0}
     - target: {fileID: 3652925682701039409, guid: a93680942321ea441871995127cf1590, type: 3}
       propertyPath: m_LocalScale.x
@@ -2556,7 +2556,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6100056620123732117, guid: 78f989c5ac8f146468bf1f8687b046d7, type: 3}
       propertyPath: m_Name
-      value: BlackQueen360_0
+      value: Black Sass
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -2578,7 +2578,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 144813300196623208, guid: 3d0e49e00f95a664e845e939e4b56289, type: 3}
       propertyPath: m_Name
-      value: BlackPawn360_0
+      value: Necromancer
       objectReference: {fileID: 0}
     - target: {fileID: 6625188191512399822, guid: 3d0e49e00f95a664e845e939e4b56289, type: 3}
       propertyPath: hp
@@ -3035,11 +3035,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 923527474565067507, guid: f5fa2890cf7e0394784950408cb55c55, type: 3}
       propertyPath: m_Name
-      value: BlackTower360_0
+      value: Second Tower
       objectReference: {fileID: 0}
     - target: {fileID: 3051949448529481266, guid: f5fa2890cf7e0394784950408cb55c55, type: 3}
       propertyPath: hp
-      value: 0
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 8024178411454856295, guid: f5fa2890cf7e0394784950408cb55c55, type: 3}
       propertyPath: m_LocalPosition.x
@@ -3163,8 +3163,12 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 541361040692709630, guid: 93ac2322c1e463d42927cbb24c46f57b, type: 3}
       propertyPath: m_Name
-      value: BishopWhite360_0
+      value: White Bitch
       objectReference: {fileID: 0}
+    - target: {fileID: 6690320185902772468, guid: 93ac2322c1e463d42927cbb24c46f57b, type: 3}
+      propertyPath: combatPrefab
+      value: 
+      objectReference: {fileID: 655203195942017629, guid: 17733a4ec434c9f4d80414fe31ca0f25, type: 3}
     - target: {fileID: 7408466827365524279, guid: 93ac2322c1e463d42927cbb24c46f57b, type: 3}
       propertyPath: m_LocalScale.x
       value: 0.077389374
@@ -3284,7 +3288,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5370429842740849304, guid: 4fa1cf9bfd418d742b5d4a15c61d26ef, type: 3}
       propertyPath: m_Name
-      value: WhiteKing360_0
+      value: White Boy
       objectReference: {fileID: 0}
     - target: {fileID: 7582814564030930780, guid: 4fa1cf9bfd418d742b5d4a15c61d26ef, type: 3}
       propertyPath: combatPrefab
@@ -3306,7 +3310,7 @@ PrefabInstance:
     - target: {fileID: 3165840744651664787, guid: 1c36c064488c4ce4c99c52037416dc71, type: 3}
       propertyPath: combatPrefab
       value: 
-      objectReference: {fileID: 8919557992046775717}
+      objectReference: {fileID: 2074747259814563059, guid: 1f625e6de1c9f5245b1b9880c049279c, type: 3}
     - target: {fileID: 3814685051472808960, guid: 1c36c064488c4ce4c99c52037416dc71, type: 3}
       propertyPath: m_LocalPosition.x
       value: 17.785288
@@ -3349,7 +3353,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3993633769366218091, guid: 1c36c064488c4ce4c99c52037416dc71, type: 3}
       propertyPath: m_Name
-      value: BishopBlack360_0
+      value: Black Biss
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

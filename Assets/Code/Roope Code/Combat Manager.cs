@@ -134,6 +134,7 @@ namespace Crognard
                     return GameStateManager.Instance.savedPieces[i];
                 }
             }
+            Debug.Log("Search Result Null");
             return null;
         }
 
@@ -158,6 +159,7 @@ namespace Crognard
 
         private void SetUnitData(Unit unit, PieceSaveData piece)
         {
+            Debug.Log(piece.hp);
             unit.Name = piece.prefabName; unit.CurrentHP = piece.hp; unit.Stamina = piece.stamina;
         }
 

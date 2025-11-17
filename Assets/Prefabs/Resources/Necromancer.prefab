@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 482983177719285401}
   - component: {fileID: 6625188191512399822}
   m_Layer: 0
-  m_Name: BlackPawn360_0
+  m_Name: Necromancer
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -101,7 +101,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gridPosition: {x: 0, y: 0}
-  Name: 
+  Name: Diglett
   moveDuration: 0.12
   team: 1
   hp: 10

@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &6934822732604329513
+--- !u!1 &397506826521567630
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,38 +8,38 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 2912349430102175350}
-  - component: {fileID: 5782530317934849671}
-  - component: {fileID: 2489033417040471565}
+  - component: {fileID: 5834317798466528170}
+  - component: {fileID: 7540317222645860891}
+  - component: {fileID: 2360471283934968033}
   m_Layer: 0
-  m_Name: BlackKing360_0
+  m_Name: White Karen
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &2912349430102175350
+--- !u!4 &5834317798466528170
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6934822732604329513}
+  m_GameObject: {fileID: 397506826521567630}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 20.72926, y: -0.637003, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalPosition: {x: 12.922, y: -5.018, z: 0}
+  m_LocalScale: {x: 0.14065379, y: 0.14065379, z: 0.14065379}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!212 &5782530317934849671
+--- !u!212 &7540317222645860891
 SpriteRenderer:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6934822732604329513}
+  m_GameObject: {fileID: 397506826521567630}
   m_Enabled: 1
   m_CastShadows: 0
   m_ReceiveShadows: 0
@@ -77,33 +77,33 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: -3237854763839567614, guid: 6a66b9b2c954ed64fbbb0f07d36e5696, type: 3}
+  m_Sprite: {fileID: -4463427372923634412, guid: 86483c48c649ee248a6e4b9dbf1e0f7b, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 2.4, y: 3.6}
+  m_Size: {x: 2.48, y: 3.6}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &2489033417040471565
+--- !u!114 &2360471283934968033
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6934822732604329513}
+  m_GameObject: {fileID: 397506826521567630}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 898c83f48abfb1c439d1d071b0f408ce, type: 3}
+  m_Script: {fileID: 11500000, guid: 7426ca111a0838849807f1a69906d386, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   gridPosition: {x: 0, y: 0}
-  Name: 
+  Name: White Karen
   moveDuration: 0.12
-  team: 1
+  team: 0
   hp: 10
   stamina: 10
-  combatPrefab: {fileID: 2074747259814563059, guid: 670ff7929aad1b247b2a7a6207085624, type: 3}
+  combatPrefab: {fileID: 655203195942017629, guid: 08fb9093d08cda1488b1bb6547944b07, type: 3}

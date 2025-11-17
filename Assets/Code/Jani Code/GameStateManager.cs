@@ -84,6 +84,9 @@ namespace Crognard
                 piece.Initialize(data.position, board);
 
                 board.RegisterPiece(data.position, piece);
+
+                piece.hp = data.hp;
+                piece.stamina = data.stamina;
             }
 
             board.SetTurn(currentTurn);

@@ -121,6 +121,17 @@ namespace Crognard
             if (p == null) p = go.AddComponent<Piece>();
             p.Initialize(gridPos, this);
 
+            /* Roope had an idea.
+            for (int i = 0; i < GameStateManager.Instance.savedPieces.Count; i++)
+            {
+                if (GameStateManager.Instance.savedPieces[i].prefabName == p.name)
+                {
+                    p.hp = GameStateManager.Instance.savedPieces[i].hp;
+                    p.stamina = GameStateManager.Instance.savedPieces[i].stamina;
+                }
+            }            
+            */ //Roope stopped having an idea.
+
             pieces[gridPos] = p;
         }
 
