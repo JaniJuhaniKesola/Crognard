@@ -46,7 +46,7 @@ namespace Crognard
             transform.localScale = Vector3.one * (board.tileSize * board.pieceScale);
 
             // Optional: tint color by team
-            sr.color = (team == PieceTeam.White) ? Color.white : Color.black;
+            //sr.color = (team == PieceTeam.White) ? Color.white : Color.black;
         }
 
         public void SetSelected(bool sel)
