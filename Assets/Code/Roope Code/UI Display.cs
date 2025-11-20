@@ -8,6 +8,8 @@ namespace Crognard
         [SerializeField] private GameObject _whiteCommands, _blackCommands;
         [SerializeField] private GameObject _whiteBase, _whiteAttacks, _whiteItems;
         [SerializeField] private GameObject _blackBase, _blackAttacks, _blackItems;
+        
+        public ActionButtons _whiteAB, _blackAB;
 
         private CombatManager _manager;
 
@@ -96,6 +98,18 @@ namespace Crognard
             }
             _whiteItems.SetActive(active);
             _blackItems.SetActive(active);
+        }
+
+        public void TurnOnOffButtons(ActionType type, bool onOff, Faction faction)
+        {
+            if (faction == Faction.White)
+            {
+                _whiteAB.GetButton(type, onOff);
+            }
+            else
+            {
+                _blackAB.GetButton(type, onOff);
+            }
         }
     }
 }
