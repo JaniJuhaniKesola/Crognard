@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -110,6 +111,9 @@ namespace Crognard
             _whiteCombatUI.SetupInfo(_whiteUnit);
             _blackCombatUI.SetupInfo(_blackUnit);
 
+            SetButtons(_whiteUnit);
+            SetButtons(_blackUnit);
+
             if (BattleData.AttackerTeam == PieceTeam.White)
             { _announcement.Challenge(_whiteUnit.name, _blackUnit.name); }
             else
@@ -161,6 +165,23 @@ namespace Crognard
         {
             Debug.Log(piece.hp);
             unit.Name = piece.prefabName; unit.CurrentHP = piece.hp; unit.Stamina = piece.stamina;
+        }
+
+        private void SetButtons(Unit unit)
+        {
+            // Check the cost of an action and unit's stamina
+            // If cost is higher than stamina, disable that button.
+            for (int i = 0; i < Enum.GetValues(typeof(ActionType)).Length; i++)
+            {
+                if (_actions.GetCost((ActionType)i) > unit.Stamina)
+                {
+                    _uiDisplay.TurnOnOffButtons((ActionType)i, false, unit.Faction);
+                }
+                else
+                {
+                    _uiDisplay.TurnOnOffButtons((ActionType)i, true, unit.Faction);
+                }
+            }
         }
 
         private void Initiative()
