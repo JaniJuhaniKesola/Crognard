@@ -1,6 +1,5 @@
 using System;
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace Crognard
@@ -49,29 +48,34 @@ namespace Crognard
         {
             _currentState = CombatState.Start;
 
-            if (BattleData.AttackerTeam == PieceTeam.White)
+            if (GameStateManager.Instance != null)
             {
-                _whiteData = FindData(BattleData.AttackerType);
-                _blackData = FindData(BattleData.DefenderType);
+                if (BattleData.AttackerTeam == PieceTeam.White)
+                {
+                    _whiteData = FindData(BattleData.AttackerType);
+                    _blackData = FindData(BattleData.DefenderType);
+                }
+                else if (BattleData.AttackerTeam == PieceTeam.Black)
+                {
+                    _blackData = FindData(BattleData.AttackerType);
+                    _whiteData = FindData(BattleData.DefenderType);
+                }
             }
-            else
-            {
-                _blackData = FindData(BattleData.AttackerType);
-                _whiteData = FindData(BattleData.DefenderType);
-            }
-            
 
             if (_whiteUnit == null)
             {
-                GameObject whiteGO;
+                GameObject whiteGO = null;
 
-                if (BattleData.AttackerTeam == PieceTeam.White)
+                if (GameStateManager.Instance != null)
                 {
-                    whiteGO = InitializeCombatant(BattleData.AttackerType, _whiteSpawnPoint);
-                }
-                else
-                {
-                    whiteGO = InitializeCombatant(BattleData.DefenderType, _whiteSpawnPoint);
+                    if (BattleData.AttackerTeam == PieceTeam.White)
+                    {
+                        whiteGO = InitializeCombatant(BattleData.AttackerType, _whiteSpawnPoint);
+                    }
+                    else if (BattleData.AttackerTeam == PieceTeam.Black)
+                    {
+                        whiteGO = InitializeCombatant(BattleData.DefenderType, _whiteSpawnPoint);
+                    }   
                 }
 
                 if (whiteGO == null)
@@ -85,16 +89,20 @@ namespace Crognard
 
             if (_blackUnit == null)
             {
-                GameObject blackGO;
+                GameObject blackGO = null;
 
-                if (BattleData.AttackerTeam == PieceTeam.Black)
+                if (GameStateManager.Instance != null)
                 {
-                    blackGO = InitializeCombatant(BattleData.AttackerType, _blackSpawnPoint);
+                    if (BattleData.AttackerTeam == PieceTeam.Black)
+                    {
+                        blackGO = InitializeCombatant(BattleData.AttackerType, _blackSpawnPoint);
+                    }
+                    else if (BattleData.AttackerTeam == PieceTeam.White)
+                    {
+                        blackGO = InitializeCombatant(BattleData.DefenderType, _blackSpawnPoint);
+                    }
                 }
-                else
-                {
-                    blackGO = InitializeCombatant(BattleData.DefenderType, _blackSpawnPoint);
-                }
+
                 if (blackGO == null)
                 {
                     blackGO = Instantiate(_blackPrefab, _blackSpawnPoint.position, Quaternion.identity);
@@ -104,9 +112,9 @@ namespace Crognard
                 SetUnitData(_blackUnit, _blackData);
             }
             
-            _whiteUnit.Defending = false; _whiteUnit.Damaged = false; _whiteUnit.Restrained = false;
+            _whiteUnit.Defending = false; _whiteUnit.Damaged = false; // _whiteUnit.Restrained = false;
 
-            _blackUnit.Defending = false; _blackUnit.Damaged = false; _blackUnit.Restrained = false;
+            _blackUnit.Defending = false; _blackUnit.Damaged = false; // _blackUnit.Restrained = false;
 
             _whiteCombatUI.SetupInfo(_whiteUnit);
             _blackCombatUI.SetupInfo(_blackUnit);
@@ -116,8 +124,10 @@ namespace Crognard
 
             if (BattleData.AttackerTeam == PieceTeam.White)
             { _announcement.Challenge(_whiteUnit.name, _blackUnit.name); }
-            else
+            else if (BattleData.AttackerTeam == PieceTeam.Black)
             { _announcement.Challenge(_blackUnit.name, _whiteUnit.name); }
+            else
+            { _announcement.Challenge(_whiteUnit.name, _blackUnit.name); }
 
             StartCoroutine(BattleStarts());
         }
@@ -163,8 +173,11 @@ namespace Crognard
 
         private void SetUnitData(Unit unit, PieceSaveData piece)
         {
-            Debug.Log(piece.hp);
-            unit.Name = piece.prefabName; unit.CurrentHP = piece.hp; unit.Stamina = piece.stamina;
+            if (GameStateManager.Instance != null)
+            {
+                Debug.Log(piece.hp);
+                unit.Name = piece.prefabName; unit.CurrentHP = piece.hp; unit.Stamina = piece.stamina;
+            }
         }
 
         private void SetButtons(Unit unit)

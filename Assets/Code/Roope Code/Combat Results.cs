@@ -160,6 +160,7 @@ namespace Crognard
                     }
                     GameStateManager.Instance.savedPieces[i].hp = unit.CurrentHP;
                     GameStateManager.Instance.savedPieces[i].stamina = unit.Stamina;
+                    // GameStateManager.Instance.savedPieces[i].restrained = unit.restrained;
                     break;
                 }
             }

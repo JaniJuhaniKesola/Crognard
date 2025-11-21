@@ -8494,6 +8494,7 @@ GameObject:
   - component: {fileID: 756540721}
   - component: {fileID: 756540723}
   - component: {fileID: 756540722}
+  - component: {fileID: 756540724}
   m_Layer: 5
   m_Name: Black Command Board
   m_TagString: Untagged
@@ -8561,6 +8562,25 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 756540720}
   m_CullTransparentMesh: 1
+--- !u!114 &756540724
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 756540720}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6382c0625a5c23f48bec9f3d06b41f3e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _counter: {fileID: 1788989852}
+  _defend: {fileID: 1422813190}
+  _heavy: {fileID: 928403896}
+  _light: {fileID: 33974138}
+  _sticky: {fileID: 1177402421}
+  _potion: {fileID: 1271435304}
+  _smoke: {fileID: 1326907283}
 --- !u!1 &793381768
 GameObject:
   m_ObjectHideFlags: 0
@@ -9930,6 +9950,8 @@ MonoBehaviour:
   _blackBase: {fileID: 895464987}
   _blackAttacks: {fileID: 2015145621}
   _blackItems: {fileID: 1296900678}
+  _whiteAB: {fileID: 707019790}
+  _blackAB: {fileID: 756540724}
 --- !u!114 &949940097
 MonoBehaviour:
   m_ObjectHideFlags: 0
