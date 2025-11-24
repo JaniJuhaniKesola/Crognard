@@ -1,4 +1,3 @@
-using JetBrains.Annotations;
 using TMPro;
 using UnityEngine;
 
@@ -33,6 +32,7 @@ namespace Crognard
         #region Actions
         public void Attacks(string attacker, string target)
         {
+            Debug.Log("Attack Announcement");
             _box.text = attacker + " attacks " + target + "!";
         }
 
@@ -53,7 +53,7 @@ namespace Crognard
 
         public void Sticky(string attacker, string target)
         {
-            _box.text = attacker + " throw a sticky bomb at " + target + "!";
+            _box.text = attacker + " threw a sticky bomb at " + target + "!";
         }
 
         public void Smoke(string user)
@@ -65,12 +65,12 @@ namespace Crognard
         #region Consequenses
         public void Miss(string attacker)
         {
-            _box.text = attacker + " missed!";
+            _box.text += " But " + attacker + " missed!";
         }
 
         public void Critical(string attacker)
         {
-            _box.text = attacker + " landed a CRITICAL HIT";
+            _box.text += " And " + attacker + " landed a CRITICAL HIT";
         }
 
         public void Kill(string target)

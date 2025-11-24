@@ -65,9 +65,13 @@ namespace Crognard
         public void Winner(Unit winner, Unit loser)
         {
             if ((int)BattleData.AttackerTeam == (int)winner.Faction)
-            { AttackerWins(winner, loser); }
+            {
+                AttackerWins(winner, loser);
+            }
             else
-            { DefenderWins(winner, loser); }
+            {
+                DefenderWins(winner, loser);
+            }
             //
             StartCoroutine(VictoryCycle(winner));
         }

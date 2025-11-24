@@ -297,6 +297,7 @@ namespace Crognard
         #region Battle
         private IEnumerator Round()
         {
+            yield return new WaitForSeconds(1);
             // Announce which action is gonna happen.
             AnnounceAction(_acts[0]);
             yield return new WaitForSeconds(1);
@@ -306,28 +307,27 @@ namespace Crognard
 
             if (!EarlyFinish())
             {
+                AnnounceAction(_acts[1]);
+                yield return new WaitForSeconds(1);
                 Turn(_acts[1]);
                 yield return new WaitForSeconds(1);
             }
-            
-            if (_escaped)
+            else if (_escaped)
             {
                 if (_acts[0].faction == Faction.White)
-                {
-                    _announcement.Escape(_whiteUnit.Name);
-                }
+                { _announcement.Escape(_whiteUnit.Name); }
                 else
-                {
-                    _announcement.Escape(_blackUnit.Name);
-                }
-                
+                { _announcement.Escape(_blackUnit.Name); }
             }
+            
+            if (_whiteUnit.CurrentHP <= 0) { _announcement.Kill(_blackUnit.Name); }
+            else if (_blackUnit.CurrentHP <= 0) { _announcement.Kill(_whiteUnit.Name); }
+
             yield return new WaitForSeconds(1);
 
             Debug.Log("White HP: " + _whiteUnit.CurrentHP + ", Black HP: " + _blackUnit.CurrentHP);
             _currentState = CombatState.End;
             Results();
-
         }
 
         public void Turn(Act act)
@@ -352,43 +352,6 @@ namespace Crognard
                 defenderUI = _whiteCombatUI;
             }
             else { return; }
-
-            /*switch (act.action)
-            {
-                case ActionType.Light:
-                    _actions.Attack(ActionType.Light, attacker, defender, attackerUI, defenderUI);
-                    break;
-
-                case ActionType.Medium:
-                    _actions.Attack(ActionType.Medium, attacker, defender, attackerUI, defenderUI);
-                    break;
-
-                case ActionType.Heavy:
-                    _actions.Attack(ActionType.Heavy, attacker, defender, attackerUI, defenderUI);
-                    break;
-
-                case ActionType.Defend:
-                    _actions.Defend(attacker);
-                    break;
-
-                case ActionType.Counter:
-                    _actions.Counter(attacker, defender, defenderUI);
-                    break;
-
-                case ActionType.Item1:
-                    _actions.Recover(attacker, attackerUI);
-                    break;
-
-                case ActionType.Item2:
-                    _actions.Restrain(defender);
-                    break;
-
-                case ActionType.Item3:
-                    _actions.Escape();
-                    _escaped = true;
-                    break;
-
-            }*/
             
             if (_actions.GetCost(act.action) > attacker.Stamina) { return; }
             
@@ -452,6 +415,7 @@ namespace Crognard
 
         private void AnnounceAction(Act act)
         {
+            Debug.Log("Announcement: " + act.action.ToString());
             string user, target;
             if (act.faction == Faction.White) { user = _whiteUnit.Name; target = _blackUnit.Name; }
             else { user = _blackUnit.Name; target = _whiteUnit.Name; }

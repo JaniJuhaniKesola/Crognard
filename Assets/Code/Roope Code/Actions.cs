@@ -14,6 +14,15 @@ namespace Crognard
         [SerializeField] private Action _restrain = new Action(0, 2);
         [SerializeField] private Action _escape = new Action(2, 2);
 
+        private Announcement _announcement;
+        private CombatManager _manager;
+
+        private void Start()
+        {
+            _manager = GetComponent<CombatManager>();
+            _announcement = GetComponent<Announcement>();
+        }
+
         #region TestActions
         public void Attack(ActionType weight, Unit user, Unit target, CombatUI userHub, CombatUI targethub)
         {
@@ -138,6 +147,7 @@ namespace Crognard
                 case ActionType.Defend:
                     user.TakeStamina(_defend.staminaCost);
                     user.Defending = true;
+                    _announcement.Defending(user.Name);
                     break;
 
                 case ActionType.Counter:
@@ -145,6 +155,7 @@ namespace Crognard
                     if (user.Damaged)
                     {
                         target.TakeDamage(user.DamageTaken * 2);
+                        _announcement.CounterAttack(user.Name, target.Name);
                     }
                     if (target.Defending)
                     {
@@ -156,16 +167,19 @@ namespace Crognard
                     Debug.Log("Taking a Potion");
                     user.TakeStamina(_potion.staminaCost);
                     user.Heal(5);
+                    _announcement.Healed(user.Name);
                     break;
 
                 case ActionType.Item2:
                     user.TakeStamina(_restrain.staminaCost);
                     target.Restrained = true;
+                    _announcement.Sticky(user.Name, target.Name);
                     break;
 
                 case ActionType.Item3:
                     user.TakeStamina(_escape.staminaCost);
-                    GetComponent<CombatManager>()._escaped = true;
+                    _manager._escaped = true;
+                    _announcement.Smoke(user.Name);
                     break;
             }
 
@@ -198,7 +212,12 @@ namespace Crognard
                     if (hit == Hit.Hit)
                     { target.TakeDamage(user.MediumDamage); }
                     else if (hit == Hit.Crit)
-                    { target.TakeDamage(user.MediumDamage * 2); }
+                    {
+                        target.TakeDamage(user.MediumDamage * 2);
+                        _announcement.Critical(user.Name);
+                    }
+                    else
+                    { _announcement.Miss(user.Name); }
                     Blocked(user, target);
                     break;
 
@@ -208,7 +227,12 @@ namespace Crognard
                     if (hit1 == Hit.Hit)
                     { target.TakeDamage(user.HeavyDamage); }
                     else if (hit1 == Hit.Crit)
-                    { target.TakeDamage(user.HeavyDamage * 2); }
+                    {
+                        target.TakeDamage(user.HeavyDamage * 2);
+                        _announcement.Critical(user.Name);
+                    }
+                    else
+                    { _announcement.Miss(user.Name); }
                     Blocked(user, target);
                     break;
             }
@@ -219,6 +243,7 @@ namespace Crognard
             if (target.Defending)
             {
                 user.TakeStamina(3);
+                _announcement.Blocked(target.Name);
             }
         }
 
