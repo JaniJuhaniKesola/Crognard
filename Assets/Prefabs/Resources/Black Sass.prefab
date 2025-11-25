@@ -104,6 +104,8 @@ MonoBehaviour:
   Name: Black Queen
   moveDuration: 0.12
   team: 1
+  whiteVersion: {fileID: 0}
+  blackVersion: {fileID: 6100056620123732117}
   hp: 10
   stamina: 10
   combatPrefab: {fileID: 2074747259814563059, guid: f72dbacb42c131542b398b4561f61cea, type: 3}

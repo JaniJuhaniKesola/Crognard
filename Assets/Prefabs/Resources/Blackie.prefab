@@ -104,6 +104,8 @@ MonoBehaviour:
   Name: Blackie
   moveDuration: 0.12
   team: 1
+  whiteVersion: {fileID: 0}
+  blackVersion: {fileID: 6934822732604329513}
   hp: 10
   stamina: 10
   combatPrefab: {fileID: 2074747259814563059, guid: 670ff7929aad1b247b2a7a6207085624, type: 3}

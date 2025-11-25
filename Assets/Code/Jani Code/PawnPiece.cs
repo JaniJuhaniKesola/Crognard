@@ -14,7 +14,6 @@ namespace Crognard
             Vector2Int forward = (team == PieceTeam.White) ? Vector2Int.up : Vector2Int.down;
             Vector2Int oneStep = gridPosition + forward;
 
-            // Normal move forward
             if (board.InBounds(oneStep) && !board.IsOccupied(oneStep))
             {
                 moves.Add(oneStep);
@@ -24,12 +23,11 @@ namespace Crognard
                     moves.Add(twoStep);
             }
 
-            // Attack diagonals
             Vector2Int[] attackDirs =
             {
-        new Vector2Int(1, forward.y),
-        new Vector2Int(-1, forward.y)
-    };
+                new Vector2Int(1, forward.y),
+                new Vector2Int(-1, forward.y)
+            };
 
             foreach (var dir in attackDirs)
             {

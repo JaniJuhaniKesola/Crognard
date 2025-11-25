@@ -39,6 +39,21 @@ namespace Crognard
 
         private PieceTeam currentTurn = PieceTeam.White;
 
+        [Header("Promotion Prefabs — WHITE")]
+        public GameObject whiteQueenPrefab;
+        public GameObject whiteRookPrefab;
+        public GameObject whiteBishopPrefab;
+        public GameObject whiteKnightPrefab;
+
+        [Header("Promotion Prefabs — BLACK")]
+        public GameObject blackQueenPrefab;
+        public GameObject blackRookPrefab;
+        public GameObject blackBishopPrefab;
+        public GameObject blackKnightPrefab;
+        /*  ------------------------------ */
+
+
+
         void Start()
         {
             GenerateBoard();
@@ -121,17 +136,6 @@ namespace Crognard
             if (p == null) p = go.AddComponent<Piece>();
             p.Initialize(gridPos, this);
 
-            /* Roope had an idea.
-            for (int i = 0; i < GameStateManager.Instance.savedPieces.Count; i++)
-            {
-                if (GameStateManager.Instance.savedPieces[i].prefabName == p.name)
-                {
-                    p.hp = GameStateManager.Instance.savedPieces[i].hp;
-                    p.stamina = GameStateManager.Instance.savedPieces[i].stamina;
-                }
-            }            
-            */ //Roope stopped having an idea.
-
             pieces[gridPos] = p;
         }
 
@@ -186,28 +190,20 @@ namespace Crognard
 
             if (selectedPiece != null)
             {
-                // Attack check FIRST — ignore turn restrictions
                 if (clickedPiece != null && clickedPiece.team != selectedPiece.team)
                 {
-                    Debug.Log($"Attempting attack on {clickedPiece.name}");
                     if (MovePiece(selectedPiece, grid))
-                    {
                         DeselectPiece();
-                    }
                     return;
                 }
 
-                // Normal movement
                 if (clickedPiece == null)
                 {
                     if (MovePiece(selectedPiece, grid))
-                    {
                         DeselectPiece();
-                    }
                     return;
                 }
 
-                // Switch selected piece (if same team)
                 if (clickedPiece != null && CanSelect(clickedPiece))
                 {
                     SelectPiece(clickedPiece);
@@ -231,55 +227,7 @@ namespace Crognard
 
             Piece targetPiece = GetPieceAt(target);
 
-            // --- Attack handling ---
-            if (targetPiece != null && targetPiece.team != piece.team)
-            {
-                Debug.Log($"Battle will commence between {piece.name} ({piece.team}) and {targetPiece.name} ({targetPiece.team})");
-
-                // KNIGHT: knights do NOT change position when initiating battle
-                if (piece is KnightPiece)
-                {
-                    // Knight remains in place; we stage battle and switch turn
-                    StartCombatScene(piece, targetPiece);
-                    SwitchTurn();
-                    return true;
-                }
-
-                // For non-knight pieces: calculate approach tile (one step before defender along direction)
-                Vector2Int dir = target - piece.gridPosition;
-                // normalize to -1, 0 or 1
-                dir.x = (dir.x > 0) ? 1 : (dir.x < 0) ? -1 : 0;
-                dir.y = (dir.y > 0) ? 1 : (dir.y < 0) ? -1 : 0;
-
-                Vector2Int stopBefore = target - dir;
-
-                // If attacker is already adjacent (stopBefore == current pos) -> allow battle without moving
-                if (stopBefore == piece.gridPosition)
-                {
-                    // Already in approach position; do not move, just trigger battle
-                    StartCombatScene(piece, targetPiece);
-                    SwitchTurn();
-                    return true;
-                }
-
-                // Otherwise, move to the approach tile if it's valid and free
-                if (InBounds(stopBefore) && !IsOccupied(stopBefore))
-                {
-                    pieces.Remove(piece.gridPosition);
-                    pieces[stopBefore] = piece;
-                    piece.MoveTo(stopBefore);
-
-                    SwitchTurn();
-                    StartCombatScene(piece, targetPiece);
-                    return true;
-                }
-
-                // Approach tile blocked -> cannot stage the attack
-                Debug.Log("Cannot approach — path blocked or out of bounds.");
-                return false;
-            }
-
-            // --- Normal move ---
+            // Normal move
             if (targetPiece == null)
             {
                 pieces.Remove(piece.gridPosition);
@@ -292,78 +240,48 @@ namespace Crognard
             return false;
         }
 
-        private void StartCombatScene(Piece attacker, Piece defender)
-        {
-            if (attacker == null || defender == null)
-            {
-                Debug.LogError("StartCombatScene called with missing attacker or defender!");
-                return;
-            }
-
-            // SAVING BATTLE INFORMATION
-            BattleData.AttackerType = attacker.name.Replace("(Clone)", "").Trim();
-            BattleData.DefenderType = defender.name.Replace("(Clone)", "").Trim();
-
-            BattleData.AttackerTeam = attacker.team;
-            BattleData.DefenderTeam = defender.team;
-
-            BattleData.DefenderPosition = defender.gridPosition;
-
-            Debug.Log($"Battle Data Set — {BattleData.AttackerType} ({BattleData.AttackerTeam}) vs {BattleData.DefenderType} ({BattleData.DefenderTeam})");
-
-            // Save board state before leaving
-            GameStateManager.Instance?.SaveBoardState(this);
-
-            // Load the combat scene
-            // SceneManager.LoadScene("CombatScene");
-            SceneManager.LoadScene("Roope Test");
-        }
-
-        // Promotion system and helpers (unchanged)
         public void ProcessPawnPromotion(PawnPiece pawn, string type)
         {
             Vector2Int pos = pawn.gridPosition;
+
             pieces.Remove(pos);
             Destroy(pawn.gameObject);
 
-            GameObject promotedGO = null;
+            GameObject prefab = null;
+
+            bool isWhite = pawn.team == PieceTeam.White;
 
             switch (type)
             {
                 case "Knight":
-                    promotedGO = Instantiate(GetPrefabFor<KnightPiece>(), transform);
+                    prefab = isWhite ? whiteKnightPrefab : blackKnightPrefab;
                     break;
                 case "Rook":
-                    promotedGO = Instantiate(GetPrefabFor<RookPiece>(), transform);
+                    prefab = isWhite ? whiteRookPrefab : blackRookPrefab;
                     break;
                 case "Bishop":
-                    promotedGO = Instantiate(GetPrefabFor<BishopPiece>(), transform);
+                    prefab = isWhite ? whiteBishopPrefab : blackBishopPrefab;
                     break;
                 case "Queen":
                 default:
-                    promotedGO = Instantiate(GetPrefabFor<QueenPiece>(), transform);
+                    prefab = isWhite ? whiteQueenPrefab : blackQueenPrefab;
                     break;
             }
 
-            Piece newPiece = promotedGO.GetComponent<Piece>();
+            if (prefab == null)
+            {
+                Debug.LogError($"Missing promotion prefab for {type} ({pawn.team})!");
+                return;
+            }
+
+            GameObject newGO = Instantiate(prefab, transform);
+            Piece newPiece = newGO.GetComponent<Piece>();
+
             newPiece.team = pawn.team;
             newPiece.Initialize(pos, this);
-
             pieces[pos] = newPiece;
-            Debug.Log($"Pawn promoted to {type}!");
-        }
 
-        private GameObject GetPrefabFor<T>() where T : Piece
-        {
-            T example = FindObjectOfType<T>();
-            return example != null ? example.gameObject : piecePrefab;
-        }
-
-        private void UpdatePositions(ChessPiece combatant, Vector2Int newPlace)
-        {
-            GameSetter.boardOccupiers[combatant.Position] = null;
-            combatant.Position = newPlace;
-            GameSetter.boardOccupiers[combatant.Position] = combatant;
+            Debug.Log($"Pawn promoted to: {type} ({pawn.team})");
         }
 
         public void SetTurn(PieceTeam team)
@@ -375,13 +293,13 @@ namespace Crognard
         {
             pieces[pos] = piece;
         }
+
         public void ClearBoard()
         {
             foreach (var p in pieces.Values)
-            {
                 if (p != null)
                     Destroy(p.gameObject);
-            }
+
             pieces.Clear();
         }
     }

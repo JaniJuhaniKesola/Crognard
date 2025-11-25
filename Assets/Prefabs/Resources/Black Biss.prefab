@@ -104,6 +104,8 @@ MonoBehaviour:
   Name: Black Biss
   moveDuration: 0.12
   team: 1
+  whiteVersion: {fileID: 0}
+  blackVersion: {fileID: 3993633769366218091}
   hp: 10
   stamina: 10
   combatPrefab: {fileID: 2074747259814563059, guid: 1f625e6de1c9f5245b1b9880c049279c, type: 3}

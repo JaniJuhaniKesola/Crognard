@@ -104,6 +104,8 @@ MonoBehaviour:
   Name: Diglett
   moveDuration: 0.12
   team: 1
+  whiteVersion: {fileID: 0}
+  blackVersion: {fileID: 144813300196623208}
   hp: 10
   stamina: 10
   combatPrefab: {fileID: 2074747259814563059, guid: 50a4802492bda324ca9ea165a35a99c8, type: 3}

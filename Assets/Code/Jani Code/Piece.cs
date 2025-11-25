@@ -22,13 +22,14 @@ namespace Crognard
         public float moveDuration = 0.12f;
 
         [Header("Team Settings")]
-        public PieceTeam team = PieceTeam.White;   // Set from Inspector or prefab
+        public PieceTeam team = PieceTeam.White;
 
-        //
+        [Header("Prefab Variants (Set These On Prefabs)")]
+        public GameObject whiteVersion;
+        public GameObject blackVersion;
+
         public int hp, stamina;
         public GameObject combatPrefab;
-        // hp = combatPrefab.GetComponent<Unit>().MaxHP;
-        // stamina = combatPrefab.GetComponent<Unit>().MaxStamina;
 
         public virtual void Initialize(Vector2Int startGrid, BoardManager manager)
         {
@@ -44,9 +45,15 @@ namespace Crognard
 
             transform.position = board.GridToWorld(startGrid);
             transform.localScale = Vector3.one * (board.tileSize * board.pieceScale);
+        }
 
-            // Optional: tint color by team
-            //sr.color = (team == PieceTeam.White) ? Color.white : Color.black;
+        /// <summary>
+        /// Returns the correct prefab for this piece's team.
+        /// Used for pawn promotion.
+        /// </summary>
+        public GameObject GetTeamPrefab()
+        {
+            return team == PieceTeam.White ? whiteVersion : blackVersion;
         }
 
         public void SetSelected(bool sel)

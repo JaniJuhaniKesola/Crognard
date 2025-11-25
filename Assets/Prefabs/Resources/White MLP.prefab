@@ -27,8 +27,8 @@ Transform:
   m_GameObject: {fileID: 3465382039142267583}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 12.879, y: -3.0442607, z: 0}
-  m_LocalScale: {x: 0.11565744, y: 0.11565744, z: 0.11565744}
+  m_LocalPosition: {x: 12.855, y: -2.4432, z: 0}
+  m_LocalScale: {x: 0.08882224, y: 0.08882224, z: 0.08882224}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -104,6 +104,8 @@ MonoBehaviour:
   Name: White Pony
   moveDuration: 0.12
   team: 0
+  whiteVersion: {fileID: 3465382039142267583}
+  blackVersion: {fileID: 0}
   hp: 10
   stamina: 10
   combatPrefab: {fileID: 655203195942017629, guid: 5def4964c64fd69408bb130342c87c5f, type: 3}

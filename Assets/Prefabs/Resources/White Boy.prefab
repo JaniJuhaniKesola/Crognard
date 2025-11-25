@@ -104,6 +104,8 @@ MonoBehaviour:
   Name: Whiny King
   moveDuration: 0.12
   team: 0
+  whiteVersion: {fileID: 5370429842740849304}
+  blackVersion: {fileID: 0}
   hp: 10
   stamina: 10
   combatPrefab: {fileID: 655203195942017629, guid: c32a30335936044459b70e8dfe14f850, type: 3}

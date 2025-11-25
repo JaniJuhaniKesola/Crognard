@@ -104,6 +104,8 @@ MonoBehaviour:
   Name: Black Tower
   moveDuration: 0.12
   team: 1
+  whiteVersion: {fileID: 0}
+  blackVersion: {fileID: 923527474565067507}
   hp: 10
   stamina: 10
   combatPrefab: {fileID: 2074747259814563059, guid: 7b51795e618b6c143a493071392dab3f, type: 3}

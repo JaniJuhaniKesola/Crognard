@@ -104,6 +104,8 @@ MonoBehaviour:
   Name: White House
   moveDuration: 0.12
   team: 0
+  whiteVersion: {fileID: 787376804004562880}
+  blackVersion: {fileID: 0}
   hp: 10
   stamina: 10
   combatPrefab: {fileID: 655203195942017629, guid: 11cad9209388dca4d93d787aaf8b5311, type: 3}

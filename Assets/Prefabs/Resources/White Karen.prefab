@@ -104,6 +104,8 @@ MonoBehaviour:
   Name: White Karen
   moveDuration: 0.12
   team: 0
+  whiteVersion: {fileID: 397506826521567630}
+  blackVersion: {fileID: 0}
   hp: 10
   stamina: 10
   combatPrefab: {fileID: 655203195942017629, guid: 08fb9093d08cda1488b1bb6547944b07, type: 3}

@@ -104,6 +104,8 @@ MonoBehaviour:
   Name: Black MLP
   moveDuration: 0.12
   team: 1
+  whiteVersion: {fileID: 0}
+  blackVersion: {fileID: 865432651009994740}
   hp: 10
   stamina: 10
   combatPrefab: {fileID: 2074747259814563059, guid: a58052395ae357644b2682cc8870bd0f, type: 3}
