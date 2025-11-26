@@ -50,9 +50,6 @@ namespace Crognard
         public GameObject blackRookPrefab;
         public GameObject blackBishopPrefab;
         public GameObject blackKnightPrefab;
-        /*  ------------------------------ */
-
-
 
         void Start()
         {
@@ -227,7 +224,55 @@ namespace Crognard
 
             Piece targetPiece = GetPieceAt(target);
 
-            // Normal move
+            // --- Attack handling ---
+            if (targetPiece != null && targetPiece.team != piece.team)
+            {
+                Debug.Log($"Battle will commence between {piece.name} ({piece.team}) and {targetPiece.name} ({targetPiece.team})");
+
+                // KNIGHT: knights do NOT change position when initiating battle
+                if (piece is KnightPiece)
+                {
+                    // Knight remains in place; we stage battle and switch turn
+                    StartCombatScene(piece, targetPiece);
+                    SwitchTurn();
+                    return true;
+                }
+
+                // For non-knight pieces: calculate approach tile (one step before defender along direction)
+                Vector2Int dir = target - piece.gridPosition;
+                // normalize to -1, 0 or 1
+                dir.x = (dir.x > 0) ? 1 : (dir.x < 0) ? -1 : 0;
+                dir.y = (dir.y > 0) ? 1 : (dir.y < 0) ? -1 : 0;
+
+                Vector2Int stopBefore = target - dir;
+
+                // If attacker is already adjacent (stopBefore == current pos) -> allow battle without moving
+                if (stopBefore == piece.gridPosition)
+                {
+                    // Already in approach position; do not move, just trigger battle
+                    StartCombatScene(piece, targetPiece);
+                    SwitchTurn();
+                    return true;
+                }
+
+                // Otherwise, move to the approach tile if it's valid and free
+                if (InBounds(stopBefore) && !IsOccupied(stopBefore))
+                {
+                    pieces.Remove(piece.gridPosition);
+                    pieces[stopBefore] = piece;
+                    piece.MoveTo(stopBefore);
+
+                    SwitchTurn();
+                    StartCombatScene(piece, targetPiece);
+                    return true;
+                }
+
+                // Approach tile blocked -> cannot stage the attack
+                Debug.Log("Cannot approach — path blocked or out of bounds.");
+                return false;
+            }
+
+            // --- Normal move ---
             if (targetPiece == null)
             {
                 pieces.Remove(piece.gridPosition);
@@ -238,6 +283,33 @@ namespace Crognard
             }
 
             return false;
+        }
+
+        private void StartCombatScene(Piece attacker, Piece defender)
+        {
+            if (attacker == null || defender == null)
+            {
+                Debug.LogError("StartCombatScene called with missing attacker or defender!");
+                return;
+            }
+
+            // SAVING BATTLE INFORMATION
+            BattleData.AttackerType = attacker.name.Replace("(Clone)", "").Trim();
+            BattleData.DefenderType = defender.name.Replace("(Clone)", "").Trim();
+
+            BattleData.AttackerTeam = attacker.team;
+            BattleData.DefenderTeam = defender.team;
+
+            BattleData.DefenderPosition = defender.gridPosition;
+
+            Debug.Log($"Battle Data Set — {BattleData.AttackerType} ({BattleData.AttackerTeam}) vs {BattleData.DefenderType} ({BattleData.DefenderTeam})");
+
+            // Save board state before leaving
+            GameStateManager.Instance?.SaveBoardState(this);
+
+            // Load the combat scene
+            // SceneManager.LoadScene("CombatScene");
+            SceneManager.LoadScene("Roope Test");
         }
 
         public void ProcessPawnPromotion(PawnPiece pawn, string type)
