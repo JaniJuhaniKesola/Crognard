@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace Crognard
@@ -10,15 +11,13 @@ namespace Crognard
         public static PieceTeam AttackerTeam;
         public static PieceTeam DefenderTeam;
 
-        /* Roope's stupid plan starts now
-        public static int AttackerHP;
-        public static int DefenderHP;
+        // Roope's stupid plan starts now
+        public static Vector2Int AttackerPos;
+        public static Vector2Int DefenderPos;
+        // Roope's stupid plan ends now
 
-        public static int AttackerStamina;
-        public static int DefenderStamina;
-        // Roope's stupid plan ends now*/
-
-        public static Vector2Int DefenderPosition;
+        
+        public static Dictionary <Vector2Int, Piece> Positions;
     }
 }
 

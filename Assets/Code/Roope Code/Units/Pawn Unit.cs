@@ -22,12 +22,13 @@ namespace Crognard
             new Vector2Int(-1, -1),
             new Vector2Int(0, -1),
             new Vector2Int(1, -1)
-            };
+        };
         [SerializeField] private int _damageBonus = 1;
 
         private void Start()
         {
             CountAllies();
+            Debug.Log("Allies: " + _allies);
             LightDamage += _damageBonus * _allies;
             MediumDamage += _damageBonus * _allies;
             HeavyDamage += _damageBonus * _allies;
@@ -37,14 +38,10 @@ namespace Crognard
         {
             Vector2Int battleSpace;
 
-            if (GameSetter.attacker == Faction.White) { battleSpace = GameSetter.blackCombatant.Position; }
-            else { battleSpace = GameSetter.whiteCombatant.Position; }
-
-            if (Faction == GameSetter.attacker)
-            {
-                // Assuming that the attacker occupies the adjacent space or its original space while initiating a battle
-                _allies--;
-            }
+            if ((int)BattleData.AttackerTeam == (int)Faction)
+            { battleSpace = BattleData.AttackerPos; }
+            else
+            { battleSpace = BattleData.DefenderPos; }
 
             for (int i = 0; i < _adjacents.Length; i++)
             {
@@ -57,13 +54,14 @@ namespace Crognard
         
         private bool CheckSpace(Vector2Int space, Faction faction)
         {
-            if (GameSetter.boardOccupiers[space].Faction == faction)
+            if (BattleData.Positions.ContainsKey(space))
             {
-                if (!GameSetter.boardOccupiers[space].Alive)
+                if ((int)BattleData.Positions[space].team == (int)faction)
                 {
                     return true;
-                }
+                }                
             }
+            
             return false;
         }
     }
