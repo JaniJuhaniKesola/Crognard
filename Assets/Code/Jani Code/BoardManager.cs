@@ -233,8 +233,8 @@ namespace Crognard
                 if (piece is KnightPiece)
                 {
                     // Knight remains in place; we stage battle and switch turn
-                    StartCombatScene(piece, targetPiece);
                     SwitchTurn();
+                    StartCombatScene(piece, targetPiece);
                     return true;
                 }
 
@@ -250,8 +250,8 @@ namespace Crognard
                 if (stopBefore == piece.gridPosition)
                 {
                     // Already in approach position; do not move, just trigger battle
-                    StartCombatScene(piece, targetPiece);
                     SwitchTurn();
+                    StartCombatScene(piece, targetPiece);
                     return true;
                 }
 
@@ -300,7 +300,9 @@ namespace Crognard
             BattleData.AttackerTeam = attacker.team;
             BattleData.DefenderTeam = defender.team;
 
-            BattleData.DefenderPosition = defender.gridPosition;
+            BattleData.Positions = pieces;
+            BattleData.AttackerPos = attacker.gridPosition;
+            BattleData.DefenderPos = defender.gridPosition;
 
             Debug.Log($"Battle Data Set — {BattleData.AttackerType} ({BattleData.AttackerTeam}) vs {BattleData.DefenderType} ({BattleData.DefenderTeam})");
 

@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7660836357498941331}
   - component: {fileID: 4666814090902734735}
-  - component: {fileID: 8441917065487875160}
+  - component: {fileID: 8797291941350649490}
   m_Layer: 0
   m_Name: Black Pawn
   m_TagString: Untagged
@@ -88,7 +88,7 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &8441917065487875160
+--- !u!114 &8797291941350649490
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -97,7 +97,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 2074747259814563059}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 50dd86398daa4624391ff268ecd56824, type: 3}
+  m_Script: {fileID: 11500000, guid: d1979cb60f2c85043bccbeb7d82a9b51, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   ID: 0
@@ -116,3 +116,4 @@ MonoBehaviour:
   Defending: 0
   Restrained: 0
   DamageTaken: 0
+  _damageBonus: 1

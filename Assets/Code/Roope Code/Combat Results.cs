@@ -176,7 +176,7 @@ namespace Crognard
             {
                 if (GameStateManager.Instance.savedPieces[i].prefabName == winner.Name)
                 {
-                    GameStateManager.Instance.savedPieces[i].position = BattleData.DefenderPosition;
+                    GameStateManager.Instance.savedPieces[i].position = BattleData.DefenderPos;
                     break;
                 }
             }
