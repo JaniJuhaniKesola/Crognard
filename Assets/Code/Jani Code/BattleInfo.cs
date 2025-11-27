@@ -12,12 +12,13 @@ namespace Crognard
         public static PieceTeam DefenderTeam;
 
         // Roope's stupid plan starts now
+        public static int AttackerTilesMoved;
+
         public static Vector2Int AttackerPos;
         public static Vector2Int DefenderPos;
-        // Roope's stupid plan ends now
-
         
         public static Dictionary <Vector2Int, Piece> Positions;
+        // Roope's stupid plan ends now
     }
 }
 

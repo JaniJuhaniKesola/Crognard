@@ -28,7 +28,7 @@ namespace Crognard
         public GameObject whiteVersion;
         public GameObject blackVersion;
 
-        public int hp, stamina;
+        public int maxHP, hp, stamina;
         public GameObject combatPrefab;
 
         public virtual void Initialize(Vector2Int startGrid, BoardManager manager)
@@ -95,6 +95,18 @@ namespace Crognard
             transform.position = targetWorld;
             moveCoroutine = null;
         }
+
+        // Healing method. You Welcome.
+        public void Heal(int amount)
+        {
+            if (amount > 0)
+            {
+                hp += amount;
+
+                if (hp > maxHP) { hp = maxHP; }
+            }
+        }
+        // Again. You welcome.
 
         public virtual List<Vector2Int> GetValidMoves() => new List<Vector2Int>();
     }

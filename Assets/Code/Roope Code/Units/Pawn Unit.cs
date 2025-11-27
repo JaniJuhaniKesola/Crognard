@@ -48,6 +48,7 @@ namespace Crognard
                 if (CheckSpace(battleSpace + _adjacents[i], Faction))
                 {
                     _allies++;
+                    // I don't know what happened but it seemed to fix itself
                 }
             }
         }
