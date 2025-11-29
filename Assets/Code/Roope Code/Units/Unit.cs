@@ -4,13 +4,12 @@ namespace Crognard
 {
     public class Unit : MonoBehaviour
     {
-        public int ID;
         public string Name;
         public Faction Faction;
         public int MaxHP, CurrentHP;
         public int MaxStamina, Stamina;
         public int LightDamage, MediumDamage, HeavyDamage;
-        public int Defence, CritRange = 1;
+        public int Defence, Fatigue, CritRange = 1, Potion;
         [HideInInspector]
         public bool Damaged, Defending, Restrained;
         [HideInInspector]

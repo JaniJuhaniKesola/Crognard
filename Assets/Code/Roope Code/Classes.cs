@@ -42,4 +42,16 @@ namespace Crognard
             this.staminaCost = staminaCost;
         }
     }
+
+    [Serializable]
+    public class Attack
+    {
+        public Action actionData;
+        public int missValue;
+        public Attack(Action actionData, int missValue)
+        {
+            this.actionData = actionData;
+            this.missValue = missValue;
+        }
+    }
 }

@@ -1,18 +1,21 @@
-using System.Collections;
 using UnityEngine;
 
 namespace Crognard
 {
     public class Actions : MonoBehaviour
     {
-        [SerializeField] private Action _lightAttack = new Action(1, 1);
-        [SerializeField] private Action _mediumAttack = new Action(0, 0);
-        [SerializeField] private Action _heavyAttack = new Action(-1, 2);
+        [Header("Action settings")]
+        [SerializeField] private Attack _light = new Attack(new Action(1, 1), 0);
+        [SerializeField] private Attack _medium = new Attack(new Action(0, 0), 1);
+        [SerializeField] private Attack _heavy = new Attack(new Action(-1, 2), 5);
         [SerializeField] private Action _defend = new Action(1, 1);
         [SerializeField] private Action _counter = new Action(-1, 1);
         [SerializeField] private Action _potion = new Action(0, 1);
         [SerializeField] private Action _restrain = new Action(0, 2);
         [SerializeField] private Action _escape = new Action(2, 2);
+
+        [Header("Other Settings")]
+        [SerializeField] private int _criticalBonus = 2;
 
         private Announcement _announcement;
         private CombatManager _manager;
@@ -107,9 +110,9 @@ namespace Crognard
         {
             switch (type)
             {
-                case ActionType.Light: return _lightAttack.priority;
-                case ActionType.Medium: return _mediumAttack.priority;
-                case ActionType.Heavy: return _heavyAttack.priority;
+                case ActionType.Light: return _light.actionData.priority;
+                case ActionType.Medium: return _medium.actionData.priority;
+                case ActionType.Heavy: return _heavy.actionData.priority;
                 case ActionType.Defend: return _defend.priority;
                 case ActionType.Counter: return _counter.priority;
                 case ActionType.Item1: return _potion.priority;
@@ -123,9 +126,9 @@ namespace Crognard
         {
             switch (type)
             {
-                case ActionType.Light: return _lightAttack.staminaCost;
-                case ActionType.Medium: return _mediumAttack.staminaCost;
-                case ActionType.Heavy: return _heavyAttack.staminaCost;
+                case ActionType.Light: return _light.actionData.staminaCost;
+                case ActionType.Medium: return _medium.actionData.staminaCost;
+                case ActionType.Heavy: return _heavy.actionData.staminaCost;
                 case ActionType.Defend: return _defend.staminaCost;
                 case ActionType.Counter: return _counter.staminaCost;
                 case ActionType.Item1: return _potion.staminaCost;
@@ -139,7 +142,7 @@ namespace Crognard
         {
             if (type == ActionType.Light || type == ActionType.Medium || type == ActionType.Heavy)
             {
-                Attack(type, user, target);
+                AttackAction(type, user, target);
             }
             
             switch (type)
@@ -157,7 +160,7 @@ namespace Crognard
                         target.TakeDamage(user.DamageTaken * 2);
                         _announcement.CounterAttack(user.Name, target.Name);
                     }
-                    if (target.Defending)
+                    else
                     {
                         user.TakeStamina(3);
                     }
@@ -166,7 +169,7 @@ namespace Crognard
                 case ActionType.Item1:
                     Debug.Log("Taking a Potion");
                     user.TakeStamina(_potion.staminaCost);
-                    user.Heal(5);
+                    user.Heal(user.Potion);
                     _announcement.Healed(user.Name);
                     break;
 
@@ -195,46 +198,52 @@ namespace Crognard
             //StartCoroutine(UIUpdate(user, target, userHub, targetHub));
         }
 
-        private void Attack(ActionType weight, Unit user, Unit target)
+        private void AttackAction(ActionType weight, Unit user, Unit target)
         {
             Debug.Log("Using this method");
             switch (weight)
             {
                 case ActionType.Light:
-                    user.TakeStamina(_lightAttack.staminaCost);
-                    target.TakeDamage(user.LightDamage);
-                    Blocked(user, target);
-                    break;
+                Attack(_light, user, target, user.LightDamage);
+                /*
+                user.TakeStamina(_lightAttack.actionData.staminaCost);
+                target.TakeDamage(user.LightDamage);
+                Blocked(user, target);*/
+                break;
 
                 case ActionType.Medium:
-                    user.TakeStamina(_mediumAttack.staminaCost);
-                    Hit hit = AccuracyCheck(1, user.CritRange);
-                    if (hit == Hit.Hit)
-                    { target.TakeDamage(user.MediumDamage); }
-                    else if (hit == Hit.Crit)
-                    {
-                        target.TakeDamage(user.MediumDamage * 2);
-                        _announcement.Critical(user.Name);
-                    }
-                    else
-                    { _announcement.Miss(user.Name); }
-                    Blocked(user, target);
-                    break;
+                Attack(_medium, user, target, user.MediumDamage);
+                /*
+                user.TakeStamina(_mediumAttack.actionData.staminaCost);
+                Hit hit = AccuracyCheck(_mediumAttack.missValue, user.CritRange);
+                if (hit == Hit.Hit)
+                { target.TakeDamage(user.MediumDamage); }
+                else if (hit == Hit.Crit)
+                {
+                    target.TakeDamage(user.MediumDamage * _criticalBonus);
+                    _announcement.Critical(user.Name);
+                }
+                else
+                { _announcement.Miss(user.Name); }
+                Blocked(user, target);*/
+                break;
 
                 case ActionType.Heavy:
-                    user.TakeStamina(_heavyAttack.staminaCost);
-                    Hit hit1 = AccuracyCheck(5, user.CritRange);
-                    if (hit1 == Hit.Hit)
-                    { target.TakeDamage(user.HeavyDamage); }
-                    else if (hit1 == Hit.Crit)
-                    {
-                        target.TakeDamage(user.HeavyDamage * 2);
-                        _announcement.Critical(user.Name);
-                    }
-                    else
-                    { _announcement.Miss(user.Name); }
-                    Blocked(user, target);
-                    break;
+                Attack(_heavy, user, target, user.HeavyDamage);
+                /*
+                user.TakeStamina(_heavyAttack.actionData.staminaCost);
+                Hit hit1 = AccuracyCheck(_heavyAttack.missValue, user.CritRange);
+                if (hit1 == Hit.Hit)
+                { target.TakeDamage(user.HeavyDamage); }
+                else if (hit1 == Hit.Crit)
+                {
+                    target.TakeDamage(user.HeavyDamage * 2);
+                    _announcement.Critical(user.Name);
+                }
+                else
+                { _announcement.Miss(user.Name); }
+                Blocked(user, target);*/
+                break;
             }
         }
 
@@ -242,7 +251,7 @@ namespace Crognard
         {
             if (target.Defending)
             {
-                user.TakeStamina(3);
+                user.TakeStamina(target.Fatigue);
                 _announcement.Blocked(target.Name);
             }
         }
@@ -263,6 +272,22 @@ namespace Crognard
             {
                 return Hit.Hit;
             }
+        }
+
+        private void Attack(Attack weight, Unit user, Unit target, int damage)
+        {
+            user.TakeStamina(weight.actionData.staminaCost);
+            Hit hit = AccuracyCheck(weight.missValue, user.CritRange);
+            if (hit == Hit.Hit)
+            { target.TakeDamage(damage); }
+            else if (hit == Hit.Crit)
+            {
+                target.TakeDamage(damage * _criticalBonus);
+                _announcement.Critical(user.Name);
+            }
+            else
+            { _announcement.Miss(user.Name); }
+            Blocked(user, target);
         }
     }
 }
