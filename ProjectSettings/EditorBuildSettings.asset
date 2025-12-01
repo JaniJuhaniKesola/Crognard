@@ -17,6 +17,9 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Roope Test.unity
     guid: 947bc36d59f9f6c43870d63193ec375d
+  - enabled: 1
+    path: Assets/Scenes/GameOver.unity
+    guid: b0cc51ef0b01101479c2e781897e0e0f
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}
   m_UseUCBPForAssetBundles: 0
