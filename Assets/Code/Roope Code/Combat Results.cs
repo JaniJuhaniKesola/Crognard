@@ -7,7 +7,7 @@ namespace Crognard
 {
     public class CombatResults : MonoBehaviour
     {
-        [SerializeField] private VictoryConfetti _whiteConfetti, _blackConfetti;
+        [SerializeField] private ParticleEffect _whiteConfetti, _blackConfetti;
         [SerializeField] private GameObject _resultScreen, _neutralScreen, _doubleKillScreen;
         [SerializeField] private TextMeshProUGUI _winnerText;
 

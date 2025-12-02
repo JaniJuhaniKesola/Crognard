@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace Crognard
 {
-    public class VictoryConfetti : MonoBehaviour
+    public class ParticleEffect : MonoBehaviour
     {
         private ParticleSystem _particle;
 

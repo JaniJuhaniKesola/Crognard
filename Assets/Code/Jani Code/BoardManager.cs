@@ -213,6 +213,40 @@ namespace Crognard
             }
         }
 
+        // Adding this script identical to OnTileClicked()
+        public void OnPieceClicked(Vector2Int grid)
+        {
+            Piece clickedPiece = GetPieceAt(grid);
+
+            if (selectedPiece != null)
+            {
+                if (clickedPiece != null && clickedPiece.team != selectedPiece.team)
+                {
+                    if (MovePiece(selectedPiece, grid))
+                        DeselectPiece();
+                    return;
+                }
+
+                if (clickedPiece == null)
+                {
+                    if (MovePiece(selectedPiece, grid))
+                        DeselectPiece();
+                    return;
+                }
+
+                if (clickedPiece != null && CanSelect(clickedPiece))
+                {
+                    SelectPiece(clickedPiece);
+                    return;
+                }
+            }
+            else if (clickedPiece != null)
+            {
+                SelectPiece(clickedPiece);
+            }
+        }
+        // Roope did it again!
+
         public bool MovePiece(Piece piece, Vector2Int target)
         {
             if (!InBounds(target))

@@ -12,6 +12,7 @@ namespace Crognard
         public GameObject _whitePrefab, _blackPrefab;
 
         public Transform _whiteSpawnPoint, _blackSpawnPoint;
+        public ParticleEffect _whiteHeal, _blackHeal;
         public CombatUI _whiteCombatUI, _blackCombatUI;
 
         private Unit _whiteUnit, _blackUnit;
@@ -356,6 +357,13 @@ namespace Crognard
             if (_actions.GetCost(act.action) > attacker.Stamina) { return; }
             
             _actions.GetAction(act.action, attacker, defender, attackerUI, defenderUI);
+            if (act.action == ActionType.Item1)
+            {
+                if (_currentState == CombatState.White)
+                { _whiteHeal.StartConfetti(); }
+                else if (_currentState == CombatState.Black)
+                { _blackHeal.StartConfetti(); }
+            }
         }
 
         private bool EarlyFinish()

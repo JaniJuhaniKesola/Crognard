@@ -172,7 +172,9 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      StickyIcon360_0: -3231875901744384809
+      StickyIcon360_1: 1625436714439522951
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
