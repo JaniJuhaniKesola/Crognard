@@ -5,18 +5,31 @@ namespace Crognard
 {
     public class MiniHub : MonoBehaviour
     {
-        [SerializeField] private RectTransform _hpFill, _staminaFill;
+        [SerializeField] private SpriteRenderer _hpFill, _staminaFill;
         [SerializeField] private TextMeshProUGUI _hpValue, _staminaValue;
+
+        private float _ogWidth;
+
+        private Piece _piece;
+
+        private void Awake()
+        {
+            _ogWidth = _hpFill.size.x;
+            _piece = GetComponentInParent<Piece>();
+            EditBar(_hpValue, _hpFill, _piece.hp, _piece.maxHP);
+            EditBar(_staminaValue, _staminaFill, _piece.stamina, _piece.maxStamina);
+        }
 
         public void SetupData(int curHP, int maxHP, int curSta, int maxSta)
         {
-            EditBar(_hpFill, curHP, maxHP);
-            EditBar(_staminaFill, curSta, maxSta);
+            EditBar(_hpValue, _hpFill, curHP, maxHP);
+            EditBar(_staminaValue, _staminaFill, curSta, maxSta);
         }
 
-        private void EditBar(RectTransform fill, int current, int max)
+        private void EditBar(TextMeshProUGUI value, SpriteRenderer fill, int current, int max)
         {
-            fill.localScale = new Vector2(current/(float)max, 1);
+            fill.size = new Vector2(current/(float)max * _ogWidth, fill.size.y);
+            value.text = current.ToString();
         }
     }
 }

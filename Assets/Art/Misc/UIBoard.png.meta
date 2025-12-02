@@ -48,7 +48,7 @@ TextureImporter:
   compressionQuality: 50
   spriteMode: 2
   spriteExtrude: 1
-  spriteMeshType: 1
+  spriteMeshType: 0
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
   spritePixelsToUnits: 128
@@ -120,9 +120,9 @@ TextureImporter:
         y: 0
         width: 64
         height: 64
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 17, y: 17, z: 17, w: 17}
+      alignment: 9
+      pivot: {x: 0, y: 1}
+      border: {x: 16, y: 16, z: 16, w: 16}
       customData: 
       outline: []
       physicsShape: []

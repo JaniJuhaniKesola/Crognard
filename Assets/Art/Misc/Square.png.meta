@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 70860270cb39a11488488b2baea3898d
+guid: 41e1854b9ccf4414396e1726dca71926
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -9009276405808135789
-    second: Bar Logos_0
+      213: 7482667652216324306
+    second: Square_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -37,7 +37,7 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     serializedVersion: 2
-    filterMode: 1
+    filterMode: 0
     aniso: 1
     mipBias: 0
     wrapU: 1
@@ -113,45 +113,31 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Bar Logos_0
+      name: Square_0
       rect:
         serializedVersion: 2
         x: 0
         y: 0
         width: 64
         height: 64
-      alignment: 0
-      pivot: {x: 0, y: 0}
+      alignment: 5
+      pivot: {x: 1, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
-      outline: []
-      physicsShape: []
+      outline:
+      - - {x: 0, y: -32}
+        - {x: 32, y: 0}
+        - {x: 0, y: 32}
+        - {x: -32, y: 0}
+      physicsShape:
+      - - {x: 0, y: -32}
+        - {x: 32, y: 0}
+        - {x: 0, y: 32}
+        - {x: -32, y: 0}
       tessellationDetail: -1
       bones: []
-      spriteID: 3918f7497de98f280800000000000000
-      internalID: -9009276405808135789
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Bar Logos_1
-      rect:
-        serializedVersion: 2
-        x: 64
-        y: 0
-        width: 64
-        height: 64
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 09aac3a96440dca498ed9637f868beaa
-      internalID: 569607588
+      spriteID: 2d009a6b596c7d760800000000000000
+      internalID: 7482667652216324306
       vertices: []
       indices: 
       edges: []
@@ -160,7 +146,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 713be4bce66aafb498499359d6312a3b
+    spriteID: beb9ffd4e281c9346898591b2441580b
     internalID: 0
     vertices: []
     indices: 
@@ -170,8 +156,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      Bar Logos_0: -9009276405808135789
-      Bar Logos_1: 569607588
+      Square_0: 7482667652216324306
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
