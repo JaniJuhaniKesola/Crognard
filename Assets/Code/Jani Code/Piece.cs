@@ -28,7 +28,7 @@ namespace Crognard
         public GameObject whiteVersion;
         public GameObject blackVersion;
 
-        public int maxHP, hp, stamina;
+        public int maxHP, hp, maxStamina, stamina;
         public GameObject combatPrefab;
 
         public virtual void Initialize(Vector2Int startGrid, BoardManager manager)
