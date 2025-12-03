@@ -25,6 +25,8 @@ namespace Crognard
         private UIDisplay _uiDisplay;
         private Actions _actions;
         private Announcement _announcement;
+        private CombatAnimations _animations;
+        private BackgroundAnimations _background;
 
         public Act[] _acts = new Act[2];
         [HideInInspector]
@@ -38,6 +40,8 @@ namespace Crognard
             _uiDisplay = GetComponent<UIDisplay>();
             _actions = GetComponent<Actions>();
             _announcement = GetComponent<Announcement>();
+            _animations = GetComponent<CombatAnimations>();
+            _background = GetComponent<BackgroundAnimations>();
 
             _escaped = false;   // make sure escape is not happening automatically.
 
@@ -357,6 +361,16 @@ namespace Crognard
             if (_actions.GetCost(act.action) > attacker.Stamina) { return; }
             
             _actions.GetAction(act.action, attacker, defender, attackerUI, defenderUI);
+            
+            if (_currentState == CombatState.White)
+            {
+                _animations._whiteAction = act.action;
+            }
+            else if (_currentState == CombatState.Black)
+            {
+                _animations._blackAction = act.action;
+            }
+            
             if (act.action == ActionType.Item1)
             {
                 if (_currentState == CombatState.White)
