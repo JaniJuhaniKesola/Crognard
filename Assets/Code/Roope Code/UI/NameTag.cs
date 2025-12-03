@@ -28,7 +28,7 @@ namespace Crognard
             { rectTransform = GetComponent<RectTransform>(); }
             float newRender = myText.preferredWidth;
             newRender += 2 * Mathf.Abs(myText.rectTransform.localPosition.x);
-            Debug.Log(newRender);
+            // Debug.Log(newRender);
             rectTransform.sizeDelta = new Vector2(newRender, rectTransform.sizeDelta.y);
         }
         
