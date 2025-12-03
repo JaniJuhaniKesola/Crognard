@@ -45,6 +45,17 @@ namespace Crognard
 
             transform.position = board.GridToWorld(startGrid);
             transform.localScale = Vector3.one * (board.tileSize * board.pieceScale);
+
+            // HERE ROOPE
+            Unit u = GetComponent<Unit>();
+            if (u != null)
+            {
+                maxHP = u.MaxHP;
+                hp = u.CurrentHP;
+
+                maxStamina = u.MaxStamina;
+                stamina = u.Stamina;
+            }
         }
 
         /// <summary>
