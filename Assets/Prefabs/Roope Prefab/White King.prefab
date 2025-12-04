@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 4474651161796325216}
   - component: {fileID: 1474178698998031510}
   - component: {fileID: 3380968709448135730}
+  - component: {fileID: 3905164348397748047}
   m_Layer: 0
   m_Name: White King
   m_TagString: Untagged
@@ -100,19 +101,38 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 50dd86398daa4624391ff268ecd56824, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ID: 0
   Name: White Tester
   Faction: 0
-  MaxHP: 10
-  CurrentHP: 10
-  MaxStamina: 10
-  Stamina: 10
-  LightDamage: 1
-  MediumDamage: 2
-  HeavyDamage: 3
-  Defence: 1
-  CritRange: 1
+  MaxHP: 150
+  CurrentHP: 150
+  MaxStamina: 75
+  Stamina: 75
+  LightDamage: 25
+  MediumDamage: 35
+  HeavyDamage: 45
+  Defence: 20
+  Fatigue: 20
+  CritRange: 3
+  Potion: 75
   Damaged: 0
   Defending: 0
   Restrained: 0
   DamageTaken: 0
+--- !u!114 &3905164348397748047
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 655203195942017629}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b4b8d3b2ab59f0843836c674767f57e0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _deathFrames: 2
+  _direction: {x: 2, y: 2}
+  _launchSpeed: 5
+  _rotationSpeed: 180
+  _fallSpeed: 5
+  _vanishSpeed: 0.5

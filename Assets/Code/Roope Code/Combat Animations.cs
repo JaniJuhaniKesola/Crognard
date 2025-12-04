@@ -16,14 +16,32 @@ namespace Crognard
             _blackAction = ActionType.Null;
         }
 
-        // Update is called once per frame
-        private void Update()
+        public void SetAction(ActionType action, Faction faction)
         {
-            _whiteAttacks.SetInteger("Attack", (int)_whiteAction);
-            _blackAttacks.SetInteger("Attack", (int)_blackAction);
+            if (faction == Faction.White)
+            {
+                UpdateAnimation(_whiteAttacks, _whiteEffects, (int)action, _blackEffects);
+            }
+            else if (faction == Faction.Black)
+            {
+                UpdateAnimation(_blackAttacks, _blackEffects, (int)action, _whiteEffects);
+            }
+            
+        }
 
-            _whiteEffects.SetInteger("Effect", (int)_whiteAction);
-            _blackEffects.SetInteger("Effect", (int)_blackAction);
+        private void UpdateAnimation(Animator attacks, Animator effects, int actionId, Animator enemyEffects)
+        {
+            if ((ActionType)actionId != ActionType.Item2)
+            {
+                attacks.SetInteger("Attack", actionId);
+
+                effects.SetInteger("Effect", actionId);
+            }
+            else
+            {
+                enemyEffects.SetInteger("Effect", actionId);
+            }
+            
         }
     }
 }

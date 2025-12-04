@@ -12,10 +12,11 @@ namespace Crognard
         public GameObject _whitePrefab, _blackPrefab;
 
         public Transform _whiteSpawnPoint, _blackSpawnPoint;
-        public ParticleEffect _whiteHeal, _blackHeal;
+        public ParticleEffect _whiteHeal, _blackHeal, _whiteSmoke, _blackSmoke;
         public CombatUI _whiteCombatUI, _blackCombatUI;
 
         private Unit _whiteUnit, _blackUnit;
+        private Loser _whiteLoser, _blackLoser;
 
         private int _actionsChosen = 0;
 
@@ -88,6 +89,7 @@ namespace Crognard
                     whiteGO = Instantiate(_whitePrefab, _whiteSpawnPoint.position, Quaternion.identity);
                 }
                 _whiteUnit = whiteGO.GetComponent<Unit>();
+                _whiteLoser = whiteGO.GetComponent<Loser>();
 
                 SetUnitData(_whiteUnit, _whiteData);
             }
@@ -113,6 +115,7 @@ namespace Crognard
                     blackGO = Instantiate(_blackPrefab, _blackSpawnPoint.position, Quaternion.identity);
                 }
                 _blackUnit = blackGO.GetComponent<Unit>();
+                _blackLoser = blackGO.GetComponent<Loser>();
 
                 SetUnitData(_blackUnit, _blackData);
             }
@@ -359,17 +362,10 @@ namespace Crognard
             else { return; }
             
             if (_actions.GetCost(act.action) > attacker.Stamina) { return; }
+
+            _animations.SetAction(act.action, act.faction);
             
             _actions.GetAction(act.action, attacker, defender, attackerUI, defenderUI);
-            
-            if (_currentState == CombatState.White)
-            {
-                _animations._whiteAction = act.action;
-            }
-            else if (_currentState == CombatState.Black)
-            {
-                _animations._blackAction = act.action;
-            }
             
             if (act.action == ActionType.Item1)
             {
@@ -377,6 +373,13 @@ namespace Crognard
                 { _whiteHeal.StartConfetti(); }
                 else if (_currentState == CombatState.Black)
                 { _blackHeal.StartConfetti(); }
+            }
+            else if (act.action == ActionType.Item3)
+            {
+                if (_currentState == CombatState.White)
+                { _whiteSmoke.StartConfetti(); }
+                else if (_currentState == CombatState.Black)
+                { _blackSmoke.StartConfetti(); }
             }
         }
 
@@ -395,12 +398,12 @@ namespace Crognard
             if (_whiteUnit.CurrentHP <= 0 && _blackUnit.CurrentHP > 0)
             {
                 _results.Winner(_blackUnit, _whiteUnit);
-                
+                _whiteLoser.YouLose();
             }
             else if (_whiteUnit.CurrentHP > 0 && _blackUnit.CurrentHP <= 0)
             {
                 _results.Winner(_whiteUnit, _blackUnit);
-                
+                _blackLoser.YouLose();
             }
             else if (_whiteUnit.CurrentHP <= 0 && _blackUnit.CurrentHP <= 0)
             {
@@ -426,13 +429,6 @@ namespace Crognard
         {
             _results.Restart();
             Setup();
-        }
-        
-        private void TryDictionary()
-        {
-            ChessPiece guy = null;
-            GameSetter.boardOccupiers.Add(new Vector2Int(0, 0), guy);
-            GameSetter.boardOccupiers.Remove(new Vector2Int(0, 0));
         }
 
         private void AnnounceAction(Act act)
