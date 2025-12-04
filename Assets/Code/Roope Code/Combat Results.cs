@@ -8,8 +8,7 @@ namespace Crognard
     public class CombatResults : MonoBehaviour
     {
         [SerializeField] private ParticleEffect _whiteConfetti, _blackConfetti;
-        [SerializeField] private GameObject _resultScreen, _neutralScreen, _doubleKillScreen;
-        [SerializeField] private TextMeshProUGUI _winnerText;
+        [SerializeField] private GameObject _neutralScreen, _doubleKillScreen;
 
         private Announcement _announcement;
 
@@ -84,36 +83,16 @@ namespace Crognard
         private IEnumerator VictoryCycle(Unit winner)
         {
             yield return new WaitForSeconds(1);
-            if (winner != null)
-            {
-                Results(winner);
-            }
-            else
-            {
-                Results(null);
-            }
-            yield return new WaitForSeconds(1);
 
             SceneManager.LoadScene("JaniTest");
-        }
-
-        public void Results(Unit winner)
-        {
-            _resultScreen.SetActive(true);
-            if (winner != null)
-            {
-                _winnerText.text = winner.Name;
-            }
-            else
-            {
-                _winnerText.text = "Not This Time";
-            }
         }
 
         public void NeutralEnd(Unit white, Unit black)
         {
             // Exit Combat
-            _neutralScreen.SetActive(true);
+            //_neutralScreen.SetActive(true);
+            
+            _announcement.Neutral();
 
             HandleUnit(white);
             HandleUnit(black);
