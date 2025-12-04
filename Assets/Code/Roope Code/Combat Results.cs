@@ -82,7 +82,7 @@ namespace Crognard
 
         private IEnumerator VictoryCycle(Unit winner)
         {
-            yield return new WaitForSeconds(1);
+            yield return new WaitForSeconds(2.5f);
 
             SceneManager.LoadScene("JaniTest");
         }

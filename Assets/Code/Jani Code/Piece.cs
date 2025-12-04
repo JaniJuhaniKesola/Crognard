@@ -47,7 +47,8 @@ namespace Crognard
             transform.localScale = Vector3.one * (board.tileSize * board.pieceScale);
 
             // HERE ROOPE
-            Unit u = GetComponent<Unit>();
+
+            Unit u = combatPrefab.GetComponent<Unit>();
             if (u != null)
             {
                 maxHP = u.MaxHP;
