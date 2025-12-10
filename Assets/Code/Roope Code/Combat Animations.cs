@@ -9,24 +9,33 @@ namespace Crognard
 
         public ActionType _whiteAction, _blackAction;
 
-        // Start is called once before the first execution of Update after the MonoBehaviour is created
         void Start()
         {
+            float speed = 0;
+            if (Options.combatAnimationsOn) { speed = 1; }
+            else { speed = 0; }
+            _whiteAttacks.speed = speed;
+            _blackAttacks.speed = speed;
+            _whiteEffects.speed = speed;
+            _blackEffects.speed = speed;
+
             _whiteAction = ActionType.Null;
             _blackAction = ActionType.Null;
         }
 
         public void SetAction(ActionType action, Faction faction)
         {
-            if (faction == Faction.White)
+            if (Options.combatAnimationsOn)
             {
-                UpdateAnimation(_whiteAttacks, _whiteEffects, (int)action, _blackEffects);
+                if (faction == Faction.White)
+                {
+                    UpdateAnimation(_whiteAttacks, _whiteEffects, (int)action, _blackEffects);
+                }
+                else if (faction == Faction.Black)
+                {
+                    UpdateAnimation(_blackAttacks, _blackEffects, (int)action, _whiteEffects);
+                }
             }
-            else if (faction == Faction.Black)
-            {
-                UpdateAnimation(_blackAttacks, _blackEffects, (int)action, _whiteEffects);
-            }
-            
         }
 
         private void UpdateAnimation(Animator attacks, Animator effects, int actionId, Animator enemyEffects)
