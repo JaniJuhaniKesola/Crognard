@@ -309,16 +309,26 @@ namespace Crognard
             // Announce which action is gonna happen.
             AnnounceAction(_acts[0]);
             yield return new WaitForSeconds(1);
-            Turn(_acts[0]);
-
+            if (Turn(_acts[0]))
+            {
+                yield return new WaitForSeconds(1);
+                Action(_acts[0]);
+            }
             yield return new WaitForSeconds(1);
+
 
             if (!EarlyFinish())
             {
                 AnnounceAction(_acts[1]);
                 yield return new WaitForSeconds(1);
-                Turn(_acts[1]);
+                if (Turn(_acts[1]));
+                {
+                    yield return new WaitForSeconds(1);
+                    Action(_acts[1]);
+                }
                 yield return new WaitForSeconds(1);
+                
+
             }
             else if (_escaped)
             {
@@ -338,34 +348,22 @@ namespace Crognard
             Results();
         }
 
-        public void Turn(Act act)
+        public bool Turn(Act act)
         {
             if (act.faction == Faction.White) { _currentState = CombatState.White; }
             else if (act.faction == Faction.Black) { _currentState = CombatState.Black; }
 
-            Unit attacker, defender;
-            CombatUI attackerUI, defenderUI;
+            Unit attacker;
             if (_currentState == CombatState.White)
-            {
-                attacker = _whiteUnit;
-                defender = _blackUnit;
-                attackerUI = _whiteCombatUI;
-                defenderUI = _blackCombatUI;
-            }
+            { attacker = _whiteUnit; }
             else if (_currentState == CombatState.Black)
-            {
-                attacker = _blackUnit;
-                defender = _whiteUnit;
-                attackerUI = _blackCombatUI;
-                defenderUI = _whiteCombatUI;
-            }
-            else { return; }
+            { attacker = _blackUnit; }
+            else { return false; }
             
-            if (_actions.GetCost(act.action) > attacker.Stamina) { return; }
+            if (_actions.GetCost(act.action) > attacker.Stamina) { return false; }
 
             _animations.SetAction(act.action, act.faction);
             
-            _actions.GetAction(act.action, attacker, defender, attackerUI, defenderUI);
             
             if (act.action == ActionType.Item1)
             {
@@ -388,6 +386,32 @@ namespace Crognard
                 else if (_currentState == CombatState.Black)
                 { _blackCut.StartConfetti(); }
             }
+
+            return true;
+
+            //_actions.GetAction(act.action, attacker, defender, attackerUI, defenderUI);
+        }
+
+        private void Action(Act act)
+        {
+            Unit attacker, defender;
+            CombatUI attackerUI, defenderUI;
+            if (_currentState == CombatState.White)
+            {
+                attacker = _whiteUnit;
+                defender = _blackUnit;
+                attackerUI = _whiteCombatUI;
+                defenderUI = _blackCombatUI;
+            }
+            else if (_currentState == CombatState.Black)
+            {
+                attacker = _blackUnit;
+                defender = _whiteUnit;
+                attackerUI = _blackCombatUI;
+                defenderUI = _whiteCombatUI;
+            }
+            else { return; }
+            _actions.GetAction(act.action, attacker, defender, attackerUI, defenderUI);
         }
 
         private bool EarlyFinish()

@@ -11,11 +11,14 @@ namespace Crognard
         [SerializeField] private Sprite[] _clip;
         [SerializeField] private float _framerate = 0.02f;
 
+        private OnOffSign _onOff;
+
         private GameObject _currentMenu;
 
         private void Start()
         {
             _currentMenu = _menu;
+            _onOff = GetComponent<OnOffSign>();
         } 
 
         public void OnPlay()
@@ -91,11 +94,13 @@ namespace Crognard
         public void OnCombatAnimation()
         {
             Options.combatAnimationsOn = !Options.combatAnimationsOn;
+            _onOff.PressAction(Options.combatAnimationsOn);
         }
 
         public void OnBackgroundAnimation()
         {
             Options.backgroundAnimationsOn = !Options.backgroundAnimationsOn;
+            _onOff.PressBackground(Options.backgroundAnimationsOn);
         }
     }
 }
