@@ -147,7 +147,8 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      BlackKing Torso_0: 4108195175241808509
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

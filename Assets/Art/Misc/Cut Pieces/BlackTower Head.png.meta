@@ -147,7 +147,8 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      BlackTower Head_0: -7198260447008843523
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

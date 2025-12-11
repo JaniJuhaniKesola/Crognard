@@ -147,7 +147,8 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      BlackQueen Head_0: 3297736062213441155
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

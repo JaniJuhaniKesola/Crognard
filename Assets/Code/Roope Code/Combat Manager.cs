@@ -12,7 +12,7 @@ namespace Crognard
         public GameObject _whitePrefab, _blackPrefab;
 
         public Transform _whiteSpawnPoint, _blackSpawnPoint;
-        public ParticleEffect _whiteHeal, _blackHeal, _whiteSmoke, _blackSmoke;
+        public ParticleEffect _whiteHeal, _blackHeal, _whiteSmoke, _blackSmoke, _whiteCut, _blackCut;
         public CombatUI _whiteCombatUI, _blackCombatUI;
 
         private Unit _whiteUnit, _blackUnit;
@@ -380,6 +380,13 @@ namespace Crognard
                 { _whiteSmoke.StartConfetti(); }
                 else if (_currentState == CombatState.Black)
                 { _blackSmoke.StartConfetti(); }
+            }
+            else if (act.action == ActionType.Heavy)
+            {
+                if (_currentState == CombatState.White)
+                { _whiteCut.StartConfetti(); }
+                else if (_currentState == CombatState.Black)
+                { _blackCut.StartConfetti(); }
             }
         }
 
