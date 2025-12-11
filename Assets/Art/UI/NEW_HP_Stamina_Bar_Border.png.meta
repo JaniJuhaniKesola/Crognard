@@ -121,8 +121,8 @@ TextureImporter:
         width: 1080
         height: 161
       alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 30, y: 0, z: 110, w: 0}
       customData: 
       outline: []
       physicsShape: []
@@ -138,7 +138,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 
+    spriteID: d6beb16b69b43f747826d7dbfa7f5ca4
     internalID: 0
     vertices: []
     indices: 
@@ -147,7 +147,8 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      NEW_HP_Stamina_Bar_Border_0: -4632350350887470926
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
