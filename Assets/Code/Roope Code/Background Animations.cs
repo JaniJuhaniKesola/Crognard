@@ -8,16 +8,18 @@ namespace Crognard
 
         public int _background = 0;
 
-        // Start is called once before the first execution of Update after the MonoBehaviour is created
-        void Start()
+        private void Start()
         {
-            
+            if (Options.backgroundAnimationsOn)
+            { _animator.speed = 1; }
+            else
+            { _animator.speed = 0; }
+            ChangeBackground(Random.Range(0, 12));
         }
 
-        // Update is called once per frame
-        void Update()
+        public void ChangeBackground(int id)
         {
-            _animator.SetInteger("ID", _background);
+            _animator.SetInteger("ID", id);
         }
     }
 }

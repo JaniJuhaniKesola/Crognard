@@ -46,7 +46,14 @@ namespace Crognard
         private void Transition(GameObject start, GameObject goal)
         {
             start.SetActive(false);
-            StartCoroutine(Animation(goal));
+            if (Options.backgroundAnimationsOn)
+            {
+                StartCoroutine(Animation(goal));
+            }
+            else
+            {
+                goal.SetActive(true);
+            }
             _currentMenu = goal;
         }
 
@@ -79,6 +86,16 @@ namespace Crognard
                 }
             }
             goal.SetActive(true);
+        }
+
+        public void OnCombatAnimation()
+        {
+            Options.combatAnimationsOn = !Options.combatAnimationsOn;
+        }
+
+        public void OnBackgroundAnimation()
+        {
+            Options.backgroundAnimationsOn = !Options.backgroundAnimationsOn;
         }
     }
 }

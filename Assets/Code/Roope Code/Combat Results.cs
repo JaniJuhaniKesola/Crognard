@@ -36,13 +36,6 @@ namespace Crognard
             }
         }
 
-        private void UpdatePositions(ChessPiece combatant, Vector2Int newPlace)
-        {
-            GameSetter.boardOccupiers[combatant.Position] = null;
-            combatant.Position = newPlace;
-            GameSetter.boardOccupiers[combatant.Position] = combatant;
-        }
-
         public void DefenderWins(Unit winner, Unit loser)
         {
             HandleUnit(winner);
@@ -98,20 +91,6 @@ namespace Crognard
             HandleUnit(black);
 
             StartCoroutine(VictoryCycle(null));
-
-            /*if (GameSetter.whiteCombatant != null)
-            {
-                GameSetter.whiteCombatant.HP = white.CurrentHP;
-                GameSetter.whiteCombatant.Stamina = white.Stamina;
-            }
-
-            if (GameSetter.blackCombatant != null)
-            {
-                GameSetter.blackCombatant.HP = black.CurrentHP;
-                GameSetter.blackCombatant.Stamina = black.Stamina;
-            }
-
-            UpdatePieces();*/
         }
 
         public void DoubleKill(Unit white, Unit black)
